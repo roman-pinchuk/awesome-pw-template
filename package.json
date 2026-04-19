@@ -1,0 +1,46 @@
+{
+  "name": "awesome-pw-template",
+  "version": "1.0.0",
+  "description": "Senior-level Playwright TypeScript template for UI and API automation",
+  "packageManager": "npm@11.11.0",
+  "keywords": [
+    "playwright",
+    "typescript",
+    "e2e",
+    "api-testing",
+    "test-automation",
+    "template"
+  ],
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --project=ui-chromium --project=ui-firefox",
+    "test:api": "playwright test --project=api",
+    "test:headed": "playwright test --project=ui-chromium --headed",
+    "test:debug": "playwright test tests/ui --project=ui-chromium --debug",
+    "test:ci": "dotenvx run -f .env.production -- playwright test",
+    "test:ui:ci": "dotenvx run -f .env.production -- playwright test --project=ui-chromium --project=ui-firefox",
+    "test:api:ci": "dotenvx run -f .env.production -- playwright test --project=api",
+    "report": "playwright show-report",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc",
+    "check": "npm run lint && npm run typecheck",
+    "generate:contracts": "openapi-typescript https://petstore3.swagger.io/api/v3/openapi.json -o src/contracts/petstore.generated.ts"
+  },
+  "author": "Roman Pinchuk",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@dotenvx/dotenvx": "^1.51.1",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.5.0",
+    "eslint": "^10.1.0",
+    "eslint-plugin-playwright": "^2.10.1",
+    "openapi-typescript": "^7.13.0",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.57.2",
+    "zod": "^4.3.6"
+  },
+  "private": true
+}
