@@ -1,5 +1,5 @@
 import { expect, type APIRequestContext, type APIResponse } from '@playwright/test';
-import { expectOk } from '../utils/api-assertions';
+import { expectOk } from '@/utils/api-assertions';
 
 export type RestObjectData = Record<string, string | number | boolean>;
 

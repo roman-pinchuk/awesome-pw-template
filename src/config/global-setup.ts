@@ -1,4 +1,4 @@
-import { loadEnv } from './env';
+import { loadEnv } from '@/config/env';
 
 export default function globalSetup(): void {
   loadEnv();

@@ -1,5 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-import { loadEnv } from './src/config/env';
+import { loadEnv } from '@/config/env';
 
 const env = loadEnv();
 const isCI = env.CI;

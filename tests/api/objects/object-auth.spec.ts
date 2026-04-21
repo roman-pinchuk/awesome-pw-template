@@ -2,7 +2,8 @@ import { test, expect } from '@/fixtures/api.fixture';
 import { buildCollectionName } from '@/data/object.factory';
 
 test.describe('RESTful API authentication', () => {
-  test('rejects requests with an invalid api key', async ({ request }) => {
+  test('rejects requests with an invalid api key', async ({ request, logger }) => {
+    logger.info(`Starting test: ${test.info().title}`);
     const response = await request.get(`collections/${buildCollectionName()}/objects`, {
       headers: {
         'x-api-key': 'invalid-api-key',

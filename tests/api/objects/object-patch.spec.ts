@@ -2,7 +2,8 @@ import { test } from '@/fixtures/api.fixture';
 import { buildCollectionName, buildObject } from '@/data/object.factory';
 
 test.describe('RESTful API partial updates', () => {
-  test('patches the object name without overwriting its data', async ({ restApi }) => {
+  test('patches the object name without overwriting its data', async ({ restApi, logger }) => {
+    logger.info(`Starting test: ${test.info().title}`);
     const collectionName = buildCollectionName();
     const original = buildObject();
 

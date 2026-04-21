@@ -2,7 +2,8 @@ import { test, expect } from '@/fixtures/api.fixture';
 import { buildCollectionName, buildObject } from '@/data/object.factory';
 
 test.describe('RESTful API object CRUD', () => {
-  test('creates, reads, replaces, and deletes an object', async ({ restApi }) => {
+  test('creates, reads, replaces, and deletes an object', async ({ restApi, logger }) => {
+    logger.info(`Starting test: ${test.info().title}`);
     const collectionName = buildCollectionName();
     const original = buildObject();
 
@@ -47,7 +48,8 @@ test.describe('RESTful API object CRUD', () => {
     expect(afterDeleteResponse.status()).toBe(404);
   });
 
-  test('returns 404 for a missing object id', async ({ restApi }) => {
+  test('returns 404 for a missing object id', async ({ restApi, logger }) => {
+    logger.info(`Starting test: ${test.info().title}`);
     const response = await restApi.getObject(buildCollectionName(), 'missing-object-id');
 
     expect(response.status()).toBe(404);

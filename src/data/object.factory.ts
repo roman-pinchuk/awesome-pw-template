@@ -1,5 +1,5 @@
-import type { RestObjectPayload } from '../clients/restful-api.client';
-import { randomId, randomInt } from '../utils/random';
+import type { RestObjectPayload } from '@/clients/restful-api.client';
+import { randomId, randomInt } from '@/utils/random';
 
 export function buildCollectionName(prefix = 'pw_objects'): string {
   return randomId(prefix).replace(/-/g, '_');

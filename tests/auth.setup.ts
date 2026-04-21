@@ -1,6 +1,7 @@
 import { test as setup, expect } from '@playwright/test';
 import { LoginPage } from '../pages/shop/login.page';
-import { loadEnv } from '../src/config/env';
+import { loadEnv } from '@/config/env';
+import { logger } from '@/utils/logger';
 import fs from 'fs';
 
 const env = loadEnv();
@@ -11,7 +12,7 @@ setup('authenticate', async ({ page }) => {
   if (fs.existsSync(authFile)) {
     const { mtime } = fs.statSync(authFile);
     if (Date.now() - mtime.getTime() < TTL_MS) {
-      console.log('Using existing authentication state (TTL valid)');
+      logger.info('Using existing authentication state (TTL valid)');
       return;
     }
   }

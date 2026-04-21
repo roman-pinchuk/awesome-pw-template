@@ -5,7 +5,9 @@ test.describe('Cart journey', () => {
     homePage,
     productPage,
     cartPage,
+    logger,
   }) => {
+    logger.info(`Starting test: ${test.info().title}`);
     await homePage.goto();
     await homePage.openProduct('Combination Pliers');
 

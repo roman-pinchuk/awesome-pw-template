@@ -2,14 +2,16 @@ import { test, expect } from '@/fixtures/api.fixture';
 import { buildCollectionName, buildObject } from '@/data/object.factory';
 
 test.describe('RESTful API object queries', () => {
-  test('returns an empty array for a new collection', async ({ restApi }) => {
+  test('returns an empty array for a new collection', async ({ restApi, logger }) => {
+    logger.info(`Starting test: ${test.info().title}`);
     const response = await restApi.listObjects(buildCollectionName());
     const objects = await restApi.expectObjects(response);
 
     expect(objects).toEqual([]);
   });
 
-  test('lists objects created in a collection', async ({ restApi }) => {
+  test('lists objects created in a collection', async ({ restApi, logger }) => {
+    logger.info(`Starting test: ${test.info().title}`);
     const collectionName = buildCollectionName();
     const first = buildObject();
     const second = buildObject();
@@ -40,7 +42,8 @@ test.describe('RESTful API object queries', () => {
     }
   });
 
-  test('supports collection pagination', async ({ restApi }) => {
+  test('supports collection pagination', async ({ restApi, logger }) => {
+    logger.info(`Starting test: ${test.info().title}`);
     const collectionName = buildCollectionName();
     const createdIds: string[] = [];
 
@@ -70,7 +73,8 @@ test.describe('RESTful API object queries', () => {
     }
   });
 
-  test('keeps collections isolated from each other', async ({ restApi }) => {
+  test('keeps collections isolated from each other', async ({ restApi, logger }) => {
+    logger.info(`Starting test: ${test.info().title}`);
     const firstCollection = buildCollectionName('pw_collection_a');
     const secondCollection = buildCollectionName('pw_collection_b');
     const firstObject = buildObject({ name: 'isolated-a' });

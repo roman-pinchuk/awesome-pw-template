@@ -1,7 +1,8 @@
 import { test, expect } from '@/fixtures/ui.fixture';
 
 test.describe('Catalog filters', () => {
-  test('supports focused product search', async ({ homePage }) => {
+  test('supports focused product search', async ({ homePage, logger }) => {
+    logger.info(`Starting test: ${test.info().title}`);
     await homePage.goto();
     await homePage.searchFor('Pliers');
 
@@ -11,7 +12,8 @@ test.describe('Catalog filters', () => {
     await homePage.expectVisibleProduct('Slip Joint Pliers');
   });
 
-  test('navigates to the contact form from the header', async ({ homePage, page }) => {
+  test('navigates to the contact form from the header', async ({ homePage, page, logger }) => {
+    logger.info(`Starting test: ${test.info().title}`);
     await homePage.goto();
     await homePage.header.contactLink.click();
 
