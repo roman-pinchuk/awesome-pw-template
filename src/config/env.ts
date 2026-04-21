@@ -19,6 +19,8 @@ const envSchema = z.object({
     .default('https://api.restful-api.dev/')
     .transform((value) => (value.endsWith('/') ? value : `${value}/`)),
   API_KEY: z.string().min(1),
+  USER_EMAIL: z.string().email().default('customer@practicesoftwaretesting.com'),
+  USER_PASSWORD: z.string().min(1).default('welcome01'),
 });
 
 export type Env = z.infer<typeof envSchema>;

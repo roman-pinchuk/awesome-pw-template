@@ -26,19 +26,30 @@ export default defineConfig({
   ...(isCI ? { workers: 2 } : {}),
   projects: [
     {
+      name: 'setup',
+      testMatch: /auth\.setup\.ts/,
+      use: {
+        baseURL: env.UI_BASE_URL,
+      },
+    },
+    {
       name: 'ui-chromium',
       testMatch: /tests\/ui\/.*\.spec\.ts/,
+      dependencies: ['setup'],
       use: {
         ...devices['Desktop Chrome'],
         baseURL: env.UI_BASE_URL,
+        storageState: '.playwright/auth/user.json',
       },
     },
     {
       name: 'ui-firefox',
       testMatch: /tests\/ui\/.*\.spec\.ts/,
+      dependencies: ['setup'],
       use: {
         ...devices['Desktop Firefox'],
         baseURL: env.UI_BASE_URL,
+        storageState: '.playwright/auth/user.json',
       },
     },
     {
