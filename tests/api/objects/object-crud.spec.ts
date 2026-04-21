@@ -28,10 +28,28 @@ test.describe('RESTful API object CRUD', () => {
       ...replacement,
     });
 
+    const afterReplaceResponse = await restApi.getObject(collectionName, createdObject.id);
+    const replacedObject = await restApi.expectObject(afterReplaceResponse, {
+      id: createdObject.id,
+      ...replacement,
+    });
+    expect(replacedObject.data).toMatchObject({
+      active: false,
+      sku: replacement.data.sku,
+      price: replacement.data.price,
+      category: replacement.data.category,
+    });
+
     const deleteResponse = await restApi.deleteObject(collectionName, createdObject.id);
     await restApi.expectDeleteMessage(deleteResponse, createdObject.id);
 
     const afterDeleteResponse = await restApi.getObject(collectionName, createdObject.id);
     expect(afterDeleteResponse.status()).toBe(404);
+  });
+
+  test('returns 404 for a missing object id', async ({ restApi }) => {
+    const response = await restApi.getObject(buildCollectionName(), 'missing-object-id');
+
+    expect(response.status()).toBe(404);
   });
 });
