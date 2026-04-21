@@ -23,8 +23,7 @@
     "report": "playwright show-report",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc",
-    "check": "npm run lint && npm run typecheck",
-    "generate:contracts": "openapi-typescript https://petstore3.swagger.io/api/v3/openapi.json -o src/contracts/petstore.generated.ts"
+    "check": "npm run lint && npm run typecheck"
   },
   "author": "Roman Pinchuk",
   "license": "ISC",
@@ -36,7 +35,6 @@
     "@types/node": "^25.5.0",
     "eslint": "^10.1.0",
     "eslint-plugin-playwright": "^2.10.1",
-    "openapi-typescript": "^7.13.0",
     "prettier": "^3.8.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.2",

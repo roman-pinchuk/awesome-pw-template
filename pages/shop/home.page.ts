@@ -39,7 +39,12 @@ export class HomePage {
   }
 
   async expectVisibleProduct(name: string): Promise<void> {
-    await expect(this.page.getByRole('heading', { level: 5, name })).toBeVisible();
+    await expect(
+      this.page.getByRole('heading', {
+        level: 5,
+        name: new RegExp(`^\s*${escapeRegex(name)}\s*$`),
+      }),
+    ).toBeVisible();
   }
 
   async expectProductCount(count: number): Promise<void> {

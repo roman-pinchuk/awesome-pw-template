@@ -1,13 +1,13 @@
 import { test as base } from '@playwright/test';
-import { PetstoreClient } from '@/clients/petstore.client';
+import { RestfulApiClient } from '@/clients/restful-api.client';
 
 type APIFixtures = {
-  petstore: PetstoreClient;
+  restApi: RestfulApiClient;
 };
 
 export const test = base.extend<APIFixtures>({
-  petstore: async ({ request }, use) => {
-    await use(new PetstoreClient(request));
+  restApi: async ({ request }, use) => {
+    await use(new RestfulApiClient(request));
   },
 });
 

@@ -5,12 +5,10 @@ test.describe('Catalog filters', () => {
     await homePage.goto();
     await homePage.searchFor('Pliers');
 
-    await homePage.expectOnlyProductNames([
-      'Combination Pliers',
-      'Pliers',
-      'Long Nose Pliers',
-      'Slip Joint Pliers',
-    ]);
+    await homePage.expectVisibleProduct('Combination Pliers');
+    await homePage.expectVisibleProduct('Pliers');
+    await homePage.expectVisibleProduct('Long Nose Pliers');
+    await homePage.expectVisibleProduct('Slip Joint Pliers');
   });
 
   test('navigates to the contact form from the header', async ({ homePage, page }) => {

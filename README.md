@@ -5,9 +5,9 @@ Playwright + TypeScript template that showcases a senior-level automation approa
 ## What this repo demonstrates
 
 - UI automation against `https://practicesoftwaretesting.com`
-- API automation against `https://petstore3.swagger.io/api/v3`
+- API automation against `https://api.restful-api.dev`
 - Root-level `pages/` for fast POM discovery
-- `src/` support layers for clients, fixtures, data, config, and generated contracts
+- `src/` support layers for clients, fixtures, data, and config
 - Separate Playwright projects for UI and API execution
 - CI-ready reporting, retries, traces, linting, and type checking
 
@@ -20,7 +20,6 @@ pages/
 src/
   clients/
   config/
-  contracts/
   data/
   fixtures/
   utils/
@@ -39,7 +38,6 @@ tests/
 
 ```bash
 npm install
-npm run generate:contracts
 npx playwright install chromium firefox
 npm run check
 npm test
@@ -59,28 +57,26 @@ Local Playwright scripts inject `.env.local`. CI Playwright scripts inject `.env
 - `npm run test:api:ci` - run the API project with `.env.production`
 - `npm run report` - open the HTML report
 - `npm run check` - lint + typecheck
-- `npm run generate:contracts` - regenerate OpenAPI types for Petstore
 
 ## Environment loading
 
 - Local Playwright scripts use `dotenvx run -f .env.local -- ...`.
 - CI Playwright scripts use `dotenvx run -f .env.production -- ...`.
 - `playwright.config.ts` and `src/config/global-setup.ts` validate the injected environment before tests run.
-- API login tests read `PW_API_USERNAME` and `PW_API_PASSWORD` from the active env file.
+- API requests read `API_BASE_URL` and `API_KEY` from the active env file.
 - Encrypted values add private keys to `.env.keys`, which should stay local and out of git; CI should provide `DOTENV_PRIVATE_KEY_PRODUCTION` as a GitHub secret.
 
 ## Design principles
 
 - Thin POMs focused on user behavior and stable locators
 - Playwright fixtures instead of inheritance-heavy base classes
-- Typed API payloads generated from the OpenAPI source of truth
 - Hand-written API clients to keep the tests expressive and maintainable
 - Deterministic test data factories for isolated runs
 - Cross-browser UI execution and dedicated API execution project
 
 ## Notes
 
-- The Petstore service is public and shared, so tests use generated ids and clean up after themselves where possible.
+- The RESTful API tests use authenticated collections so each run can create, query, update, and delete its own records.
 - The Practice Software Testing site is public, so UI assertions focus on user-visible behavior and stable interactions.
 
 ## Next steps

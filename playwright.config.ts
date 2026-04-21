@@ -30,7 +30,7 @@ export default defineConfig({
       testMatch: /tests\/ui\/.*\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: env.PW_UI_BASE_URL,
+        baseURL: env.UI_BASE_URL,
       },
     },
     {
@@ -38,17 +38,18 @@ export default defineConfig({
       testMatch: /tests\/ui\/.*\.spec\.ts/,
       use: {
         ...devices['Desktop Firefox'],
-        baseURL: env.PW_UI_BASE_URL,
+        baseURL: env.UI_BASE_URL,
       },
     },
     {
       name: 'api',
       testMatch: /tests\/api\/.*\.spec\.ts/,
       use: {
-        baseURL: env.PW_API_BASE_URL,
+        baseURL: env.API_BASE_URL,
         extraHTTPHeaders: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          'x-api-key': env.API_KEY,
         },
       },
     },

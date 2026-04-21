@@ -13,13 +13,12 @@ const envSchema = z.object({
     .string()
     .optional()
     .transform((value) => value === 'true'),
-  PW_UI_BASE_URL: z.url().default('https://practicesoftwaretesting.com'),
-  PW_API_BASE_URL: z
+  UI_BASE_URL: z.url().default('https://practicesoftwaretesting.com'),
+  API_BASE_URL: z
     .url()
-    .default('https://petstore3.swagger.io/api/v3/')
+    .default('https://api.restful-api.dev/')
     .transform((value) => (value.endsWith('/') ? value : `${value}/`)),
-  PW_API_USERNAME: z.string().min(1),
-  PW_API_PASSWORD: z.string().min(1),
+  API_KEY: z.string().min(1),
 });
 
 export type Env = z.infer<typeof envSchema>;
