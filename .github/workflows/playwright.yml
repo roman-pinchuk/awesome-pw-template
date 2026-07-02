@@ -10,8 +10,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     container: mcr.microsoft.com/playwright:v1.58.2-noble
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: npm ci
       - name: Run API tests
         env:
@@ -31,7 +31,7 @@ jobs:
         run: npm run test:api:ci
       - name: Upload Playwright report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: playwright-report-api
           path: playwright-report/
@@ -46,7 +46,7 @@ jobs:
         browser: [chromium, firefox, webkit]
       fail-fast: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: npm ci
       - name: Run UI tests (${{ matrix.browser }})
         env:
@@ -54,7 +54,7 @@ jobs:
         run: npx dotenvx run -f .env.production -- npx playwright test --project=ui-${{ matrix.browser }}
       - name: Upload Playwright report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: playwright-report-ui-${{ matrix.browser }}
           path: playwright-report/
