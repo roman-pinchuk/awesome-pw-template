@@ -13,7 +13,13 @@ export default defineConfig({
   expect: {
     timeout: 7_500,
   },
-  reporter: [['list'], ['html', { open: 'never' }]],
+  reporter: [
+    ['list'],
+    ['html', { open: 'never' }],
+    ...(process.env.CTRF_REPORT_FILE
+      ? [['playwright-ctrf-json-reporter', { outputFile: process.env.CTRF_REPORT_FILE }] as [string, unknown]]
+      : []),
+  ],
   outputDir: 'test-results',
   use: {
     trace: 'on-first-retry',

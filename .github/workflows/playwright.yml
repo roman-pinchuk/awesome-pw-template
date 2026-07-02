@@ -28,6 +28,7 @@ jobs:
       - name: Run API tests
         env:
           DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
+          CTRF_REPORT_FILE: ctrf-api.json
         run: npm run test:api:ci
       - name: Upload Playwright report
         if: always()
@@ -35,6 +36,13 @@ jobs:
         with:
           name: playwright-report-api
           path: playwright-report/
+          retention-days: 7
+      - name: Upload CTRF report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ctrf-api
+          path: ctrf-api.json
           retention-days: 7
 
   ui-tests:
@@ -52,6 +60,7 @@ jobs:
         env:
           DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
           HOME: /root
+          CTRF_REPORT_FILE: ctrf-${{ matrix.browser }}.json
         run: npx dotenvx run -f .env.production -- npx playwright test --project=${{ matrix.browser }}
       - name: Upload Playwright report
         if: always()
@@ -60,3 +69,25 @@ jobs:
           name: playwright-report-ui-${{ matrix.browser }}
           path: playwright-report/
           retention-days: 7
+      - name: Upload CTRF report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ctrf-${{ matrix.browser }}
+          path: ctrf-${{ matrix.browser }}.json
+          retention-days: 7
+
+  ctrf-report:
+    needs: [api-tests, ui-tests]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ctrf-*
+          merge-multiple: true
+      - name: Publish CTRF Summary
+        uses: ctrf-io/github-test-reporter@v1
+        with:
+          report-path: 'ctrf-*.json'
+          summary-report: true
