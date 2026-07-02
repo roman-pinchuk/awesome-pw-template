@@ -21,7 +21,7 @@ jobs:
   api-tests:
     needs: lint
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.58.2-noble
+    container: mcr.microsoft.com/playwright:v1.61.1-noble
     steps:
       - uses: actions/checkout@v7
       - run: npm ci
@@ -48,7 +48,7 @@ jobs:
   ui-tests:
     needs: lint
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.58.2-noble
+    container: mcr.microsoft.com/playwright:v1.61.1-noble
     strategy:
       matrix:
         browser: [chromium, firefox, webkit]
