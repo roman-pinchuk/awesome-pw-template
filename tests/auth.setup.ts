@@ -1,29 +1,22 @@
-import { test as setup, expect } from '@playwright/test';
-import { LoginPage } from '../pages/shop/login.page';
-import { loadEnv } from '@/config/env';
-import { logger } from '@/utils/logger';
+import { test as setup } from '@playwright/test';
+import { loginAsCustomer, AUTH_FILE } from '@/business/auth/login';
+import { loadEnv } from '@/infrastructure/config/env';
+import { logger } from '@/infrastructure/utils/logger';
 import fs from 'fs';
 
 const env = loadEnv();
-const authFile = '.playwright/auth/user.json';
-const TTL_MS = 60 * 60 * 1000; // 1 hour
+const TTL_MS = 60 * 60 * 1000;
 
 setup('authenticate', async ({ page }) => {
-  if (fs.existsSync(authFile)) {
-    const { mtime } = fs.statSync(authFile);
+  // eslint-disable-next-line playwright/no-conditional-in-test
+  if (fs.existsSync(AUTH_FILE)) {
+    const { mtime } = fs.statSync(AUTH_FILE);
+    // eslint-disable-next-line playwright/no-conditional-in-test
     if (Date.now() - mtime.getTime() < TTL_MS) {
       logger.info('Using existing authentication state (TTL valid)');
       return;
     }
   }
 
-  const loginPage = new LoginPage(page);
-
-  await loginPage.goto();
-  await loginPage.login(env.USER_EMAIL, env.USER_PASSWORD);
-
-  // Wait for login to be successful (e.g., redirect to account page or profile name visible)
-  await expect(page).toHaveURL(/.*\/account/);
-
-  await page.context().storageState({ path: authFile });
+  await loginAsCustomer(page, env.USER_EMAIL, env.USER_PASSWORD);
 });

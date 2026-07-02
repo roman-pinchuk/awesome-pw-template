@@ -1,4 +1,4 @@
-import { test, expect } from '@/fixtures/ui.fixture';
+import { test, expect } from '@/infrastructure/fixtures/ui.fixture';
 
 test.describe('Catalog filters', () => {
   test('supports focused product search', async ({ homePage, logger }) => {
@@ -17,9 +17,9 @@ test.describe('Catalog filters', () => {
     await homePage.goto();
     await homePage.header.contactLink.click();
 
-    await expect(page).toHaveURL(/\/contact$/);
-    await expect(page.getByRole('heading', { level: 3, name: 'Contact' })).toBeVisible();
-    await expect(page.getByRole('textbox', { name: 'Email address' })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Send' })).toBeVisible();
+    await expect.configure({ message: 'Expected URL to navigate to /contact page' })(page).toHaveURL(/\/contact$/);
+    await expect.configure({ message: 'Expected Contact heading on contact page' })(page.getByRole('heading', { level: 3, name: 'Contact' })).toBeVisible();
+    await expect.configure({ message: 'Expected email input on contact page' })(page.getByRole('textbox', { name: 'Email address' })).toBeVisible();
+    await expect.configure({ message: 'Expected Send button on contact page' })(page.getByRole('button', { name: 'Send' })).toBeVisible();
   });
 });

@@ -1,35 +1,34 @@
-import { test, expect } from '@/fixtures/api.fixture';
-import { buildCollectionName, buildObject } from '@/data/object.factory';
+import { test, expect } from '@/infrastructure/fixtures/api.fixture';
+import { buildCollectionName, buildObject } from '@/business/api/factories/object.factory';
 
 test.describe('RESTful API object queries', () => {
-  test('returns an empty array for a new collection', async ({ restApi, logger }) => {
+  test('returns an empty array for a new collection', async ({ collection, restApi, apiAssertions, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
-    const response = await restApi.listObjects(buildCollectionName());
-    const objects = await restApi.expectObjects(response);
+    const response = await restApi.listObjects(collection);
+    const objects = await apiAssertions.expectObjects(response);
 
-    expect(objects).toEqual([]);
+    expect.configure({ message: 'Expected empty array for a new collection' })(objects).toEqual([]);
   });
 
-  test('lists objects created in a collection', async ({ restApi, logger }) => {
+  test('lists objects created in a collection', async ({ collection, restApi, apiAssertions, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
-    const collectionName = buildCollectionName();
     const first = buildObject();
     const second = buildObject();
     const createdIds: string[] = [];
 
     try {
-      const firstCreateResponse = await restApi.createObject(collectionName, first);
-      const firstCreated = await restApi.expectObject(firstCreateResponse, first);
+      const firstCreateResponse = await restApi.createObject(collection, first);
+      const firstCreated = await apiAssertions.expectObject(firstCreateResponse, first);
       createdIds.push(firstCreated.id);
 
-      const secondCreateResponse = await restApi.createObject(collectionName, second);
-      const secondCreated = await restApi.expectObject(secondCreateResponse, second);
+      const secondCreateResponse = await restApi.createObject(collection, second);
+      const secondCreated = await apiAssertions.expectObject(secondCreateResponse, second);
       createdIds.push(secondCreated.id);
 
-      const listResponse = await restApi.listObjects(collectionName);
-      const objects = await restApi.expectObjects(listResponse);
+      const listResponse = await restApi.listObjects(collection);
+      const objects = await apiAssertions.expectObjects(listResponse);
 
-      expect(objects).toEqual(
+      expect.configure({ message: 'Expected listed objects to include both created ones' })(objects).toEqual(
         expect.arrayContaining([
           expect.objectContaining({ id: firstCreated.id, name: first.name }),
           expect.objectContaining({ id: secondCreated.id, name: second.name }),
@@ -37,43 +36,39 @@ test.describe('RESTful API object queries', () => {
       );
     } finally {
       for (const objectId of createdIds) {
-        await restApi.deleteObject(collectionName, objectId);
+        await restApi.deleteObject(collection, objectId);
       }
     }
   });
 
-  test('supports collection pagination', async ({ restApi, logger }) => {
+  test('supports collection pagination', async ({ collection, restApi, apiAssertions, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
-    const collectionName = buildCollectionName();
     const createdIds: string[] = [];
 
     try {
       for (const name of ['one', 'two', 'three']) {
-        const createResponse = await restApi.createObject(
-          collectionName,
-          buildObject({ name: `page-${name}` }),
-        );
-        const created = await restApi.expectObject(createResponse, { name: `page-${name}` });
+        const createResponse = await restApi.createObject(collection, buildObject({ name: `page-${name}` }));
+        const created = await apiAssertions.expectObject(createResponse, { name: `page-${name}` });
         createdIds.push(created.id);
       }
 
-      const pagedResponse = await restApi.listObjects(collectionName, { limit: 2, offset: 1 });
-      const objects = await restApi.expectObjects(pagedResponse);
+      const pagedResponse = await restApi.listObjects(collection, { limit: 2, offset: 1 });
+      const objects = await apiAssertions.expectObjects(pagedResponse);
 
-      expect(objects).toHaveLength(2);
+      expect.configure({ message: 'Expected paged results to have exactly 2 items' })(objects).toHaveLength(2);
 
-      const emptyPageResponse = await restApi.listObjects(collectionName, { limit: 2, offset: 10 });
-      const emptyPage = await restApi.expectObjects(emptyPageResponse);
+      const emptyPageResponse = await restApi.listObjects(collection, { limit: 2, offset: 10 });
+      const emptyPage = await apiAssertions.expectObjects(emptyPageResponse);
 
-      expect(emptyPage).toEqual([]);
+      expect.configure({ message: 'Expected out-of-range page to be empty' })(emptyPage).toEqual([]);
     } finally {
       for (const objectId of createdIds) {
-        await restApi.deleteObject(collectionName, objectId);
+        await restApi.deleteObject(collection, objectId);
       }
     }
   });
 
-  test('keeps collections isolated from each other', async ({ restApi, logger }) => {
+  test('keeps collections isolated from each other', async ({ restApi, apiAssertions, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
     const firstCollection = buildCollectionName('pw_collection_a');
     const secondCollection = buildCollectionName('pw_collection_b');
@@ -83,22 +78,22 @@ test.describe('RESTful API object queries', () => {
 
     try {
       const firstCreateResponse = await restApi.createObject(firstCollection, firstObject);
-      const createdFirst = await restApi.expectObject(firstCreateResponse, firstObject);
+      const createdFirst = await apiAssertions.expectObject(firstCreateResponse, firstObject);
       cleanupTargets.push({ collection: firstCollection, id: createdFirst.id });
 
       const secondCreateResponse = await restApi.createObject(secondCollection, secondObject);
-      const createdSecond = await restApi.expectObject(secondCreateResponse, secondObject);
+      const createdSecond = await apiAssertions.expectObject(secondCreateResponse, secondObject);
       cleanupTargets.push({ collection: secondCollection, id: createdSecond.id });
 
       const firstListResponse = await restApi.listObjects(firstCollection);
-      const firstObjects = await restApi.expectObjects(firstListResponse);
-      expect(firstObjects).toEqual([
+      const firstObjects = await apiAssertions.expectObjects(firstListResponse);
+      expect.configure({ message: 'Expected first isolation collection to contain only its own object' })(firstObjects).toEqual([
         expect.objectContaining({ id: createdFirst.id, name: firstObject.name }),
       ]);
 
       const secondListResponse = await restApi.listObjects(secondCollection);
-      const secondObjects = await restApi.expectObjects(secondListResponse);
-      expect(secondObjects).toEqual([
+      const secondObjects = await apiAssertions.expectObjects(secondListResponse);
+      expect.configure({ message: 'Expected second isolation collection to contain only its own object' })(secondObjects).toEqual([
         expect.objectContaining({ id: createdSecond.id, name: secondObject.name }),
       ]);
     } finally {

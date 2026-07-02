@@ -1,7 +1,8 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { HeaderComponent } from '../components/header.component';
+import { BasePage } from '@/pages/base.page';
+import { HeaderComponent } from '@/pages/components/header.component';
 
-export class HomePage {
+export class HomePage extends BasePage {
   readonly header: HeaderComponent;
   readonly sortSelect: Locator;
   readonly searchInput: Locator;
@@ -10,7 +11,8 @@ export class HomePage {
   readonly categoryFilters: Locator;
   readonly brandFilters: Locator;
 
-  constructor(private readonly page: Page) {
+  constructor(page: Page) {
+    super(page);
     this.header = new HeaderComponent(page);
     this.sortSelect = page.getByRole('combobox', { name: 'sort' });
     this.searchInput = page.getByRole('textbox', { name: 'Search' });
@@ -20,9 +22,9 @@ export class HomePage {
     this.brandFilters = page.getByRole('group', { name: 'Brands' });
   }
 
-  async goto(): Promise<void> {
-    await this.page.goto('/');
-    await expect(this.page).toHaveTitle(/Toolshop/);
+  override async goto(): Promise<void> {
+    await super.goto('/');
+    await expect.configure({ message: 'Toolshop title not found on home page' })(this.page).toHaveTitle(/Toolshop/);
   }
 
   async searchFor(term: string): Promise<void> {
@@ -39,20 +41,20 @@ export class HomePage {
   }
 
   async expectVisibleProduct(name: string): Promise<void> {
-    await expect(
+    await expect.configure({ message: `Expected product "${name}" to be visible on home page` })(
       this.page.getByRole('heading', {
         level: 5,
-        name: new RegExp(`^\s*${escapeRegex(name)}\s*$`),
+        name: new RegExp(`^\\s*${escapeRegex(name)}\\s*$`),
       }),
     ).toBeVisible();
   }
 
   async expectProductCount(count: number): Promise<void> {
-    await expect(this.productNames).toHaveCount(count);
+    await expect.configure({ message: `Expected ${count} product names on home page` })(this.productNames).toHaveCount(count);
   }
 
   async expectOnlyProductNames(names: string[]): Promise<void> {
-    await expect(this.productNames).toHaveText(
+    await expect.configure({ message: 'Expected products to match the specified names exactly' })(this.productNames).toHaveText(
       names.map((name) => new RegExp(`^\\s*${escapeRegex(name)}\\s*$`)),
     );
   }
@@ -67,9 +69,9 @@ export class HomePage {
         .map((element) => element.textContent?.trim() ?? ''),
     );
 
-    expect(names.length).toBeGreaterThan(0);
+    expect.configure({ message: 'Expected at least one visible product result' })(names.length).toBeGreaterThan(0);
     for (const name of names) {
-      expect(name).toContain(term);
+      expect.configure({ message: `Expected every visible product name to contain "${term}"` })(name).toContain(term);
     }
   }
 

@@ -1,5 +1,4 @@
-import { expect, type APIRequestContext, type APIResponse } from '@playwright/test';
-import { expectOk } from '@/utils/api-assertions';
+import type { APIRequestContext, APIResponse } from '@playwright/test';
 
 export type RestObjectData = Record<string, string | number | boolean>;
 
@@ -41,11 +40,7 @@ export class RestfulApiClient {
     return this.request.get(this.objectPath(collectionName, objectId));
   }
 
-  async replaceObject(
-    collectionName: string,
-    objectId: string,
-    payload: RestObjectPayload,
-  ): Promise<APIResponse> {
+  async replaceObject(collectionName: string, objectId: string, payload: RestObjectPayload): Promise<APIResponse> {
     return this.request.put(this.objectPath(collectionName, objectId), { data: payload });
   }
 
@@ -59,25 +54,6 @@ export class RestfulApiClient {
 
   async deleteObject(collectionName: string, objectId: string): Promise<APIResponse> {
     return this.request.delete(this.objectPath(collectionName, objectId));
-  }
-
-  async expectObject(response: APIResponse, expected: Partial<RestObject>): Promise<RestObject> {
-    await expectOk(response);
-    const body = (await response.json()) as RestObject;
-    expect(body).toMatchObject(expected);
-    return body;
-  }
-
-  async expectObjects(response: APIResponse): Promise<RestObject[]> {
-    await expectOk(response);
-    return (await response.json()) as RestObject[];
-  }
-
-  async expectDeleteMessage(response: APIResponse, objectId: string): Promise<void> {
-    await expectOk(response);
-    await expect(response.json()).resolves.toMatchObject({
-      message: `Object with id = ${objectId} has been deleted.`,
-    });
   }
 
   private collectionPath(collectionName: string): string {

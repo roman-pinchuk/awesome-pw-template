@@ -1,4 +1,4 @@
-import { test } from '@/fixtures/ui.fixture';
+import { test } from '@/infrastructure/fixtures/ui.fixture';
 
 test.describe('Cart journey', () => {
   test('adds a product from details page and exposes the order summary', async ({

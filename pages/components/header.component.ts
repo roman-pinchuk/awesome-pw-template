@@ -22,6 +22,6 @@ export class HeaderComponent {
   }
 
   async expectCartQuantity(quantity: number): Promise<void> {
-    await expect(this.cartBadge).toHaveText(String(quantity));
+    await expect.configure({ message: `Expected cart badge to show ${quantity}` })(this.cartBadge).toHaveText(String(quantity));
   }
 }

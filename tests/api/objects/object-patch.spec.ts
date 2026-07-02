@@ -1,27 +1,31 @@
-import { test } from '@/fixtures/api.fixture';
-import { buildCollectionName, buildObject } from '@/data/object.factory';
+import { test } from '@/infrastructure/fixtures/api.fixture';
+import { buildObject } from '@/business/api/factories/object.factory';
 
 test.describe('RESTful API partial updates', () => {
-  test('patches the object name without overwriting its data', async ({ restApi, logger }) => {
+  test('patches the object name without overwriting its data', async ({
+    collection,
+    restApi,
+    apiAssertions,
+    logger,
+  }) => {
     logger.info(`Starting test: ${test.info().title}`);
-    const collectionName = buildCollectionName();
     const original = buildObject();
 
-    const createResponse = await restApi.createObject(collectionName, original);
-    const createdObject = await restApi.expectObject(createResponse, original);
+    const createResponse = await restApi.createObject(collection, original);
+    const createdObject = await apiAssertions.expectObject(createResponse, original);
 
     try {
-      const patchResponse = await restApi.updateObject(collectionName, createdObject.id, {
+      const patchResponse = await restApi.updateObject(collection, createdObject.id, {
         name: `${original.name}-patched`,
       });
 
-      await restApi.expectObject(patchResponse, {
+      await apiAssertions.expectObject(patchResponse, {
         id: createdObject.id,
         name: `${original.name}-patched`,
         data: original.data,
       });
     } finally {
-      await restApi.deleteObject(collectionName, createdObject.id);
+      await restApi.deleteObject(collection, createdObject.id);
     }
   });
 });

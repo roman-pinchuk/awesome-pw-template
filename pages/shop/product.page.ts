@@ -1,7 +1,8 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { HeaderComponent } from '../components/header.component';
+import { BasePage } from '@/pages/base.page';
+import { HeaderComponent } from '@/pages/components/header.component';
 
-export class ProductPage {
+export class ProductPage extends BasePage {
   readonly header: HeaderComponent;
   readonly title: Locator;
   readonly price: Locator;
@@ -9,7 +10,8 @@ export class ProductPage {
   readonly addToCartButton: Locator;
   readonly successAlert: Locator;
 
-  constructor(private readonly page: Page) {
+  constructor(page: Page) {
+    super(page);
     this.header = new HeaderComponent(page);
     this.title = page.getByRole('heading', { level: 1 });
     this.price = page.locator('[data-test="unit-price"]');
@@ -19,8 +21,8 @@ export class ProductPage {
   }
 
   async expectLoaded(name: string): Promise<void> {
-    await expect(this.title).toHaveText(name);
-    await expect(this.addToCartButton).toBeVisible();
+    await expect.configure({ message: `Expected product title to be "${name}"` })(this.title).toHaveText(name);
+    await expect.configure({ message: `Expected add-to-cart button on product page for "${name}"` })(this.addToCartButton).toBeVisible();
   }
 
   async setQuantity(quantity: number): Promise<void> {
@@ -32,6 +34,6 @@ export class ProductPage {
   }
 
   async expectAddedToCart(): Promise<void> {
-    await expect(this.successAlert).toContainText('Product added to shopping cart');
+    await expect.configure({ message: 'Expected success alert after adding product to cart' })(this.successAlert).toContainText('Product added to shopping cart');
   }
 }

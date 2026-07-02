@@ -1,11 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
-import { loadEnv } from '@/config/env';
+import { loadEnv } from '@/infrastructure/config/env';
 
 const env = loadEnv();
 const isCI = env.CI;
 
 export default defineConfig({
-  globalSetup: './src/config/global-setup.ts',
+  globalSetup: './infrastructure/config/global-setup.ts',
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: isCI,

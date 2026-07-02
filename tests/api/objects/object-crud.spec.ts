@@ -1,17 +1,21 @@
-import { test, expect } from '@/fixtures/api.fixture';
-import { buildCollectionName, buildObject } from '@/data/object.factory';
+import { test, expect } from '@/infrastructure/fixtures/api.fixture';
+import { buildObject } from '@/business/api/factories/object.factory';
 
 test.describe('RESTful API object CRUD', () => {
-  test('creates, reads, replaces, and deletes an object', async ({ restApi, logger }) => {
+  test('creates, reads, replaces, and deletes an object', async ({
+    collection,
+    restApi,
+    apiAssertions,
+    logger,
+  }) => {
     logger.info(`Starting test: ${test.info().title}`);
-    const collectionName = buildCollectionName();
     const original = buildObject();
 
-    const createResponse = await restApi.createObject(collectionName, original);
-    const createdObject = await restApi.expectObject(createResponse, original);
+    const createResponse = await restApi.createObject(collection, original);
+    const createdObject = await apiAssertions.expectObject(createResponse, original);
 
-    const getResponse = await restApi.getObject(collectionName, createdObject.id);
-    await restApi.expectObject(getResponse, {
+    const getResponse = await restApi.getObject(collection, createdObject.id);
+    await apiAssertions.expectObject(getResponse, {
       id: createdObject.id,
       ...original,
     });
@@ -23,14 +27,14 @@ test.describe('RESTful API object CRUD', () => {
         active: false,
       },
     });
-    const replaceResponse = await restApi.replaceObject(collectionName, createdObject.id, replacement);
-    await restApi.expectObject(replaceResponse, {
+    const replaceResponse = await restApi.replaceObject(collection, createdObject.id, replacement);
+    await apiAssertions.expectObject(replaceResponse, {
       id: createdObject.id,
       ...replacement,
     });
 
-    const afterReplaceResponse = await restApi.getObject(collectionName, createdObject.id);
-    const replacedObject = await restApi.expectObject(afterReplaceResponse, {
+    const afterReplaceResponse = await restApi.getObject(collection, createdObject.id);
+    const replacedObject = await apiAssertions.expectObject(afterReplaceResponse, {
       id: createdObject.id,
       ...replacement,
     });
@@ -41,17 +45,17 @@ test.describe('RESTful API object CRUD', () => {
       category: replacement.data.category,
     });
 
-    const deleteResponse = await restApi.deleteObject(collectionName, createdObject.id);
-    await restApi.expectDeleteMessage(deleteResponse, createdObject.id);
+    const deleteResponse = await restApi.deleteObject(collection, createdObject.id);
+    await apiAssertions.expectDeleteMessage(deleteResponse, createdObject.id);
 
-    const afterDeleteResponse = await restApi.getObject(collectionName, createdObject.id);
-    expect(afterDeleteResponse.status()).toBe(404);
+    const afterDeleteResponse = await restApi.getObject(collection, createdObject.id);
+    expect.configure({ message: 'Expected 404 after deleting the object' })(afterDeleteResponse.status()).toBe(404);
   });
 
-  test('returns 404 for a missing object id', async ({ restApi, logger }) => {
+  test('returns 404 for a missing object id', async ({ collection, restApi, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
-    const response = await restApi.getObject(buildCollectionName(), 'missing-object-id');
+    const response = await restApi.getObject(collection, 'missing-object-id');
 
-    expect(response.status()).toBe(404);
+    expect.configure({ message: 'Expected 404 for a missing object ID' })(response.status()).toBe(404);
   });
 });

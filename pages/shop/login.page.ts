@@ -1,19 +1,21 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { BasePage } from '@/pages/base.page';
 
-export class LoginPage {
+export class LoginPage extends BasePage {
   readonly emailInput: Locator;
   readonly passwordInput: Locator;
   readonly loginButton: Locator;
 
-  constructor(private readonly page: Page) {
+  constructor(page: Page) {
+    super(page);
     this.emailInput = page.locator('[data-test="email"]');
     this.passwordInput = page.locator('[data-test="password"]');
     this.loginButton = page.locator('[data-test="login-submit"]');
   }
 
-  async goto(): Promise<void> {
-    await this.page.goto('/auth/login');
-    await expect(this.page).toHaveTitle(/Login/);
+  override async goto(): Promise<void> {
+    await super.goto('/auth/login');
+    await expect.configure({ message: 'Expected Login title on login page' })(this.page).toHaveTitle(/Login/);
   }
 
   async login(email: string, password: string): Promise<void> {

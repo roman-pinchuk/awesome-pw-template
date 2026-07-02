@@ -8,7 +8,9 @@ export default tseslint.config(
       'node_modules/**',
       'playwright-report/**',
       'test-results/**',
-      'src/contracts/*.generated.ts',
+      'business/contracts/*.generated.ts',
+      '.agents/**',
+      '.playwright/**',
       'eslint.config.mjs',
     ],
   },
@@ -29,7 +31,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['tests/**/*.ts', 'pages/**/*.ts', 'src/fixtures/**/*.ts'],
+    files: ['tests/**/*.ts', 'pages/**/*.ts', 'business/**/*.ts', 'infrastructure/fixtures/**/*.ts'],
     ...playwright.configs['flat/recommended'],
     rules: {
       ...playwright.configs['flat/recommended'].rules,

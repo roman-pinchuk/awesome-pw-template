@@ -1,8 +1,8 @@
 import { test as base } from '@playwright/test';
-import { CartPage } from '../../pages/shop/cart.page';
-import { HomePage } from '../../pages/shop/home.page';
-import { ProductPage } from '../../pages/shop/product.page';
-import { logger as appLogger } from '@/utils/logger';
+import { CartPage } from '@/pages/shop/cart.page';
+import { HomePage } from '@/pages/shop/home.page';
+import { ProductPage } from '@/pages/shop/product.page';
+import { logger as appLogger } from '@/infrastructure/utils/logger';
 
 type UIFixtures = {
   homePage: HomePage;
