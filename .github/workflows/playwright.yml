@@ -51,7 +51,7 @@ jobs:
       - name: Run UI tests (${{ matrix.browser }})
         env:
           DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
-        run: npx dotenvx run -f .env.production -- npx playwright test --project=ui-${{ matrix.browser }}
+        run: npx dotenvx run -f .env.production -- npx playwright test --project=${{ matrix.browser }}
       - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v7
