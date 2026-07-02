@@ -21,15 +21,10 @@ jobs:
   api-tests:
     needs: lint
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.58.2-noble
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
       - run: npm ci
-      - name: Install Playwright browsers
-        run: npx playwright install chromium --with-deps
       - name: Run API tests
         env:
           DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
@@ -45,19 +40,14 @@ jobs:
   ui-tests:
     needs: lint
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.58.2-noble
     strategy:
       matrix:
         browser: [chromium, firefox]
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
       - run: npm ci
-      - name: Install Playwright browsers
-        run: npx playwright install ${{ matrix.browser }} --with-deps
       - name: Run UI tests (${{ matrix.browser }})
         env:
           DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
