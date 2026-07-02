@@ -53,6 +53,16 @@ export default defineConfig({
       },
     },
     {
+      name: 'ui-webkit',
+      testMatch: /tests\/ui\/.*\.spec\.ts/,
+      dependencies: ['setup'],
+      use: {
+        ...devices['Desktop Safari'],
+        baseURL: env.UI_BASE_URL,
+        storageState: '.playwright/auth/user.json',
+      },
+    },
+    {
       name: 'api',
       testMatch: /tests\/api\/.*\.spec\.ts/,
       use: {
