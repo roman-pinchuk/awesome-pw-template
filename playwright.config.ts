@@ -29,6 +29,9 @@ export default defineConfig({
       testMatch: /auth\.setup\.ts/,
       use: {
         baseURL: env.UI_BASE_URL,
+        launchOptions: {
+          args: ['--disable-blink-features=AutomationControlled'],
+        },
       },
     },
     {

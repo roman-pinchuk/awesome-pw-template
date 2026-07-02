@@ -18,5 +18,9 @@ setup('authenticate', async ({ page }) => {
     }
   }
 
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+  });
+
   await loginAsCustomer(page, env.USER_EMAIL, env.USER_PASSWORD);
 });
