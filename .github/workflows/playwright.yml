@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: ctrf-api
-          path: ctrf-api.json
+          path: ctrf/ctrf-api.json
           retention-days: 7
 
   ui-tests:
@@ -74,7 +74,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: ctrf-${{ matrix.browser }}
-          path: ctrf-${{ matrix.browser }}.json
+          path: ctrf/ctrf-${{ matrix.browser }}.json
           retention-days: 7
 
   ctrf-report:
