@@ -1,29 +1,50 @@
 import { test as base } from '@playwright/test';
-import { CartPage } from '@/pages/shop/cart.page';
-import { HomePage } from '@/pages/shop/home.page';
-import { ProductPage } from '@/pages/shop/product.page';
+import { LoginPage } from '@/pages/login.page';
+import { InventoryPage } from '@/pages/inventory.page';
+import { ProductDetailPage } from '@/pages/product-detail.page';
+import { CartPage } from '@/pages/cart.page';
+import { CheckoutStepOnePage } from '@/pages/checkout-step-one.page';
+import { CheckoutStepTwoPage } from '@/pages/checkout-step-two.page';
+import { CheckoutCompletePage } from '@/pages/checkout-complete.page';
 import { logger as appLogger } from '@/infrastructure/utils/logger';
 
 type UIFixtures = {
-  homePage: HomePage;
-  productPage: ProductPage;
+  loginPage: LoginPage;
+  inventoryPage: InventoryPage;
+  productDetailPage: ProductDetailPage;
   cartPage: CartPage;
+  checkoutStepOnePage: CheckoutStepOnePage;
+  checkoutStepTwoPage: CheckoutStepTwoPage;
+  checkoutCompletePage: CheckoutCompletePage;
   logger: typeof appLogger;
 };
 
 export const test = base.extend<UIFixtures>({
-  logger: async ({}, use) => {
-    await use(appLogger);
+  loginPage: async ({ page }, use) => {
+    await use(new LoginPage(page));
   },
-  homePage: async ({ page }, use) => {
-    await use(new HomePage(page));
+  inventoryPage: async ({ page }, use) => {
+    await use(new InventoryPage(page));
   },
-  productPage: async ({ page }, use) => {
-    await use(new ProductPage(page));
+  productDetailPage: async ({ page }, use) => {
+    await use(new ProductDetailPage(page));
   },
   cartPage: async ({ page }, use) => {
     await use(new CartPage(page));
   },
+  checkoutStepOnePage: async ({ page }, use) => {
+    await use(new CheckoutStepOnePage(page));
+  },
+  checkoutStepTwoPage: async ({ page }, use) => {
+    await use(new CheckoutStepTwoPage(page));
+  },
+  checkoutCompletePage: async ({ page }, use) => {
+    await use(new CheckoutCompletePage(page));
+  },
+  logger: async ({}, use) => {
+    await use(appLogger);
+  },
 });
 
 export { expect } from '@playwright/test';
+export type { Page, Locator } from '@playwright/test';

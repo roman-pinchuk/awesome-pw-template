@@ -4,7 +4,7 @@ Playwright + TypeScript template that showcases a senior-level automation approa
 
 ## What this repo demonstrates
 
-- UI automation against `https://practicesoftwaretesting.com`
+- UI automation against `https://www.saucedemo.com`
 - API automation against `https://api.restful-api.dev`
 - Deep module structure: CRUD separated from assertions, thin page objects, resource lifecycle fixtures
 - Separate Playwright projects for UI and API execution
@@ -13,38 +13,32 @@ Playwright + TypeScript template that showcases a senior-level automation approa
 ## Project structure
 
 ```text
-src/
-  api/
-    clients/            # Pure CRUD clients — no assertions, no test framework deps
-    assertions/         # Composable assertion helpers for API responses
-    factories/          # Deterministic test data builders
-  ui/
-    pages/
-      shop/             # Page objects — thin, behavior-focused, share a BasePage
-      base.page.ts      # Lightweight base removing constructor boilerplate
-    components/         # Reusable UI fragments (e.g. HeaderComponent)
-    factories/          # Named product and catalog references
-    mocks/              # page.route() interceptors for API isolation
-    auth/               # Importable login helpers (shared by setup + tests)
-  fixtures/             # Playwright custom fixtures — dependency injection layer
-  config/               # Zod-validated environment config + global setup
-  utils/                # Logger, random generators, generic assertion helpers
-tests/
-  ui/{smoke,catalog,cart,checkout,auth,contact,visual}/
-  api/{objects,auth}/
-docs/
-  CONTEXT.md            # Domain glossary (Toolshop + RESTful API concepts)
-  adr/                  # Architecture Decision Records
+  business/
+    constants.ts         # SauceDemo URLs, products, users
+    checkout.ts          # Checkout customer info type + default
+    api/
+      clients/            # Pure CRUD clients — no assertions, no test framework deps
+      assertions/         # Composable assertion helpers for API responses
+      factories/          # Deterministic test data builders
+  pages/                # SauceDemo page objects — thin, behavior-focused
+  pages/components/     # Reusable UI fragments (e.g. HeaderComponent)
+  infrastructure/
+    fixtures/             # Playwright custom fixtures — dependency injection layer
+    config/               # Zod-validated environment config + global setup
+    utils/                # Logger, random generators, generic assertion helpers
+  tests/
+    ui/                   # SauceDemo E2E specs
+    api/                  # API specs
+    auth.setup.ts         # Global auth setup (TTL-cached storage state)
 ```
 
 ## Design principles
 
 - **Deep modules over shallow wrappers** — API client interface is 6 methods (CRUD only); assertions are composed separately
-- **Thin POMs via composition, not inheritance** — one `BasePage` removes boilerplate; pages stay standalone
+- **Thin POMs via composition, not inheritance** — pages stay standalone with a lightweight base
 - **Fixture-managed resource lifecycles** — collection scopes per test, auto-generated via fixture
 - **Deterministic data factories** — every test creates its own data; no shared state
-- **Opt-in API mocking** — `page.route()` interceptors isolate UI tests from downstream changes
-- **Extracted auth** — login is a module, not a setup script; importable from any test
+- **Extracted auth** — login uses a page object and TTL-cached storage state
 
 ## Getting started
 
@@ -60,13 +54,9 @@ Local Playwright scripts inject `.env.local`. CI Playwright scripts inject `.env
 ## Scripts
 
 - `npm test` — run the full suite
-- `npm run test:ui` — run the UI projects
-- `npm run test:api` — run the API project
-- `npm run test:headed` — run the Chromium UI project headed
-- `npm run test:debug` — debug the Chromium UI project
-- `npm run test:ci` — run the full suite with `.env.production`
-- `npm run test:ui:ci` — run the UI projects with `.env.production`
-- `npm run test:api:ci` — run the API project with `.env.production`
+- `npm run test:ui` — run SauceDemo across Chromium, Firefox, WebKit
+- `npm run test:headed` — run SauceDemo Chromium headed
+- `npm run test:debug` — debug SauceDemo Chromium
 - `npm run report` — open the HTML report
 - `npm run check` — lint + typecheck
 
@@ -76,4 +66,3 @@ Local Playwright scripts inject `.env.local`. CI Playwright scripts inject `.env
 - CI Playwright scripts use `dotenvx run -f .env.production -- ...`.
 - `playwright.config.ts` and `infrastructure/config/env.ts` validate the injected environment before tests run.
 - API requests read `API_BASE_URL` and `API_KEY` from the active env file.
-- Encrypted values add private keys to `.env.keys`, which should stay local and out of git; CI should provide `DOTENV_PRIVATE_KEY_PRODUCTION` as a GitHub secret.

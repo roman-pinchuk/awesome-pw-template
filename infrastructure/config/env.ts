@@ -13,19 +13,24 @@ const envSchema = z.object({
     .string()
     .optional()
     .transform((value) => value === 'true'),
-  UI_BASE_URL: z.url().default('https://practicesoftwaretesting.com'),
   API_BASE_URL: z
     .url()
     .default('https://api.restful-api.dev/')
     .transform((value) => (value.endsWith('/') ? value : `${value}/`)),
   API_KEY: z.string().min(1),
-  USER_EMAIL: z.email().default('customer@practicesoftwaretesting.com'),
-  USER_PASSWORD: z.string().min(1).default('welcome01'),
   LOG_LEVEL: z.enum(['DEBUG', 'INFO', 'WARN', 'ERROR', 'NONE']).default('INFO'),
+  BASE_URL: z.url().default('https://www.saucedemo.com'),
 });
 
 export type Env = z.infer<typeof envSchema>;
 
 export function loadEnv(): Env {
-  return envSchema.parse(process.env);
+  const result = envSchema.safeParse(process.env);
+  if (!result.success) {
+    const missing = result.error.issues
+      .map((i) => `  - ${i.path.join('.')}: ${i.message}`)
+      .join('\n');
+    throw new Error(`Environment validation failed:\n${missing}`);
+  }
+  return result.data;
 }

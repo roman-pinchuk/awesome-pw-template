@@ -1,26 +1,22 @@
-import { test as setup } from '@playwright/test';
-import { loginAsCustomer, AUTH_FILE } from '@/business/auth/login';
-import { loadEnv } from '@/infrastructure/config/env';
+/* eslint-disable playwright/no-conditional-in-test */
+import { test as setup, expect } from '@playwright/test';
+import { LoginPage } from '@/pages/login.page';
+import { URLS } from '@/business/constants';
 import { logger } from '@/infrastructure/utils/logger';
 import fs from 'fs';
 
-const env = loadEnv();
+const AUTH_FILE = '.playwright/auth/user.json';
 const TTL_MS = 60 * 60 * 1000;
 
-setup('authenticate', async ({ page }) => {
-  // eslint-disable-next-line playwright/no-conditional-in-test
-  if (fs.existsSync(AUTH_FILE)) {
-    const { mtime } = fs.statSync(AUTH_FILE);
-    // eslint-disable-next-line playwright/no-conditional-in-test
-    if (Date.now() - mtime.getTime() < TTL_MS) {
-      logger.info('Using existing authentication state (TTL valid)');
-      return;
-    }
+setup('authenticate to SauceDemo', async ({ page }) => {
+  if (fs.existsSync(AUTH_FILE) && Date.now() - fs.statSync(AUTH_FILE).mtime.getTime() < TTL_MS) {
+    logger.info('Using existing SauceDemo auth state (TTL valid)');
+    return;
   }
 
-  await page.addInitScript(() => {
-    Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
-  });
-
-  await loginAsCustomer(page, env.USER_EMAIL, env.USER_PASSWORD);
+  const loginPage = new LoginPage(page);
+  await loginPage.goto();
+  await loginPage.login('standard_user', 'secret_sauce');
+    await expect.configure({ message: 'Expected redirect to inventory after login' })(page).toHaveURL(URLS.INVENTORY);
+  await page.context().storageState({ path: AUTH_FILE });
 });

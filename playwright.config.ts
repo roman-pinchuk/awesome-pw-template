@@ -28,39 +28,36 @@ export default defineConfig({
       name: 'setup',
       testMatch: /auth\.setup\.ts/,
       use: {
-        baseURL: env.UI_BASE_URL,
-        launchOptions: {
-          args: ['--disable-blink-features=AutomationControlled'],
-        },
+        baseURL: env.BASE_URL,
       },
     },
     {
-      name: 'ui-chromium',
+      name: 'chromium',
       testMatch: /tests\/ui\/.*\.spec\.ts/,
       dependencies: ['setup'],
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: env.UI_BASE_URL,
+        baseURL: env.BASE_URL,
         storageState: '.playwright/auth/user.json',
       },
     },
     {
-      name: 'ui-firefox',
+      name: 'firefox',
       testMatch: /tests\/ui\/.*\.spec\.ts/,
       dependencies: ['setup'],
       use: {
         ...devices['Desktop Firefox'],
-        baseURL: env.UI_BASE_URL,
+        baseURL: env.BASE_URL,
         storageState: '.playwright/auth/user.json',
       },
     },
     {
-      name: 'ui-webkit',
+      name: 'webkit',
       testMatch: /tests\/ui\/.*\.spec\.ts/,
       dependencies: ['setup'],
       use: {
         ...devices['Desktop Safari'],
-        baseURL: env.UI_BASE_URL,
+        baseURL: env.BASE_URL,
         storageState: '.playwright/auth/user.json',
       },
     },
