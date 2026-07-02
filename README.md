@@ -74,6 +74,6 @@ Local Playwright scripts inject `.env.local`. CI Playwright scripts inject `.env
 
 - Local Playwright scripts use `dotenvx run -f .env.local -- ...`.
 - CI Playwright scripts use `dotenvx run -f .env.production -- ...`.
-- `playwright.config.ts` and `src/config/global-setup.ts` validate the injected environment before tests run.
+- `playwright.config.ts` and `infrastructure/config/env.ts` validate the injected environment before tests run.
 - API requests read `API_BASE_URL` and `API_KEY` from the active env file.
 - Encrypted values add private keys to `.env.keys`, which should stay local and out of git; CI should provide `DOTENV_PRIVATE_KEY_PRODUCTION` as a GitHub secret.
