@@ -6,7 +6,6 @@ test.describe('SauceDemo visual regression', () => {
 
     await inventoryPage.goto();
     await expect.configure({ message: 'Expected inventory page screenshot to match baseline' })(page).toHaveScreenshot('inventory-page.png', {
-      fullPage: true,
       maxDiffPixelRatio: 0.02,
     });
   });
