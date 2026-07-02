@@ -9,7 +9,7 @@ export class CartPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.checkoutHeading = page.getByTitle('Checkout');
+    this.checkoutHeading = page.locator('li:has-text("Cart")').first();
     this.cartTable = page.getByRole('table');
     this.totalValue = page.locator('tr').filter({ hasText: 'Total' }).locator('td').nth(3);
     this.proceedToCheckoutButton = page.getByRole('button', { name: 'Proceed to checkout' });

@@ -16,8 +16,8 @@ test.describe('Cart item removal', () => {
     await productPage.header.openCart();
     await cartPage.expectLineItem('Combination Pliers', 1);
 
-    await page.getByRole('button', { name: /remove/i }).first().click();
+    await page.locator('.btn-danger').first().click();
 
-    await expect.configure({ message: 'Expected empty-cart message after removing the only item' })(page.getByText('Your cart is empty')).toBeVisible();
+    await expect.configure({ message: 'Expected empty-cart message after removing the only item' })(page.getByText('The cart is empty')).toBeVisible();
   });
 });

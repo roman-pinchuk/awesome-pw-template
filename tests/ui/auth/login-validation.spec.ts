@@ -9,7 +9,7 @@ test.describe('Login validation', () => {
     await loginPage.goto();
     await loginPage.login('invalid@test.com', 'wrong-password');
 
-    await expect.configure({ message: 'Expected error alert for invalid credentials' })(page.getByRole('alert')).toBeVisible();
+    await expect.configure({ message: 'Expected error message for invalid credentials' })(page.getByText('Invalid email or password')).toBeVisible();
     await expect.configure({ message: 'Expected URL to NOT navigate to /account with invalid credentials' })(page).not.toHaveURL(/\/account/);
   });
 
@@ -20,6 +20,7 @@ test.describe('Login validation', () => {
     await loginPage.goto();
     await loginPage.login('', '');
 
-    await expect.configure({ message: 'Expected validation error when login fields are empty' })(page.getByRole('alert')).toBeVisible();
+    await expect.configure({ message: 'Expected email validation when login fields are empty' })(page.getByText('Email is required')).toBeVisible();
+    await expect.configure({ message: 'Expected password validation when login fields are empty' })(page.getByText('Password is required')).toBeVisible();
   });
 });
