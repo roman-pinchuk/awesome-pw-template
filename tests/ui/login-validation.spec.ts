@@ -1,6 +1,6 @@
-import { test, expect } from '@/infrastructure/fixtures/ui.fixture';
-import { LoginPage } from '@/pages/login.page';
-import { URLS } from '@/business/constants';
+import { test, expect } from '@infrastructure/fixtures/ui.fixture';
+import { LoginPage } from '@pages/login.page';
+import { URLS } from '@business/constants';
 
 test.describe('SauceDemo login validation', () => {
   test('rejects locked out user with an error message', { tag: '@smoke', annotation: { type: 'feature', description: 'Login' } }, async ({ page, logger }) => {

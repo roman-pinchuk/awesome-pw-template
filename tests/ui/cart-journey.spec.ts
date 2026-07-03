@@ -1,5 +1,5 @@
-import { test } from '@/infrastructure/fixtures/ui.fixture';
-import { PRODUCTS } from '@/business/constants';
+import { test } from '@infrastructure/fixtures/ui.fixture';
+import { PRODUCTS } from '@business/constants';
 
 test.describe('SauceDemo cart journey', () => {
   test('adds a product from inventory and verifies cart contents', { tag: '@smoke', annotation: { type: 'feature', description: 'Cart' } }, async ({

@@ -1,8 +1,8 @@
 /* eslint-disable playwright/no-conditional-in-test */
 import { test as setup, expect } from '@playwright/test';
-import { LoginPage } from '@/pages/login.page';
-import { URLS } from '@/business/constants';
-import { logger } from '@/infrastructure/utils/logger';
+import { LoginPage } from '@pages/login.page';
+import { URLS } from '@business/constants';
+import { logger } from '@infrastructure/utils/logger';
 import fs from 'fs';
 
 const AUTH_FILE = '.playwright/auth/user.json';

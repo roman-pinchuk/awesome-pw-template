@@ -1,5 +1,5 @@
-import { test, expect } from '@/infrastructure/fixtures/ui.fixture';
-import { PRODUCTS } from '@/business/constants';
+import { test, expect } from '@infrastructure/fixtures/ui.fixture';
+import { PRODUCTS } from '@business/constants';
 
 test.describe('SauceDemo smoke tests', () => {
   test('inventory page loads with products', { tag: ['@smoke'], annotation: { type: 'feature', description: 'Smoke' } }, async ({ inventoryPage, logger }) => {

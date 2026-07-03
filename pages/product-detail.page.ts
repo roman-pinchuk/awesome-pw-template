@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test';
-import { BasePage } from '@/pages/base.page';
-import { HeaderComponent } from '@/pages/components/header.component';
+import { BasePage } from '@pages/base.page';
+import { HeaderComponent } from '@pages/components/header.component';
 
 export class ProductDetailPage extends BasePage {
   readonly header = new HeaderComponent(this.page);

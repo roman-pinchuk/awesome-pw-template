@@ -1,4 +1,4 @@
-import { test, expect } from '@/infrastructure/fixtures/ui.fixture';
+import { test, expect } from '@infrastructure/fixtures/ui.fixture';
 
 test.describe('SauceDemo inventory filters', () => {
   test('sorts products by name A to Z (default)', { annotation: { type: 'feature', description: 'Inventory' } }, async ({ inventoryPage, logger }) => {

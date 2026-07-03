@@ -1,4 +1,4 @@
-import { test, expect } from '@/infrastructure/fixtures/api.fixture';
+import { test, expect } from '@infrastructure/fixtures/api.fixture';
 
 test.describe('API authentication edge cases', () => {
   test('rejects requests with an empty api key', { annotation: { type: 'feature', description: 'Authentication' } }, async ({ collection, request, logger }) => {

@@ -1,5 +1,5 @@
-import { test, expect } from '@/infrastructure/fixtures/api.fixture';
-import { buildObject } from '@/business/api/factories/object.factory';
+import { test, expect } from '@infrastructure/fixtures/api.fixture';
+import { buildObject } from '@business/api/factories/object.factory';
 
 test.describe('RESTful API object CRUD', () => {
   test('creates, reads, replaces, and deletes an object', { annotation: { type: 'feature', description: 'CRUD' } }, async ({

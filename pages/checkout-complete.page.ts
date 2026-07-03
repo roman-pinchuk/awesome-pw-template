@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test';
-import { BasePage } from '@/pages/base.page';
+import { BasePage } from '@pages/base.page';
 
 export class CheckoutCompletePage extends BasePage {
   readonly completeHeader = this.page.locator('[data-test="complete-header"]');

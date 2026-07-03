@@ -1,5 +1,5 @@
-import { test, expect } from '@/infrastructure/fixtures/api.fixture';
-import { buildCollectionName, buildObject } from '@/business/api/factories/object.factory';
+import { test, expect } from '@infrastructure/fixtures/api.fixture';
+import { buildCollectionName, buildObject } from '@business/api/factories/object.factory';
 
 test.describe('RESTful API object queries', () => {
   test('returns an empty array for a new collection', { annotation: { type: 'feature', description: 'Queries' } }, async ({ collection, restApi, apiAssertions, logger }) => {

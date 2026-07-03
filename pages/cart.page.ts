@@ -1,5 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { BasePage } from '@/pages/base.page';
+import { BasePage } from '@pages/base.page';
 
 export class CartPage extends BasePage {
   readonly cartList = this.page.locator('[data-test="cart-list"]');

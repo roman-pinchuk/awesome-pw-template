@@ -1,5 +1,5 @@
-import { test, expect } from '@/infrastructure/fixtures/ui.fixture';
-import { PRODUCTS } from '@/business/constants';
+import { test, expect } from '@infrastructure/fixtures/ui.fixture';
+import { PRODUCTS } from '@business/constants';
 
 test.describe('SauceDemo cart item removal', () => {
   test('removes an item from the cart and updates badge', { annotation: { type: 'feature', description: 'Cart' } }, async ({

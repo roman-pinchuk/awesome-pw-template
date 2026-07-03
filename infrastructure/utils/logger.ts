@@ -1,4 +1,4 @@
-import { loadEnv } from '@/infrastructure/config/env';
+import { loadEnv } from '@infrastructure/config/env';
 
 type LogLevel = 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'NONE';
 

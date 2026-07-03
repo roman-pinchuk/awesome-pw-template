@@ -1,6 +1,6 @@
-import { test, expect } from '@/infrastructure/fixtures/ui.fixture';
-import { PRODUCTS, URLS } from '@/business/constants';
-import { DEFAULT_ADDRESS } from '@/business/checkout';
+import { test, expect } from '@infrastructure/fixtures/ui.fixture';
+import { PRODUCTS, URLS } from '@business/constants';
+import { DEFAULT_ADDRESS } from '@business/checkout';
 
 test.describe('SauceDemo checkout flow', () => {
   test('completes a full purchase journey', { tag: '@smoke', annotation: { type: 'feature', description: 'Checkout' } }, async ({

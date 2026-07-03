@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test';
-import { BasePage } from '@/pages/base.page';
+import { BasePage } from '@pages/base.page';
 
 export class CheckoutStepTwoPage extends BasePage {
   readonly finishButton = this.page.locator('[data-test="finish"]');

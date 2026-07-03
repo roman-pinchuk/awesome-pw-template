@@ -1,6 +1,6 @@
 import { type Page } from '@playwright/test';
-import { BasePage } from '@/pages/base.page';
-import type { CustomerInfo } from '@/business/checkout';
+import { BasePage } from '@pages/base.page';
+import type { CustomerInfo } from '@business/checkout';
 
 export class CheckoutStepOnePage extends BasePage {
   readonly firstNameInput = this.page.locator('[data-test="firstName"]');
