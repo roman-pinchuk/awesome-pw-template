@@ -1,4 +1,5 @@
 import { test as base } from '@playwright/test';
+import * as allure from 'allure-js-commons';
 import { LoginPage } from '@/pages/login.page';
 import { InventoryPage } from '@/pages/inventory.page';
 import { ProductDetailPage } from '@/pages/product-detail.page';
@@ -7,6 +8,7 @@ import { CheckoutStepOnePage } from '@/pages/checkout-step-one.page';
 import { CheckoutStepTwoPage } from '@/pages/checkout-step-two.page';
 import { CheckoutCompletePage } from '@/pages/checkout-complete.page';
 import { logger as appLogger } from '@/infrastructure/utils/logger';
+import { mapLabels } from '@/infrastructure/utils/allure-labels';
 
 type UIFixtures = {
   loginPage: LoginPage;
@@ -44,6 +46,11 @@ export const test = base.extend<UIFixtures>({
   logger: async ({}, use) => {
     await use(appLogger);
   },
+});
+
+test.beforeEach(async ({}, testInfo) => {
+  allure.epic('UI');
+  mapLabels(testInfo);
 });
 
 export { expect } from '@playwright/test';

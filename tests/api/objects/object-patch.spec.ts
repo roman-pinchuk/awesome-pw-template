@@ -2,7 +2,7 @@ import { test } from '@/infrastructure/fixtures/api.fixture';
 import { buildObject } from '@/business/api/factories/object.factory';
 
 test.describe('RESTful API partial updates', () => {
-  test('patches the object name without overwriting its data', async ({
+  test('patches the object name without overwriting its data', { annotation: { type: 'feature', description: 'CRUD' } }, async ({
     collection,
     restApi,
     apiAssertions,

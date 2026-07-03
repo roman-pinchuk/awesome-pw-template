@@ -2,7 +2,7 @@ import { test, expect } from '@/infrastructure/fixtures/api.fixture';
 import { buildCollectionName, buildObject } from '@/business/api/factories/object.factory';
 
 test.describe('RESTful API object queries', () => {
-  test('returns an empty array for a new collection', async ({ collection, restApi, apiAssertions, logger }) => {
+  test('returns an empty array for a new collection', { annotation: { type: 'feature', description: 'Queries' } }, async ({ collection, restApi, apiAssertions, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
     const response = await restApi.listObjects(collection);
     const objects = await apiAssertions.expectObjects(response);
@@ -10,7 +10,7 @@ test.describe('RESTful API object queries', () => {
     expect.configure({ message: 'Expected empty array for a new collection' })(objects).toEqual([]);
   });
 
-  test('lists objects created in a collection', async ({ collection, restApi, apiAssertions, logger }) => {
+  test('lists objects created in a collection', { annotation: { type: 'feature', description: 'Queries' } }, async ({ collection, restApi, apiAssertions, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
     const first = buildObject();
     const second = buildObject();
@@ -41,7 +41,7 @@ test.describe('RESTful API object queries', () => {
     }
   });
 
-  test('supports collection pagination', async ({ collection, restApi, apiAssertions, logger }) => {
+  test('supports collection pagination', { annotation: { type: 'feature', description: 'Queries' } }, async ({ collection, restApi, apiAssertions, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
     const createdIds: string[] = [];
 
@@ -68,7 +68,7 @@ test.describe('RESTful API object queries', () => {
     }
   });
 
-  test('keeps collections isolated from each other', async ({ restApi, apiAssertions, logger }) => {
+  test('keeps collections isolated from each other', { annotation: { type: 'feature', description: 'Queries' } }, async ({ restApi, apiAssertions, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
     const firstCollection = buildCollectionName('pw_collection_a');
     const secondCollection = buildCollectionName('pw_collection_b');

@@ -2,7 +2,7 @@ import { test, expect } from '@/infrastructure/fixtures/api.fixture';
 import { buildObject } from '@/business/api/factories/object.factory';
 
 test.describe('RESTful API object CRUD', () => {
-  test('creates, reads, replaces, and deletes an object', async ({
+  test('creates, reads, replaces, and deletes an object', { annotation: { type: 'feature', description: 'CRUD' } }, async ({
     collection,
     restApi,
     apiAssertions,
@@ -52,7 +52,7 @@ test.describe('RESTful API object CRUD', () => {
     expect(await afterDeleteResponse.json()).toEqual([]);
   });
 
-  test('returns an empty array for a missing object id', async ({ restApi, logger }) => {
+  test('returns an empty array for a missing object id', { annotation: { type: 'feature', description: 'CRUD' } }, async ({ restApi, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
     const response = await restApi.getObject('00000000-0000-0000-0000-000000000000');
 

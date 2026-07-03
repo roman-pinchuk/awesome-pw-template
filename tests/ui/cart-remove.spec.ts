@@ -2,7 +2,7 @@ import { test, expect } from '@/infrastructure/fixtures/ui.fixture';
 import { PRODUCTS } from '@/business/constants';
 
 test.describe('SauceDemo cart item removal', () => {
-  test('removes an item from the cart and updates badge', async ({
+  test('removes an item from the cart and updates badge', { annotation: { type: 'feature', description: 'Cart' } }, async ({
     inventoryPage,
     cartPage,
     logger,
@@ -23,7 +23,7 @@ test.describe('SauceDemo cart item removal', () => {
     await expect.configure({ message: 'Expected only one item left after removal' })(cartPage.cartItems).toHaveCount(1);
   });
 
-  test('removes the only item and shows empty cart', async ({
+  test('removes the only item and shows empty cart', { annotation: { type: 'feature', description: 'Cart' } }, async ({
     inventoryPage,
     cartPage,
     logger,

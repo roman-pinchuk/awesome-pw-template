@@ -2,7 +2,7 @@ import { test, expect } from '@/infrastructure/fixtures/ui.fixture';
 import { PRODUCTS } from '@/business/constants';
 
 test.describe('SauceDemo smoke tests', () => {
-  test('inventory page loads with products', { tag: ['@smoke'] }, async ({ inventoryPage, logger }) => {
+  test('inventory page loads with products', { tag: ['@smoke'], annotation: { type: 'feature', description: 'Smoke' } }, async ({ inventoryPage, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
 
     await inventoryPage.goto();
@@ -12,7 +12,7 @@ test.describe('SauceDemo smoke tests', () => {
     await expect.configure({ message: 'Expected inventory page header to be visible' })(inventoryPage.header.appLogo).toBeVisible();
   });
 
-  test('product detail page opens from inventory', { tag: ['@smoke'] }, async ({ inventoryPage, productDetailPage, logger }) => {
+  test('product detail page opens from inventory', { tag: ['@smoke'], annotation: { type: 'feature', description: 'Smoke' } }, async ({ inventoryPage, productDetailPage, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
 
     await inventoryPage.goto();
@@ -23,7 +23,7 @@ test.describe('SauceDemo smoke tests', () => {
     await expect.configure({ message: 'Expected product price on detail page' })(productDetailPage.itemPrice).toBeVisible();
   });
 
-  test('cart badge displays correct count', { tag: ['@smoke'] }, async ({ inventoryPage, logger }) => {
+  test('cart badge displays correct count', { tag: ['@smoke'], annotation: { type: 'feature', description: 'Smoke' } }, async ({ inventoryPage, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
 
     await inventoryPage.goto();

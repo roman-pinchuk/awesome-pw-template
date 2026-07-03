@@ -1,8 +1,10 @@
 import { test as base } from '@playwright/test';
+import * as allure from 'allure-js-commons';
 import { RestfulApiClient } from '@/infrastructure/clients/restful.client';
 import * as apiAssertions from '@/business/api/assertions/object.assertions';
 import { buildCollectionName } from '@/business/api/factories/object.factory';
 import { logger as appLogger } from '@/infrastructure/utils/logger';
+import { mapLabels } from '@/infrastructure/utils/allure-labels';
 
 type APIFixtures = {
   collection: string;
@@ -24,6 +26,11 @@ export const test = base.extend<APIFixtures>({
   apiAssertions: async ({}, use) => {
     await use(apiAssertions);
   },
+});
+
+test.beforeEach(async ({}, testInfo) => {
+  allure.epic('API');
+  mapLabels(testInfo);
 });
 
 export { expect } from '@playwright/test';

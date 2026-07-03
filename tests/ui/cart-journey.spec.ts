@@ -2,7 +2,7 @@ import { test } from '@/infrastructure/fixtures/ui.fixture';
 import { PRODUCTS } from '@/business/constants';
 
 test.describe('SauceDemo cart journey', () => {
-  test('adds a product from inventory and verifies cart contents', { tag: '@smoke' }, async ({
+  test('adds a product from inventory and verifies cart contents', { tag: '@smoke', annotation: { type: 'feature', description: 'Cart' } }, async ({
     inventoryPage,
     cartPage,
     logger,
@@ -17,7 +17,7 @@ test.describe('SauceDemo cart journey', () => {
     await cartPage.expectLineItem(PRODUCTS.BACKPACK);
   });
 
-  test('adds multiple products and verifies cart quantity', async ({
+  test('adds multiple products and verifies cart quantity', { annotation: { type: 'feature', description: 'Cart' } }, async ({
     inventoryPage,
     cartPage,
     logger,

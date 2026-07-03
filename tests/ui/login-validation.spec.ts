@@ -3,7 +3,7 @@ import { LoginPage } from '@/pages/login.page';
 import { URLS } from '@/business/constants';
 
 test.describe('SauceDemo login validation', () => {
-  test('rejects locked out user with an error message', { tag: '@smoke' }, async ({ page, logger }) => {
+  test('rejects locked out user with an error message', { tag: '@smoke', annotation: { type: 'feature', description: 'Login' } }, async ({ page, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
     const loginPage = new LoginPage(page);
 
@@ -14,7 +14,7 @@ test.describe('SauceDemo login validation', () => {
     await expect.configure({ message: 'Expected URL to stay on login page' })(page).not.toHaveURL(URLS.INVENTORY);
   });
 
-  test('requires both username and password fields', { tag: '@smoke' }, async ({ page, logger }) => {
+  test('requires both username and password fields', { tag: '@smoke', annotation: { type: 'feature', description: 'Login' } }, async ({ page, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
     const loginPage = new LoginPage(page);
 
@@ -24,7 +24,7 @@ test.describe('SauceDemo login validation', () => {
     await expect.configure({ message: 'Expected error for empty credentials' })(loginPage.errorMessage).toBeVisible();
   });
 
-  test('rejects wrong password with an error', async ({ page, logger }) => {
+  test('rejects wrong password with an error', { annotation: { type: 'feature', description: 'Login' } }, async ({ page, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
     const loginPage = new LoginPage(page);
 
@@ -35,7 +35,7 @@ test.describe('SauceDemo login validation', () => {
     await expect.configure({ message: 'Expected URL to stay on login page' })(page).not.toHaveURL(URLS.INVENTORY);
   });
 
-  test('successful login for standard user', { tag: '@smoke' }, async ({ page, logger }) => {
+  test('successful login for standard user', { tag: '@smoke', annotation: { type: 'feature', description: 'Login' } }, async ({ page, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
     const loginPage = new LoginPage(page);
 
