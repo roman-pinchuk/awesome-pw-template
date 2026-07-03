@@ -114,11 +114,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/download-artifact@v8
@@ -152,9 +147,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: allure-history
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
       - name: Persist Allure history
         if: always()
         uses: peaceiris/actions-gh-pages@v4
@@ -164,3 +156,18 @@ jobs:
           destination_dir: last-history
           publish_branch: gh-pages
           keep_files: true
+
+  allure-deploy:
+    needs: [allure-report]
+    if: ${{ github.ref == 'refs/heads/main' && !cancelled() }}
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
