@@ -36,7 +36,7 @@ test.describe('RESTful API object queries', () => {
       );
     } finally {
       for (const objectId of createdIds) {
-        await restApi.deleteObject(collection, objectId);
+        await restApi.deleteObject(objectId);
       }
     }
   });
@@ -63,7 +63,7 @@ test.describe('RESTful API object queries', () => {
       expect.configure({ message: 'Expected out-of-range page to be empty' })(emptyPage).toEqual([]);
     } finally {
       for (const objectId of createdIds) {
-        await restApi.deleteObject(collection, objectId);
+        await restApi.deleteObject(objectId);
       }
     }
   });
@@ -98,7 +98,7 @@ test.describe('RESTful API object queries', () => {
       ]);
     } finally {
       for (const target of cleanupTargets) {
-        await restApi.deleteObject(target.collection, target.id);
+        await restApi.deleteObject(target.id);
       }
     }
   });

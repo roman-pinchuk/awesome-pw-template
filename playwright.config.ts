@@ -5,6 +5,7 @@ const env = loadEnv();
 const isCI = env.CI;
 
 export default defineConfig({
+  tsconfig: './tsconfig.json',
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: isCI,

@@ -25,7 +25,7 @@ test.describe('RESTful API partial updates', () => {
         data: original.data,
       });
     } finally {
-      await restApi.deleteObject(collection, createdObject.id);
+      await restApi.deleteObject(createdObject.id);
     }
   });
 });

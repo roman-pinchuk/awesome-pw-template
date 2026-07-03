@@ -49,7 +49,7 @@ export class RestfulApiClient {
     });
   }
 
-  async getObject(collectionName: string, objectId: string): Promise<APIResponse> {
+  async getObject(objectId: string): Promise<APIResponse> {
     return this.request.get(OBJECTS_PATH, {
       params: { id: `eq.${objectId}` },
       headers: this.headers,
@@ -76,7 +76,7 @@ export class RestfulApiClient {
     });
   }
 
-  async deleteObject(collectionName: string, objectId: string): Promise<APIResponse> {
+  async deleteObject(objectId: string): Promise<APIResponse> {
     return this.request.delete(OBJECTS_PATH, {
       params: { id: `eq.${objectId}` },
       headers: this.headers,

@@ -14,7 +14,7 @@ test.describe('RESTful API object CRUD', () => {
     const createResponse = await restApi.createObject(collection, original);
     const createdObject = await apiAssertions.expectObject(createResponse, original);
 
-    const getResponse = await restApi.getObject(collection, createdObject.id);
+    const getResponse = await restApi.getObject(createdObject.id);
     await apiAssertions.expectObject(getResponse, {
       id: createdObject.id,
       ...original,
@@ -33,7 +33,7 @@ test.describe('RESTful API object CRUD', () => {
       ...replacement,
     });
 
-    const afterReplaceResponse = await restApi.getObject(collection, createdObject.id);
+    const afterReplaceResponse = await restApi.getObject(createdObject.id);
     const replacedObject = await apiAssertions.expectObject(afterReplaceResponse, {
       id: createdObject.id,
       ...replacement,
@@ -45,16 +45,16 @@ test.describe('RESTful API object CRUD', () => {
       category: replacement.data.category,
     });
 
-    const deleteResponse = await restApi.deleteObject(collection, createdObject.id);
+    const deleteResponse = await restApi.deleteObject(createdObject.id);
     await apiAssertions.expectDeleteMessage(deleteResponse, createdObject.id);
 
-    const afterDeleteResponse = await restApi.getObject(collection, createdObject.id);
+    const afterDeleteResponse = await restApi.getObject(createdObject.id);
     expect(await afterDeleteResponse.json()).toEqual([]);
   });
 
-  test('returns an empty array for a missing object id', async ({ collection, restApi, logger }) => {
+  test('returns an empty array for a missing object id', async ({ restApi, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
-    const response = await restApi.getObject(collection, '00000000-0000-0000-0000-000000000000');
+    const response = await restApi.getObject('00000000-0000-0000-0000-000000000000');
 
     expect(response.status()).toBe(200);
     expect(await response.json()).toEqual([]);
