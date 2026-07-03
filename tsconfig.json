@@ -5,7 +5,10 @@
     "moduleResolution": "Bundler",
     "noEmit": true,
     "paths": {
-      "@*": ["./*"]
+      "@business/*": ["./business/*"],
+      "@infrastructure/*": ["./infrastructure/*"],
+      "@pages/*": ["./pages/*"],
+      "@tests/*": ["./tests/*"]
     },
     "lib": ["ES2022", "DOM"],
     "strict": true,
