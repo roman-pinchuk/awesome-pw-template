@@ -4,9 +4,11 @@ import type { RestObject } from '@/infrastructure/clients/restful.client';
 
 export async function expectObject(response: APIResponse, expected: Partial<RestObject>): Promise<RestObject> {
   await expectOk(response);
-  const body = (await response.json()) as RestObject;
-  expect(body).toMatchObject(expected);
-  return body;
+  const body: unknown = await response.json();
+  const obj = Array.isArray(body) ? (body as RestObject[])[0] : (body as RestObject);
+  expect(obj).toBeDefined();
+  expect(obj).toMatchObject(expected);
+  return obj!;
 }
 
 export async function expectObjects(response: APIResponse): Promise<RestObject[]> {
@@ -16,7 +18,8 @@ export async function expectObjects(response: APIResponse): Promise<RestObject[]
 
 export async function expectDeleteMessage(response: APIResponse, objectId: string): Promise<void> {
   await expectOk(response);
-  await expect(response.json()).resolves.toMatchObject({
-    message: `Object with id = ${objectId} has been deleted.`,
-  });
+  const body: unknown = await response.json();
+  const deleted = Array.isArray(body) ? (body as RestObject[])[0] : (body as RestObject);
+  expect(deleted).toBeDefined();
+  expect(deleted!.id).toBe(objectId);
 }

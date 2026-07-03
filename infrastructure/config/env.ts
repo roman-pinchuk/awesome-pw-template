@@ -14,8 +14,8 @@ const envSchema = z.object({
     .optional()
     .transform((value) => value === 'true'),
   API_BASE_URL: z
+    .string()
     .url()
-    .default('https://api.restful-api.dev/')
     .transform((value) => (value.endsWith('/') ? value : `${value}/`)),
   LOG_LEVEL: z.enum(['DEBUG', 'INFO', 'WARN', 'ERROR', 'NONE']).default('INFO'),
   BASE_URL: z.url().default('https://www.saucedemo.com'),

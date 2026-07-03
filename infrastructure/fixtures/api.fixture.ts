@@ -19,7 +19,7 @@ export const test = base.extend<APIFixtures>({
     await use(appLogger);
   },
   restApi: async ({ request }, use) => {
-    await use(new RestfulApiClient(request));
+    await use(new RestfulApiClient(request, process.env.API_KEY));
   },
   apiAssertions: async ({}, use) => {
     await use(apiAssertions);

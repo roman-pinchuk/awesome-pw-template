@@ -49,13 +49,14 @@ test.describe('RESTful API object CRUD', () => {
     await apiAssertions.expectDeleteMessage(deleteResponse, createdObject.id);
 
     const afterDeleteResponse = await restApi.getObject(collection, createdObject.id);
-    expect.configure({ message: 'Expected 404 after deleting the object' })(afterDeleteResponse.status()).toBe(404);
+    expect(await afterDeleteResponse.json()).toEqual([]);
   });
 
-  test('returns 404 for a missing object id', async ({ collection, restApi, logger }) => {
+  test('returns an empty array for a missing object id', async ({ collection, restApi, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
-    const response = await restApi.getObject(collection, 'missing-object-id');
+    const response = await restApi.getObject(collection, '00000000-0000-0000-0000-000000000000');
 
-    expect.configure({ message: 'Expected 404 for a missing object ID' })(response.status()).toBe(404);
+    expect(response.status()).toBe(200);
+    expect(await response.json()).toEqual([]);
   });
 });

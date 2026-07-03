@@ -75,7 +75,7 @@ export default defineConfig({
         extraHTTPHeaders: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'x-api-key': process.env.API_KEY ?? '',
+          Prefer: 'return=representation',
         },
       },
     },

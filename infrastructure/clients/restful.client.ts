@@ -11,6 +11,7 @@ export type RestObject = {
   id: string;
   name: string;
   data: RestObjectData | null;
+  collectionName?: string;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -20,28 +21,47 @@ type ListOptions = {
   offset?: number;
 };
 
+const OBJECTS_PATH = '/rest/v1/objects';
+
 export class RestfulApiClient {
-  constructor(private readonly request: APIRequestContext) {}
+  private readonly headers: Record<string, string>;
+
+  constructor(
+    private readonly request: APIRequestContext,
+    apiKey: string | undefined,
+  ) {
+    this.headers = { apikey: apiKey ?? '' };
+  }
 
   async listObjects(collectionName: string, options: ListOptions = {}): Promise<APIResponse> {
-    return this.request.get(this.collectionPath(collectionName), {
-      params: {
-        ...(options.limit !== undefined ? { limit: options.limit } : {}),
-        ...(options.offset !== undefined ? { offset: options.offset } : {}),
-      },
-    });
+    const params: Record<string, string | number> = {
+      collectionName: `eq.${collectionName}`,
+    };
+    if (options.limit !== undefined) params.limit = options.limit;
+    if (options.offset !== undefined) params.offset = options.offset;
+    return this.request.get(OBJECTS_PATH, { params, headers: this.headers });
   }
 
   async createObject(collectionName: string, payload: RestObjectPayload): Promise<APIResponse> {
-    return this.request.post(this.collectionPath(collectionName), { data: payload });
+    return this.request.post(OBJECTS_PATH, {
+      data: { collectionName, ...payload },
+      headers: this.headers,
+    });
   }
 
   async getObject(collectionName: string, objectId: string): Promise<APIResponse> {
-    return this.request.get(this.objectPath(collectionName, objectId));
+    return this.request.get(OBJECTS_PATH, {
+      params: { id: `eq.${objectId}` },
+      headers: this.headers,
+    });
   }
 
   async replaceObject(collectionName: string, objectId: string, payload: RestObjectPayload): Promise<APIResponse> {
-    return this.request.put(this.objectPath(collectionName, objectId), { data: payload });
+    return this.request.patch(OBJECTS_PATH, {
+      params: { id: `eq.${objectId}` },
+      data: { collectionName, ...payload },
+      headers: this.headers,
+    });
   }
 
   async updateObject(
@@ -49,18 +69,17 @@ export class RestfulApiClient {
     objectId: string,
     payload: Partial<RestObjectPayload>,
   ): Promise<APIResponse> {
-    return this.request.patch(this.objectPath(collectionName, objectId), { data: payload });
+    return this.request.patch(OBJECTS_PATH, {
+      params: { id: `eq.${objectId}` },
+      data: { collectionName, ...payload },
+      headers: this.headers,
+    });
   }
 
   async deleteObject(collectionName: string, objectId: string): Promise<APIResponse> {
-    return this.request.delete(this.objectPath(collectionName, objectId));
-  }
-
-  private collectionPath(collectionName: string): string {
-    return `collections/${encodeURIComponent(collectionName)}/objects`;
-  }
-
-  private objectPath(collectionName: string, objectId: string): string {
-    return `${this.collectionPath(collectionName)}/${encodeURIComponent(objectId)}`;
+    return this.request.delete(OBJECTS_PATH, {
+      params: { id: `eq.${objectId}` },
+      headers: this.headers,
+    });
   }
 }

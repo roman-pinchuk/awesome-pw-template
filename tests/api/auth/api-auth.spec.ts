@@ -1,21 +1,23 @@
 import { test, expect } from '@/infrastructure/fixtures/api.fixture';
 
 test.describe('API authentication edge cases', () => {
-  test('rejects requests with an expired or malformed api key', async ({ collection, request, logger }) => {
+  test('rejects requests with an empty api key', async ({ collection, request, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
-    const response = await request.get(`collections/${collection}/objects`, {
-      headers: {
-        'x-api-key': '',
-      },
+    const response = await request.get('/rest/v1/objects', {
+      params: { collectionName: `eq.${collection}` },
+      headers: { apikey: '' },
     });
 
-    expect.configure({ message: 'Expected 403 for empty API key' })(response.status()).toBe(403);
+    expect(response.status()).toBe(401);
   });
 
-  test('rejects requests with no api key header', async ({ collection, request, logger }) => {
+  test('rejects requests with an invalid api key', async ({ collection, request, logger }) => {
     logger.info(`Starting test: ${test.info().title}`);
-    const response = await request.get(`collections/${collection}/objects`);
+    const response = await request.get('/rest/v1/objects', {
+      params: { collectionName: `eq.${collection}` },
+      headers: { apikey: 'invalid-api-key' },
+    });
 
-    expect.configure({ message: 'Expected 403 for missing API key header' })(response.status()).toBe(403);
+    expect(response.status()).toBe(401);
   });
 });

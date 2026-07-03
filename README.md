@@ -5,7 +5,7 @@ Playwright + TypeScript template that showcases a senior-level automation approa
 ## What this repo demonstrates
 
 - UI automation against `https://www.saucedemo.com`
-- API automation against `https://api.restful-api.dev`
+- API automation against Supabase PostgREST
 - Deep module structure: CRUD separated from assertions, thin page objects, resource lifecycle fixtures
 - Separate Playwright projects for UI and API execution
 - CI-ready reporting, retries, traces, linting, and type checking
@@ -13,23 +13,62 @@ Playwright + TypeScript template that showcases a senior-level automation approa
 ## Project structure
 
 ```text
-  business/
-    constants.ts         # SauceDemo URLs, products, users
-    checkout.ts          # Checkout customer info type + default
-    api/
-      clients/            # Pure CRUD clients — no assertions, no test framework deps
-      assertions/         # Composable assertion helpers for API responses
-      factories/          # Deterministic test data builders
-  pages/                # SauceDemo page objects — thin, behavior-focused
-  pages/components/     # Reusable UI fragments (e.g. HeaderComponent)
-  infrastructure/
-    fixtures/             # Playwright custom fixtures — dependency injection layer
-    config/               # Zod-validated environment config + global setup
-    utils/                # Logger, random generators, generic assertion helpers
-  tests/
-    ui/                   # SauceDemo E2E specs
-    api/                  # API specs
-    auth.setup.ts         # Global auth setup (TTL-cached storage state)
+.
+├── business/
+│   ├── api/
+│   │   ├── assertions/
+│   │   │   └── object.assertions.ts
+│   │   └── factories/
+│   │       └── object.factory.ts
+│   ├── checkout.ts
+│   └── constants.ts
+├── infrastructure/
+│   ├── clients/
+│   │   └── restful.client.ts
+│   ├── config/
+│   │   └── env.ts
+│   ├── fixtures/
+│   │   ├── api.fixture.ts
+│   │   └── ui.fixture.ts
+│   └── utils/
+│       ├── api-assertions.ts
+│       ├── logger.ts
+│       └── random.ts
+├── pages/
+│   ├── components/
+│   │   └── header.component.ts
+│   ├── base.page.ts
+│   ├── cart.page.ts
+│   ├── checkout-complete.page.ts
+│   ├── checkout-step-one.page.ts
+│   ├── checkout-step-two.page.ts
+│   ├── inventory.page.ts
+│   ├── login.page.ts
+│   └── product-detail.page.ts
+├── tests/
+│   ├── api/
+│   │   ├── auth/
+│   │   │   └── api-auth.spec.ts
+│   │   └── objects/
+│   │       ├── object-auth.spec.ts
+│   │       ├── object-crud.spec.ts
+│   │       ├── object-patch.spec.ts
+│   │       └── object-query.spec.ts
+│   ├── ui/
+│   │   ├── cart-journey.spec.ts
+│   │   ├── cart-remove.spec.ts
+│   │   ├── checkout-flow.spec.ts
+│   │   ├── inventory-filters.spec.ts
+│   │   ├── login-validation.spec.ts
+│   │   └── smoke.spec.ts
+│   └── auth.setup.ts
+├── .env.example
+├── .env.production
+├── .env.keys
+├── eslint.config.mjs
+├── package.json
+├── playwright.config.ts
+└── tsconfig.json
 ```
 
 ## Design principles
@@ -46,23 +85,105 @@ Playwright + TypeScript template that showcases a senior-level automation approa
 npm install
 npx playwright install chromium firefox
 npm run check
-npm test
 ```
 
-Local Playwright scripts inject `.env.local`. CI Playwright scripts inject `.env.production`.
+To run API tests, complete the [Supabase API setup](#supabase-api-setup) first, then:
+
+```bash
+npm run test:api    # API only
+npm test            # Full suite (UI + API)
+```
+
+## Supabase API setup
+
+The API tests run against a Supabase PostgREST endpoint. Here's how to set it up:
+
+### 1. Create a Supabase project
+
+1. Go to [supabase.com](https://supabase.com) and sign up.
+2. Create a new project — choose any name (e.g. `awesome-pw-tests`), generate a database password, pick the closest region, and select the **Free** plan.
+3. Wait 1–2 minutes for the project to provision.
+
+### 2. Create the table and RLS policy
+
+Open the **SQL Editor** in your Supabase dashboard and run:
+
+```sql
+create table objects (
+  id uuid default gen_random_uuid() primary key,
+  "collectionName" text not null,
+  name text not null,
+  data jsonb default '{}'::jsonb,
+  "createdAt" timestamptz default now(),
+  "updatedAt" timestamptz default now()
+);
+
+alter table objects enable row level security;
+
+create policy "anon_crud" on objects
+  for all
+  using (true)
+  with check (true);
+```
+
+### 3. Configure environment variables
+
+Go to **Settings → Data API** in your Supabase dashboard and copy:
+
+- **Project URL** (e.g. `https://abc123.supabase.co`)
+- **anon public** key
+
+Add them to your env files:
+
+```env
+# .env.local (local development)
+API_BASE_URL=https://<your-project>.supabase.co
+API_KEY=<your-supabase-anon-key>
+```
+
+```env
+# .env.production (CI, encrypted)
+API_BASE_URL=https://<your-project>.supabase.co
+API_KEY=<your-supabase-anon-key>
+```
+
+For CI, encrypt `.env.production` using dotenvx:
+
+```bash
+npx dotenvx encrypt
+```
+
+### 4. Run the API tests
+
+```bash
+npm run test:api
+```
 
 ## Scripts
 
-- `npm test` — run the full suite
-- `npm run test:ui` — run SauceDemo across Chromium, Firefox, WebKit
-- `npm run test:headed` — run SauceDemo Chromium headed
-- `npm run test:debug` — debug SauceDemo Chromium
-- `npm run report` — open the HTML report
-- `npm run check` — lint + typecheck
+### Local development
+
+| Script | Description |
+|--------|-------------|
+| `npm test` | Run the full suite (UI + API) |
+| `npm run test:ui` | Run SauceDemo across Chromium, Firefox, WebKit |
+| `npm run test:api` | Run API tests against the configured Supabase project |
+| `npm run test:headed` | Run SauceDemo Chromium in headed mode |
+| `npm run test:debug` | Debug SauceDemo Chromium |
+| `npm run report` | Open the HTML test report |
+| `npm run check` | Lint + typecheck |
+
+### CI
+
+| Script | Description |
+|--------|-------------|
+| `npm run test:ci` | Full suite via encrypted `.env.production` |
+| `npm run test:ui:ci` | UI tests via encrypted `.env.production` |
+| `npm run test:api:ci` | API tests via encrypted `.env.production` |
 
 ## Environment loading
 
-- Local Playwright scripts use `dotenvx run -f .env.local -- ...`.
-- CI Playwright scripts use `dotenvx run -f .env.production -- ...`.
+- **Local** — `infrastructure/config/env.ts` loads `.env.local` via `@dotenvx/dotenvx` when `CI` is not set. `API_BASE_URL` and `API_KEY` are validated at startup.
+- **CI** — the `test:*:ci` scripts use `dotenvx run -f .env.production` to decrypt and inject the encrypted `.env.production` file.
 - `playwright.config.ts` and `infrastructure/config/env.ts` validate the injected environment before tests run.
-- API requests read `API_BASE_URL` and `API_KEY` from the active env file.
+- API requests read `API_BASE_URL` (Supabase project URL) and `API_KEY` (anon key) from the active env file.
