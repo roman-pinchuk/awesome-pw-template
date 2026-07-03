@@ -15,7 +15,7 @@ class Logger {
 
   constructor() {
     const env = loadEnv();
-    this.currentLevel = LOG_LEVEL_PRIORITY[env.LOG_LEVEL as LogLevel] ?? LOG_LEVEL_PRIORITY.INFO;
+    this.currentLevel = LOG_LEVEL_PRIORITY[env.LOG_LEVEL] ?? LOG_LEVEL_PRIORITY.INFO;
   }
 
   debug(message: string, ...args: unknown[]): void {
