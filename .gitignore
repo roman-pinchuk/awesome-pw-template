@@ -53,6 +53,7 @@ temp/
 allure-results/
 allure-report/
 allure-history/
+allure/categories.json
 
 # Project Specific
 toolshop-*.yaml
