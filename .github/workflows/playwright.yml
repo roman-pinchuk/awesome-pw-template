@@ -85,6 +85,9 @@ jobs:
         env:
           DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
           CTRF_REPORT_FILE: ctrf-${{ matrix.browser }}.json
+          # Fix Firefox crash in GitHub Actions
+          # Details: https://github.com/microsoft/playwright/issues/6500#issuecomment-838515115
+          HOME: /root
         run: npx dotenvx run -f .env.production -- npx playwright test --project=${{ matrix.browser }}
       - name: Upload Playwright report
         if: always()
