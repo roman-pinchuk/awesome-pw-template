@@ -6,7 +6,7 @@ import { logger } from '@infrastructure/utils/logger';
 import fs from 'fs';
 
 const AUTH_FILE = '.playwright/auth/user.json';
-const TTL_MS = 60 * 60 * 1000;
+const TTL_MS = 8 * 60 * 1000;
 
 setup('authenticate to SauceDemo', async ({ page }) => {
   if (fs.existsSync(AUTH_FILE) && Date.now() - fs.statSync(AUTH_FILE).mtime.getTime() < TTL_MS) {

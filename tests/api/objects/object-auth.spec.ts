@@ -12,7 +12,7 @@ test.describe('RESTful API authentication', () => {
       });
 
       expect(response.status()).toBe(401);
-      await expect(response.text()).resolves.toContain('Invalid API key');
+      await expect(response.text()).resolves.toContain('No API key found');
     },
   );
 
