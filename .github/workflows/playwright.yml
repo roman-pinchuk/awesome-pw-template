@@ -150,10 +150,11 @@ jobs:
           restore-keys: |
             allure-history-${{ github.ref_name }}-
       - name: Seed Allure history
-        if: steps.cache.outputs.cache-hit == 'true'
         run: |
-          mkdir -p allure-results/history
-          cp -r allure-history/last-history/. allure-results/history/
+          if [ -d allure-history/last-history ] && [ "$(ls -A allure-history/last-history)" ]; then
+            mkdir -p allure-results/history
+            cp -r allure-history/last-history/. allure-results/history/
+          fi
       - name: Generate environment properties
         run: |
           echo "Branch=${{ github.ref_name }}" >> allure-results/environment.properties
