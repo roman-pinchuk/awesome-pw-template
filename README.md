@@ -183,6 +183,65 @@ npm run test:api
 | `npm run test:ui:ci` | UI tests via encrypted `.env.production` |
 | `npm run test:api:ci` | API tests via encrypted `.env.production` |
 
+## CI pipeline
+
+The `.github/workflows/playwright.yml` workflow runs on every push to `main` and pull request.
+
+### Jobs
+
+| Job | Depends on | Trigger | Purpose |
+|---|---|---|---|
+| `lint` | — | always | `npm run check` (linter + typecheck) |
+| `api-tests` | `lint` | always | Playwright API project against Supabase PostgREST |
+| `ui-tests` | `lint` | always | Matrix of chromium / firefox / webkit against saucedemo.com |
+| `ctrf-report` | `api-tests`, `ui-tests` | always | Aggregates CTRF JSON → PR comment via `ctrf-io/github-test-reporter` |
+| `allure-report` | `api-tests`, `ui-tests` | push to `main` | Generates Allure HTML report + trend history |
+| `allure-deploy` | `allure-report` | push to `main` | Deploys Allure report to GitHub Pages |
+
+### Test reporting
+
+#### CTRF — PR summary
+
+- Each test job sets `CTRF_REPORT_FILE: ctrf-<project|browser>.json`
+- `playwright.config.ts` conditionally registers `playwright-ctrf-json-reporter` when the env var is set
+- The reporter writes to `ctrf/<filename>` (default subdirectory)
+- Uploaded as artifact `ctrf-*`
+- `ctrf-report` job downloads all `ctrf-*` artifacts, merges, and runs `ctrf-io/github-test-reporter` with `suite-folded-report: true` + `group-by: suite`
+
+#### Allure — GitHub Pages dashboard
+
+- Allure report is deployed to GitHub Pages via `actions/deploy-pages@v5`
+- Only runs on push to `main` (not on PRs)
+- Accessible at `https://roman-pinchuk.github.io/awesome-pw-template/`
+
+### Allure history caching
+
+Cross-run trend data (history graphs, duration trends) is preserved via `actions/cache`:
+
+1. **Restore** — `actions/cache/restore@v6` loads the full `allure-history/` directory (previous run reports + trend data)
+2. **Seed** — If `allure-history/last-history/` exists, trend data is copied into `allure-results/history/` before the report generator runs
+3. **Generate** — `simple-elf/allure-report-action@v1.14` generates the HTML report. `keep_reports: 20` limits the number of historical runs
+4. **Deploy** — `actions/upload-pages-artifact@v5` uploads `allure-history/` (all cached runs + the new one). `actions/deploy-pages@v5` publishes to GitHub Pages
+5. **Save** — `actions/cache/save@v6` stores the updated `allure-history/` for the next run
+
+Cache key: `allure-history-<branch>-<run_id>` — unique per run, no concurrent save conflicts. Cache eviction: 7 days of inactivity.
+
+### Action versions
+
+| Action | Version | Latest as of 2026-07 |
+|---|---|---|
+| `actions/checkout` | `@v7` | ✓ |
+| `actions/setup-node` | `@v6` | ✓ |
+| `actions/upload-artifact` | `@v7` | ✓ |
+| `actions/download-artifact` | `@v8` | ✓ |
+| `actions/cache` | `@v6` | ✓ |
+| `actions/cache/restore` | `@v6` | ✓ |
+| `actions/cache/save` | `@v6` | ✓ |
+| `actions/upload-pages-artifact` | `@v5` | ✓ |
+| `actions/deploy-pages` | `@v5` | ✓ |
+| `ctrf-io/github-test-reporter` | `@v1.1.0` | ✓ |
+| `simple-elf/allure-report-action` | `@v1.14` | ✓ |
+
 ## Environment loading
 
 - **Local** — `infrastructure/config/env.ts` loads `.env.local` via `@dotenvx/dotenvx` when `CI` is not set. `API_BASE_URL` and `API_KEY` are validated at startup.
