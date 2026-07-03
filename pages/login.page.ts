@@ -1,6 +1,8 @@
 import { BasePage } from '@pages/base.page';
 import type { Page } from '@playwright/test';
 
+import type { TestUser } from '@business/factories/user.factory';
+
 export class LoginPage extends BasePage {
   readonly usernameInput = this.page.locator('[data-test="username"]');
   readonly passwordInput = this.page.locator('[data-test="password"]');
@@ -16,9 +18,9 @@ export class LoginPage extends BasePage {
     await this.page.waitForLoadState('domcontentloaded');
   }
 
-  async login(username: string, password: string): Promise<void> {
-    await this.usernameInput.fill(username);
-    await this.passwordInput.fill(password);
+  async login(user: TestUser): Promise<void> {
+    await this.usernameInput.fill(user.username);
+    await this.passwordInput.fill(user.password);
     await this.loginButton.click();
   }
 }

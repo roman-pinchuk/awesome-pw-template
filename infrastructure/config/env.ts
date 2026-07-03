@@ -19,6 +19,8 @@ const envSchema = z.object({
     .transform((value) => (value.endsWith('/') ? value : `${value}/`)),
   LOG_LEVEL: z.enum(['DEBUG', 'INFO', 'WARN', 'ERROR', 'NONE']).default('INFO'),
   BASE_URL: z.url().default('https://www.saucedemo.com'),
+  SAUCE_USERNAME: z.string().default('standard_user'),
+  SAUCE_PASSWORD: z.string().default('secret_sauce'),
 });
 
 export type Env = z.infer<typeof envSchema>;

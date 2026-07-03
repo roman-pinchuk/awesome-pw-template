@@ -1,21 +1,11 @@
-export const USERS = {
-  STANDARD: 'standard_user',
-  LOCKED_OUT: 'locked_out_user',
-  PROBLEM: 'problem_user',
-  PERFORMANCE_GLITCH: 'performance_glitch_user',
-  ERROR: 'error_user',
-  VISUAL: 'visual_user',
-} as const;
-
-export const PASSWORD = 'secret_sauce';
+const BASE = process.env.BASE_URL ?? 'https://www.saucedemo.com';
 
 export const URLS = {
-  BASE: 'https://www.saucedemo.com',
-  INVENTORY: 'https://www.saucedemo.com/inventory.html',
-  CART: 'https://www.saucedemo.com/cart.html',
-  CHECKOUT_STEP_ONE: 'https://www.saucedemo.com/checkout-step-one.html',
-  CHECKOUT_STEP_TWO: 'https://www.saucedemo.com/checkout-step-two.html',
-  CHECKOUT_COMPLETE: 'https://www.saucedemo.com/checkout-complete.html',
+  INVENTORY: `${BASE}/inventory.html`,
+  CART: `${BASE}/cart.html`,
+  CHECKOUT_STEP_ONE: `${BASE}/checkout-step-one.html`,
+  CHECKOUT_STEP_TWO: `${BASE}/checkout-step-two.html`,
+  CHECKOUT_COMPLETE: `${BASE}/checkout-complete.html`,
 } as const;
 
 export const PRODUCTS = {

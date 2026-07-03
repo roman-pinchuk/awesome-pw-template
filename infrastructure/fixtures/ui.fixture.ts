@@ -8,6 +8,10 @@ import { CheckoutStepTwoPage } from '@pages/checkout-step-two.page';
 import { CheckoutCompletePage } from '@pages/checkout-complete.page';
 import { logger as appLogger } from '@infrastructure/utils/logger';
 import { setLabels } from '@infrastructure/utils/allure-labels';
+import { loadEnv } from '@infrastructure/config/env';
+import { createUsers, type TestUsers } from '@business/factories/user.factory';
+
+const env = loadEnv();
 
 type UIFixtures = {
   loginPage: LoginPage;
@@ -17,6 +21,7 @@ type UIFixtures = {
   checkoutStepOnePage: CheckoutStepOnePage;
   checkoutStepTwoPage: CheckoutStepTwoPage;
   checkoutCompletePage: CheckoutCompletePage;
+  users: TestUsers;
   logger: typeof appLogger;
 };
 
@@ -41,6 +46,9 @@ export const test = base.extend<UIFixtures>({
   },
   checkoutCompletePage: async ({ page }, use) => {
     await use(new CheckoutCompletePage(page));
+  },
+  users: async ({}, use) => {
+    await use(createUsers(env));
   },
   logger: async ({}, use) => {
     await use(appLogger);
