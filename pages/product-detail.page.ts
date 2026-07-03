@@ -16,7 +16,9 @@ export class ProductDetailPage extends BasePage {
   }
 
   async expectLoaded(name: string): Promise<void> {
-    await expect.configure({ message: `Expected product detail to be loaded for "${name}"` })(this.itemName).toHaveText(name);
+    await expect
+      .configure({ message: `Expected product detail to be loaded for "${name}"` })(this.itemName)
+      .toHaveText(name);
   }
 
   async addToCart(): Promise<void> {

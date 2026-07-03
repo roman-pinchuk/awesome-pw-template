@@ -25,6 +25,8 @@ export class CheckoutStepTwoPage extends BasePage {
   }
 
   async expectTotal(total: string): Promise<void> {
-    await expect.configure({ message: `Expected total to be "${total}"` })(this.totalLabel).toHaveText(total);
+    await expect
+      .configure({ message: `Expected total to be "${total}"` })(this.totalLabel)
+      .toHaveText(total);
   }
 }

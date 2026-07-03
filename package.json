@@ -21,6 +21,7 @@
     "test:ui:ci": "dotenvx run -f .env.production -- playwright test --project=chromium --project=firefox",
     "test:api:ci": "dotenvx run -f .env.production -- playwright test --project=api",
     "report": "playwright show-report",
+    "prettier": "prettier --write .",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc",
     "check": "npm run lint && npm run typecheck"

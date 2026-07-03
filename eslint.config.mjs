@@ -31,7 +31,12 @@ export default tseslint.config(
     },
   },
   {
-    files: ['tests/**/*.ts', 'pages/**/*.ts', 'business/**/*.ts', 'infrastructure/fixtures/**/*.ts'],
+    files: [
+      'tests/**/*.ts',
+      'pages/**/*.ts',
+      'business/**/*.ts',
+      'infrastructure/fixtures/**/*.ts',
+    ],
     ...playwright.configs['flat/recommended'],
     rules: {
       ...playwright.configs['flat/recommended'].rules,

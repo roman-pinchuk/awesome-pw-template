@@ -49,8 +49,6 @@ Playwright + TypeScript template that showcases a senior-level automation approa
 │   └── product-detail.page.ts
 ├── tests/
 │   ├── api/
-│   │   ├── auth/
-│   │   │   └── api-auth.spec.ts
 │   │   └── objects/
 │   │       ├── object-auth.spec.ts
 │   │       ├── object-crud.spec.ts
@@ -165,23 +163,23 @@ npm run test:api
 
 ### Local development
 
-| Script | Description |
-|--------|-------------|
-| `npm test` | Run the full suite (UI + API) |
-| `npm run test:ui` | Run SauceDemo across Chromium, Firefox, WebKit |
-| `npm run test:api` | Run API tests against the configured Supabase project |
-| `npm run test:headed` | Run SauceDemo Chromium in headed mode |
-| `npm run test:debug` | Debug SauceDemo Chromium |
-| `npm run report` | Open the HTML test report |
-| `npm run check` | Lint + typecheck |
+| Script                | Description                                           |
+| --------------------- | ----------------------------------------------------- |
+| `npm test`            | Run the full suite (UI + API)                         |
+| `npm run test:ui`     | Run SauceDemo across Chromium, Firefox, WebKit        |
+| `npm run test:api`    | Run API tests against the configured Supabase project |
+| `npm run test:headed` | Run SauceDemo Chromium in headed mode                 |
+| `npm run test:debug`  | Debug SauceDemo Chromium                              |
+| `npm run report`      | Open the HTML test report                             |
+| `npm run check`       | Lint + typecheck                                      |
 
 ### CI
 
-| Script | Description |
-|--------|-------------|
-| `npm run test:ci` | Full suite via encrypted `.env.production` |
-| `npm run test:ui:ci` | UI tests via encrypted `.env.production` |
-| `npm run test:api:ci` | API tests via encrypted `.env.production` |
+| Script                | Description                                |
+| --------------------- | ------------------------------------------ |
+| `npm run test:ci`     | Full suite via encrypted `.env.production` |
+| `npm run test:ui:ci`  | UI tests via encrypted `.env.production`   |
+| `npm run test:api:ci` | API tests via encrypted `.env.production`  |
 
 ## CI pipeline
 
@@ -189,14 +187,14 @@ The `.github/workflows/playwright.yml` workflow runs on every push to `main` and
 
 ### Jobs
 
-| Job | Depends on | Trigger | Purpose |
-|---|---|---|---|
-| `lint` | — | always | `npm run check` (linter + typecheck) |
-| `api-tests` | `lint` | always | Playwright API project against Supabase PostgREST |
-| `ui-tests` | `lint` | always | Matrix of chromium / firefox / webkit against saucedemo.com |
-| `ctrf-report` | `api-tests`, `ui-tests` | always | Aggregates CTRF JSON → PR comment via `ctrf-io/github-test-reporter` |
-| `allure-report` | `api-tests`, `ui-tests` | push to `main` | Generates Allure HTML report + trend history |
-| `allure-deploy` | `allure-report` | push to `main` | Deploys Allure report to GitHub Pages |
+| Job             | Depends on              | Trigger        | Purpose                                                              |
+| --------------- | ----------------------- | -------------- | -------------------------------------------------------------------- |
+| `lint`          | —                       | always         | `npm run check` (linter + typecheck)                                 |
+| `api-tests`     | `lint`                  | always         | Playwright API project against Supabase PostgREST                    |
+| `ui-tests`      | `lint`                  | always         | Matrix of chromium / firefox / webkit against saucedemo.com          |
+| `ctrf-report`   | `api-tests`, `ui-tests` | always         | Aggregates CTRF JSON → PR comment via `ctrf-io/github-test-reporter` |
+| `allure-report` | `api-tests`, `ui-tests` | push to `main` | Generates Allure HTML report + trend history                         |
+| `allure-deploy` | `allure-report`         | push to `main` | Deploys Allure report to GitHub Pages                                |
 
 ### Test reporting
 
@@ -228,19 +226,19 @@ Cache key: `allure-history-<branch>-<run_id>` — unique per run, no concurrent 
 
 ### Action versions
 
-| Action | Version | Latest as of 2026-07 |
-|---|---|---|
-| `actions/checkout` | `@v7` | ✓ |
-| `actions/setup-node` | `@v6` | ✓ |
-| `actions/upload-artifact` | `@v7` | ✓ |
-| `actions/download-artifact` | `@v8` | ✓ |
-| `actions/cache` | `@v6` | ✓ |
-| `actions/cache/restore` | `@v6` | ✓ |
-| `actions/cache/save` | `@v6` | ✓ |
-| `actions/upload-pages-artifact` | `@v5` | ✓ |
-| `actions/deploy-pages` | `@v5` | ✓ |
-| `ctrf-io/github-test-reporter` | `@v1.1.0` | ✓ |
-| `simple-elf/allure-report-action` | `@v1.14` | ✓ |
+| Action                            | Version   | Latest as of 2026-07 |
+| --------------------------------- | --------- | -------------------- |
+| `actions/checkout`                | `@v7`     | ✓                    |
+| `actions/setup-node`              | `@v6`     | ✓                    |
+| `actions/upload-artifact`         | `@v7`     | ✓                    |
+| `actions/download-artifact`       | `@v8`     | ✓                    |
+| `actions/cache`                   | `@v6`     | ✓                    |
+| `actions/cache/restore`           | `@v6`     | ✓                    |
+| `actions/cache/save`              | `@v6`     | ✓                    |
+| `actions/upload-pages-artifact`   | `@v5`     | ✓                    |
+| `actions/deploy-pages`            | `@v5`     | ✓                    |
+| `ctrf-io/github-test-reporter`    | `@v1.1.0` | ✓                    |
+| `simple-elf/allure-report-action` | `@v1.14`  | ✓                    |
 
 ## Environment loading
 

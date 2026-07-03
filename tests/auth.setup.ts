@@ -17,6 +17,8 @@ setup('authenticate to SauceDemo', async ({ page }) => {
   const loginPage = new LoginPage(page);
   await loginPage.goto();
   await loginPage.login('standard_user', 'secret_sauce');
-    await expect.configure({ message: 'Expected redirect to inventory after login' })(page).toHaveURL(URLS.INVENTORY);
+  await expect
+    .configure({ message: 'Expected redirect to inventory after login' })(page)
+    .toHaveURL(URLS.INVENTORY);
   await page.context().storageState({ path: AUTH_FILE });
 });

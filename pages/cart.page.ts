@@ -21,12 +21,17 @@ export class CartPage extends BasePage {
   }
 
   removeButton(name: string): Locator {
-    const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
+    const id = name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/-+$/, '');
     return this.page.locator(`[data-test="remove-${id}"]`);
   }
 
   async expectLineItem(name: string): Promise<void> {
-    await expect.configure({ message: `Expected cart to contain "${name}"` })(this.item(name)).toBeVisible();
+    await expect
+      .configure({ message: `Expected cart to contain "${name}"` })(this.item(name))
+      .toBeVisible();
   }
 
   async removeProduct(name: string): Promise<void> {

@@ -25,7 +25,10 @@ export class InventoryPage extends BasePage {
   }
 
   addToCartButton(name: string): Locator {
-    const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
+    const id = name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/-+$/, '');
     return this.page.locator(`[data-test="add-to-cart-${id}"]`);
   }
 
@@ -38,10 +41,16 @@ export class InventoryPage extends BasePage {
   }
 
   async expectVisibleProduct(name: string): Promise<void> {
-    await expect.configure({ message: `Expected product "${name}" to be visible in inventory` })(this.itemName(name)).toBeVisible();
+    await expect
+      .configure({ message: `Expected product "${name}" to be visible in inventory` })(
+        this.itemName(name),
+      )
+      .toBeVisible();
   }
 
   async expectProductCount(count: number): Promise<void> {
-    await expect.configure({ message: `Expected inventory to show ${count} products` })(this.inventoryItems).toHaveCount(count);
+    await expect
+      .configure({ message: `Expected inventory to show ${count} products` })(this.inventoryItems)
+      .toHaveCount(count);
   }
 }

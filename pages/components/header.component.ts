@@ -19,9 +19,15 @@ export class HeaderComponent {
 
   async expectCartQuantity(expected: number): Promise<void> {
     if (expected > 0) {
-      await expect.configure({ message: `Expected cart badge to show ${expected}` })(this.cartBadge).toHaveText(String(expected));
+      await expect
+        .configure({ message: `Expected cart badge to show ${expected}` })(this.cartBadge)
+        .toHaveText(String(expected));
     } else {
-      await expect.configure({ message: 'Expected cart badge to not exist when cart is empty' })(this.cartBadge).not.toBeVisible();
+      await expect
+        .configure({ message: 'Expected cart badge to not exist when cart is empty' })(
+          this.cartBadge,
+        )
+        .not.toBeVisible();
     }
   }
 }

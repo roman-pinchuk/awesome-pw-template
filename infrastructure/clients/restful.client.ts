@@ -56,7 +56,11 @@ export class RestfulApiClient {
     });
   }
 
-  async replaceObject(collectionName: string, objectId: string, payload: RestObjectPayload): Promise<APIResponse> {
+  async replaceObject(
+    collectionName: string,
+    objectId: string,
+    payload: RestObjectPayload,
+  ): Promise<APIResponse> {
     return this.request.patch(OBJECTS_PATH, {
       params: { id: `eq.${objectId}` },
       data: { collectionName, ...payload },

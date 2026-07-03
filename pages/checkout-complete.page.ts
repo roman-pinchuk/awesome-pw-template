@@ -16,6 +16,8 @@ export class CheckoutCompletePage extends BasePage {
   }
 
   async expectSuccess(): Promise<void> {
-    await expect.configure({ message: 'Expected checkout success message' })(this.completeHeader).toHaveText('Thank you for your order!');
+    await expect
+      .configure({ message: 'Expected checkout success message' })(this.completeHeader)
+      .toHaveText('Thank you for your order!');
   }
 }
