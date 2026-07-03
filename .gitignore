@@ -49,5 +49,10 @@ coverage/
 tmp/
 temp/
 
+# Allure reports
+allure-results/
+allure-report/
+allure-history/
+
 # Project Specific
 toolshop-*.yaml
