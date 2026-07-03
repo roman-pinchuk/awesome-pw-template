@@ -1,6 +1,6 @@
 import { expect, type APIResponse } from '@playwright/test';
+import type { RestObject } from '@business/api/object';
 import { expectOk } from '@infrastructure/utils/api-assertions';
-import type { RestObject } from '@infrastructure/clients/restful.client';
 
 export async function expectObject(
   response: APIResponse,

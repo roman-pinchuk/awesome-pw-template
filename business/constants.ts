@@ -1,11 +1,20 @@
 const BASE = process.env.BASE_URL ?? 'https://www.saucedemo.com';
 
+export const ROUTES = {
+  LOGIN: '/',
+  INVENTORY: '/inventory.html',
+  CART: '/cart.html',
+  CHECKOUT_STEP_ONE: '/checkout-step-one.html',
+  CHECKOUT_STEP_TWO: '/checkout-step-two.html',
+  CHECKOUT_COMPLETE: '/checkout-complete.html',
+} as const;
+
 export const URLS = {
-  INVENTORY: `${BASE}/inventory.html`,
-  CART: `${BASE}/cart.html`,
-  CHECKOUT_STEP_ONE: `${BASE}/checkout-step-one.html`,
-  CHECKOUT_STEP_TWO: `${BASE}/checkout-step-two.html`,
-  CHECKOUT_COMPLETE: `${BASE}/checkout-complete.html`,
+  INVENTORY: `${BASE}${ROUTES.INVENTORY}`,
+  CART: `${BASE}${ROUTES.CART}`,
+  CHECKOUT_STEP_ONE: `${BASE}${ROUTES.CHECKOUT_STEP_ONE}`,
+  CHECKOUT_STEP_TWO: `${BASE}${ROUTES.CHECKOUT_STEP_TWO}`,
+  CHECKOUT_COMPLETE: `${BASE}${ROUTES.CHECKOUT_COMPLETE}`,
 } as const;
 
 export const PRODUCTS = {
@@ -14,5 +23,40 @@ export const PRODUCTS = {
   BOLT_SHIRT: 'Sauce Labs Bolt T-Shirt',
   FLEECE_JACKET: 'Sauce Labs Fleece Jacket',
   ONESIE: 'Sauce Labs Onesie',
-  TEST_ALL_THINGS: 'Test.allTheThings() T-Shirt',
+  TEST_ALL_THINGS: 'Test.allTheThings() T-Shirt (Red)',
+} as const;
+
+export const PRODUCT_SORT_ORDERS = {
+  NAME_ASC: [
+    PRODUCTS.BACKPACK,
+    PRODUCTS.BIKE_LIGHT,
+    PRODUCTS.BOLT_SHIRT,
+    PRODUCTS.FLEECE_JACKET,
+    PRODUCTS.ONESIE,
+    PRODUCTS.TEST_ALL_THINGS,
+  ],
+  NAME_DESC: [
+    PRODUCTS.TEST_ALL_THINGS,
+    PRODUCTS.ONESIE,
+    PRODUCTS.FLEECE_JACKET,
+    PRODUCTS.BOLT_SHIRT,
+    PRODUCTS.BIKE_LIGHT,
+    PRODUCTS.BACKPACK,
+  ],
+  PRICE_ASC: [
+    PRODUCTS.ONESIE,
+    PRODUCTS.BIKE_LIGHT,
+    PRODUCTS.BOLT_SHIRT,
+    PRODUCTS.TEST_ALL_THINGS,
+    PRODUCTS.BACKPACK,
+    PRODUCTS.FLEECE_JACKET,
+  ],
+  PRICE_DESC: [
+    PRODUCTS.FLEECE_JACKET,
+    PRODUCTS.BACKPACK,
+    PRODUCTS.BOLT_SHIRT,
+    PRODUCTS.TEST_ALL_THINGS,
+    PRODUCTS.BIKE_LIGHT,
+    PRODUCTS.ONESIE,
+  ],
 } as const;

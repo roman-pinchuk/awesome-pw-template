@@ -4,12 +4,8 @@ test.describe('RESTful API authentication', () => {
   test(
     'rejects requests with an empty api key',
     { annotation: { type: 'feature', description: 'Authentication' } },
-    async ({ collection, request, logger }) => {
-      logger.info(`Starting test: ${test.info().title}`);
-      const response = await request.get('/rest/v1/objects', {
-        params: { collectionName: `eq.${collection}` },
-        headers: { apikey: '' },
-      });
+    async ({ apiClientForKey, collection }) => {
+      const response = await apiClientForKey('').listObjects(collection);
 
       expect(response.status()).toBe(401);
       await expect(response.text()).resolves.toContain('No API key found');
@@ -19,12 +15,8 @@ test.describe('RESTful API authentication', () => {
   test(
     'rejects requests with an invalid api key',
     { annotation: { type: 'feature', description: 'Authentication' } },
-    async ({ collection, request, logger }) => {
-      logger.info(`Starting test: ${test.info().title}`);
-      const response = await request.get('/rest/v1/objects', {
-        params: { collectionName: `eq.${collection}` },
-        headers: { apikey: 'invalid-api-key' },
-      });
+    async ({ apiClientForKey, collection }) => {
+      const response = await apiClientForKey('invalid-api-key').listObjects(collection);
 
       expect(response.status()).toBe(401);
       await expect(response.text()).resolves.toContain('Invalid API key');

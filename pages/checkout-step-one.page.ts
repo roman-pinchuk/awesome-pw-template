@@ -1,4 +1,5 @@
 import { type Page } from '@playwright/test';
+import { ROUTES } from '@business/constants';
 import { BasePage } from '@pages/base.page';
 import type { CustomerInfo } from '@business/checkout';
 
@@ -15,8 +16,7 @@ export class CheckoutStepOnePage extends BasePage {
   }
 
   override async goto(): Promise<void> {
-    await this.page.goto('https://www.saucedemo.com/checkout-step-one.html');
-    await this.page.waitForLoadState('domcontentloaded');
+    await super.goto(ROUTES.CHECKOUT_STEP_ONE);
   }
 
   async fillCustomerInfo(info: CustomerInfo): Promise<void> {

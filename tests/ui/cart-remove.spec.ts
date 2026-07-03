@@ -5,17 +5,9 @@ test.describe('SauceDemo cart item removal', () => {
   test(
     'removes an item from the cart and updates badge',
     { annotation: { type: 'feature', description: 'Cart' } },
-    async ({ inventoryPage, cartPage, logger }) => {
-      logger.info(`Starting test: ${test.info().title}`);
-
-      await inventoryPage.goto();
-      await inventoryPage.addProductToCart(PRODUCTS.FLEECE_JACKET);
-      await inventoryPage.addProductToCart(PRODUCTS.ONESIE);
-      await inventoryPage.header.expectCartQuantity(2);
-
-      await inventoryPage.header.openCart();
-      await cartPage.expectLineItem(PRODUCTS.FLEECE_JACKET);
-      await cartPage.expectLineItem(PRODUCTS.ONESIE);
+    async ({ cartJourney, cartPage }) => {
+      await cartJourney.openCartWithProducts(PRODUCTS.FLEECE_JACKET, PRODUCTS.ONESIE);
+      await cartJourney.expectCartContains(PRODUCTS.FLEECE_JACKET, PRODUCTS.ONESIE);
 
       await cartPage.removeProduct(PRODUCTS.FLEECE_JACKET);
       await cartPage.expectLineItem(PRODUCTS.ONESIE);
@@ -28,15 +20,9 @@ test.describe('SauceDemo cart item removal', () => {
   test(
     'removes the only item and shows empty cart',
     { annotation: { type: 'feature', description: 'Cart' } },
-    async ({ inventoryPage, cartPage, logger }) => {
-      logger.info(`Starting test: ${test.info().title}`);
-
-      await inventoryPage.goto();
-      await inventoryPage.addProductToCart(PRODUCTS.BACKPACK);
-      await inventoryPage.header.expectCartQuantity(1);
-
-      await inventoryPage.header.openCart();
-      await cartPage.expectLineItem(PRODUCTS.BACKPACK);
+    async ({ cartJourney, cartPage }) => {
+      await cartJourney.openCartWithProducts(PRODUCTS.BACKPACK);
+      await cartJourney.expectCartContains(PRODUCTS.BACKPACK);
 
       await cartPage.removeProduct(PRODUCTS.BACKPACK);
       await cartPage.expectEmpty();

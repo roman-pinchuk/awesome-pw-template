@@ -1,6 +1,7 @@
 import { BasePage } from '@pages/base.page';
 import type { Page } from '@playwright/test';
 
+import { ROUTES } from '@business/constants';
 import type { TestUser } from '@business/factories/user.factory';
 
 export class LoginPage extends BasePage {
@@ -14,8 +15,7 @@ export class LoginPage extends BasePage {
   }
 
   override async goto(): Promise<void> {
-    await this.page.goto('https://www.saucedemo.com');
-    await this.page.waitForLoadState('domcontentloaded');
+    await super.goto(ROUTES.LOGIN);
   }
 
   async login(user: TestUser): Promise<void> {

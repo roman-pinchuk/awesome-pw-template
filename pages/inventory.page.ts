@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { ROUTES } from '@business/constants';
 import { BasePage } from '@pages/base.page';
 import { HeaderComponent } from '@pages/components/header.component';
 
@@ -12,8 +13,7 @@ export class InventoryPage extends BasePage {
   }
 
   override async goto(): Promise<void> {
-    await this.page.goto('https://www.saucedemo.com/inventory.html');
-    await this.page.waitForLoadState('domcontentloaded');
+    await super.goto(ROUTES.INVENTORY);
   }
 
   item(name: string): Locator {
@@ -52,5 +52,16 @@ export class InventoryPage extends BasePage {
     await expect
       .configure({ message: `Expected inventory to show ${count} products` })(this.inventoryItems)
       .toHaveCount(count);
+  }
+
+  async expectProductOrder(expectedNames: readonly string[]): Promise<void> {
+    const actualNames = await this.page
+      .locator('[data-test="inventory-item-name"]')
+      .allTextContents();
+    expect
+      .configure({ message: 'Expected inventory products to be sorted by visible order' })(
+        actualNames,
+      )
+      .toEqual([...expectedNames]);
   }
 }

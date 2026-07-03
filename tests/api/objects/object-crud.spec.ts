@@ -5,12 +5,10 @@ test.describe('RESTful API object CRUD', () => {
   test(
     'creates, reads, replaces, and deletes an object',
     { annotation: { type: 'feature', description: 'CRUD' } },
-    async ({ collection, restApi, apiAssertions, logger }) => {
-      logger.info(`Starting test: ${test.info().title}`);
+    async ({ apiObjects, collection, restApi, apiAssertions }) => {
       const original = buildObject();
 
-      const createResponse = await restApi.createObject(collection, original);
-      const createdObject = await apiAssertions.expectObject(createResponse, original);
+      const createdObject = await apiObjects.create(original);
 
       const getResponse = await restApi.getObject(createdObject.id);
       await apiAssertions.expectObject(getResponse, {
@@ -58,8 +56,7 @@ test.describe('RESTful API object CRUD', () => {
   test(
     'returns an empty array for a missing object id',
     { annotation: { type: 'feature', description: 'CRUD' } },
-    async ({ restApi, apiAssertions, logger }) => {
-      logger.info(`Starting test: ${test.info().title}`);
+    async ({ restApi, apiAssertions }) => {
       const response = await restApi.getObject('00000000-0000-0000-0000-000000000000');
       const objects = await apiAssertions.expectObjects(response);
 

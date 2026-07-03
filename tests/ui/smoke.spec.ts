@@ -5,9 +5,7 @@ test.describe('SauceDemo smoke tests', () => {
   test(
     'inventory page loads with products',
     { tag: ['@smoke'], annotation: { type: 'feature', description: 'Smoke' } },
-    async ({ inventoryPage, logger }) => {
-      logger.info(`Starting test: ${test.info().title}`);
-
+    async ({ inventoryPage }) => {
       await inventoryPage.goto();
       await inventoryPage.expectProductCount(6);
       await inventoryPage.expectVisibleProduct(PRODUCTS.BACKPACK);
@@ -23,9 +21,7 @@ test.describe('SauceDemo smoke tests', () => {
   test(
     'product detail page opens from inventory',
     { tag: ['@smoke'], annotation: { type: 'feature', description: 'Smoke' } },
-    async ({ inventoryPage, productDetailPage, logger }) => {
-      logger.info(`Starting test: ${test.info().title}`);
-
+    async ({ inventoryPage, productDetailPage }) => {
       await inventoryPage.goto();
       await inventoryPage.openProduct(PRODUCTS.BACKPACK);
 
@@ -46,9 +42,7 @@ test.describe('SauceDemo smoke tests', () => {
   test(
     'cart badge displays correct count',
     { tag: ['@smoke'], annotation: { type: 'feature', description: 'Smoke' } },
-    async ({ inventoryPage, logger }) => {
-      logger.info(`Starting test: ${test.info().title}`);
-
+    async ({ inventoryPage }) => {
       await inventoryPage.goto();
       await inventoryPage.addProductToCart(PRODUCTS.BACKPACK);
       await inventoryPage.header.expectCartQuantity(1);

@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { ROUTES } from '@business/constants';
 import { BasePage } from '@pages/base.page';
 
 export class CartPage extends BasePage {
@@ -12,8 +13,7 @@ export class CartPage extends BasePage {
   }
 
   override async goto(): Promise<void> {
-    await this.page.goto('https://www.saucedemo.com/cart.html');
-    await this.page.waitForLoadState('domcontentloaded');
+    await super.goto(ROUTES.CART);
   }
 
   item(name: string): Locator {

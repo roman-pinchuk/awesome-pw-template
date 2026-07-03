@@ -7,22 +7,15 @@ test.describe('SauceDemo checkout flow', () => {
     'completes a full purchase journey',
     { tag: '@smoke', annotation: { type: 'feature', description: 'Checkout' } },
     async ({
-      inventoryPage,
+      cartJourney,
       cartPage,
       checkoutStepOnePage,
       checkoutStepTwoPage,
       checkoutCompletePage,
       page,
-      logger,
     }) => {
-      logger.info(`Starting test: ${test.info().title}`);
-
-      await inventoryPage.goto();
-      await inventoryPage.addProductToCart(PRODUCTS.BACKPACK);
-      await inventoryPage.header.expectCartQuantity(1);
-
-      await inventoryPage.header.openCart();
-      await cartPage.expectLineItem(PRODUCTS.BACKPACK);
+      await cartJourney.openCartWithProducts(PRODUCTS.BACKPACK);
+      await cartJourney.expectCartContains(PRODUCTS.BACKPACK);
       await cartPage.proceedToCheckout();
 
       await expect
@@ -50,12 +43,8 @@ test.describe('SauceDemo checkout flow', () => {
   test(
     'shows error for empty checkout form',
     { annotation: { type: 'feature', description: 'Checkout' } },
-    async ({ inventoryPage, cartPage, checkoutStepOnePage, logger }) => {
-      logger.info(`Starting test: ${test.info().title}`);
-
-      await inventoryPage.goto();
-      await inventoryPage.addProductToCart(PRODUCTS.BIKE_LIGHT);
-      await inventoryPage.header.openCart();
+    async ({ cartJourney, cartPage, checkoutStepOnePage }) => {
+      await cartJourney.openCartWithProducts(PRODUCTS.BIKE_LIGHT);
       await cartPage.proceedToCheckout();
 
       await checkoutStepOnePage.continue();

@@ -5,9 +5,7 @@ test.describe('SauceDemo login validation', () => {
   test(
     'rejects locked out user with an error message',
     { tag: '@smoke', annotation: { type: 'feature', description: 'Login' } },
-    async ({ loginPage, users, page, logger }) => {
-      logger.info(`Starting test: ${test.info().title}`);
-
+    async ({ loginPage, users, page }) => {
       await loginPage.goto();
       await loginPage.login(users.lockedOut);
 
@@ -25,9 +23,7 @@ test.describe('SauceDemo login validation', () => {
   test(
     'requires both username and password fields',
     { tag: '@smoke', annotation: { type: 'feature', description: 'Login' } },
-    async ({ loginPage, logger }) => {
-      logger.info(`Starting test: ${test.info().title}`);
-
+    async ({ loginPage }) => {
       await loginPage.goto();
       await loginPage.login({ username: '', password: '' });
 
@@ -40,9 +36,7 @@ test.describe('SauceDemo login validation', () => {
   test(
     'rejects wrong password with an error',
     { annotation: { type: 'feature', description: 'Login' } },
-    async ({ loginPage, users, page, logger }) => {
-      logger.info(`Starting test: ${test.info().title}`);
-
+    async ({ loginPage, users, page }) => {
       await loginPage.goto();
       await loginPage.login({ username: users.standard.username, password: 'wrong_password' });
 
@@ -58,9 +52,7 @@ test.describe('SauceDemo login validation', () => {
   test(
     'successful login for standard user',
     { tag: '@smoke', annotation: { type: 'feature', description: 'Login' } },
-    async ({ loginPage, users, page, logger }) => {
-      logger.info(`Starting test: ${test.info().title}`);
-
+    async ({ loginPage, users, page }) => {
       await loginPage.goto();
       await loginPage.login(users.standard);
 

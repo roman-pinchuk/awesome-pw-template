@@ -1,4 +1,4 @@
-import type { RestObjectPayload } from '@infrastructure/clients/restful.client';
+import type { RestObjectPayload } from '@business/api/object';
 import { randomId, randomInt } from '@infrastructure/utils/random';
 
 export function buildCollectionName(prefix = 'pw_objects'): string {
