@@ -82,13 +82,10 @@ jobs:
           restore-keys: npm-${{ runner.os }}-
       - run: npm ci
       - name: Run UI tests (${{ matrix.browser }})
-        # Use PLAYWRIGHT_BROWSERS_PATH in env and inline HOME=/root in command to point to container binaries
-        # without overriding host runner HOME (which causes host Docker CLI permission denied warning)
         env:
           DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
-          PLAYWRIGHT_BROWSERS_PATH: /root/.cache/ms-playwright
           CTRF_REPORT_FILE: ctrf-${{ matrix.browser }}.json
-        run: HOME=/root npx dotenvx run -f .env.production -- npx playwright test --project=${{ matrix.browser }}
+        run: npx dotenvx run -f .env.production -- npx playwright test --project=${{ matrix.browser }}
       - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v7
