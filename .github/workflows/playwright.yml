@@ -183,6 +183,9 @@ jobs:
   allure-deploy:
     needs: [allure-report]
     if: ${{ github.ref == 'refs/heads/main' && !cancelled() }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
