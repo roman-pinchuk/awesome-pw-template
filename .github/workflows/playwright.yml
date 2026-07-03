@@ -143,13 +143,12 @@ jobs:
           merge-multiple: true
       - name: Restore Allure history
         id: cache
-        uses: actions/cache@v6
+        uses: actions/cache/restore@v6
         with:
           path: allure-history/last-history
-          key: allure-history-${{ github.ref_name }}
+          key: allure-history-${{ github.ref_name }}-${{ github.run_id }}
           restore-keys: |
-            allure-history-
-          save-always: true
+            allure-history-${{ github.ref_name }}-
       - name: Seed Allure history
         if: steps.cache.outputs.cache-hit == 'true'
         run: |
@@ -172,6 +171,12 @@ jobs:
         uses: actions/upload-pages-artifact@v5
         with:
           path: allure-history
+      - name: Save Allure history
+        if: always()
+        uses: actions/cache/save@v6
+        with:
+          path: allure-history/last-history
+          key: allure-history-${{ github.ref_name }}-${{ github.run_id }}
 
 
   allure-deploy:
