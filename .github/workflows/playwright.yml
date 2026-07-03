@@ -6,9 +6,14 @@ on:
   pull_request:
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
@@ -16,14 +21,20 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run check
+      - run: npm run typecheck
+      - run: npm run lint
 
   api-tests:
     needs: lint
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     container: mcr.microsoft.com/playwright:v1.61.1-noble
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
       - run: npm ci
       - name: Run API tests
         env:
@@ -55,6 +66,7 @@ jobs:
   ui-tests:
     needs: lint
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     container: mcr.microsoft.com/playwright:v1.61.1-noble
     strategy:
       matrix:
@@ -62,6 +74,10 @@ jobs:
       fail-fast: false
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
       - run: npm ci
       - name: Run UI tests (${{ matrix.browser }})
         env:
@@ -95,6 +111,7 @@ jobs:
     needs: [api-tests, ui-tests]
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/download-artifact@v8
         with:
@@ -112,6 +129,7 @@ jobs:
     needs: [api-tests, ui-tests]
     if: ${{ github.ref == 'refs/heads/main' && !cancelled() }}
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       contents: write
     steps:
@@ -157,6 +175,7 @@ jobs:
     needs: [allure-report]
     if: ${{ github.ref == 'refs/heads/main' && !cancelled() }}
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       pages: write
       id-token: write
