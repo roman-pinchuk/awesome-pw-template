@@ -1,3 +1,5 @@
+[![Playwright](https://github.com/roman-pinchuk/awesome-pw-template/actions/workflows/playwright.yml/badge.svg)](https://github.com/roman-pinchuk/awesome-pw-template/actions/workflows/playwright.yml)
+
 # Awesome Playwright Template
 
 Playwright + TypeScript template that showcases a senior-level automation approach for both UI and API testing.
