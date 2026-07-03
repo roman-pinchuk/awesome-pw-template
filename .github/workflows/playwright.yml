@@ -91,3 +91,5 @@ jobs:
         with:
           report-path: 'ctrf-*.json'
           summary-report: true
+          suite-folded-report: true
+          group-by: 'suite'
