@@ -1,10 +1,9 @@
 import { test as base } from '@playwright/test';
-import * as allure from 'allure-js-commons/sync';
 import { RestfulApiClient } from '@infrastructure/clients/restful.client';
 import * as apiAssertions from '@business/api/assertions/object.assertions';
 import { buildCollectionName } from '@business/api/factories/object.factory';
 import { logger as appLogger } from '@infrastructure/utils/logger';
-import { mapLabels } from '@infrastructure/utils/allure-labels';
+import { setLabels } from '@infrastructure/utils/allure-labels';
 
 type APIFixtures = {
   collection: string;
@@ -28,9 +27,6 @@ export const test = base.extend<APIFixtures>({
   },
 });
 
-test.beforeEach(({}, testInfo) => {
-  allure.epic('API');
-  mapLabels(testInfo);
-});
+test.beforeEach(({}, testInfo) => setLabels(testInfo, 'API'));
 
 export { expect } from '@playwright/test';
