@@ -145,7 +145,7 @@ jobs:
         id: cache
         uses: actions/cache/restore@v6
         with:
-          path: allure-history/last-history
+          path: allure-history
           key: allure-history-${{ github.ref_name }}-${{ github.run_id }}
           restore-keys: |
             allure-history-${{ github.ref_name }}-
@@ -176,7 +176,7 @@ jobs:
         if: always()
         uses: actions/cache/save@v6
         with:
-          path: allure-history/last-history
+          path: allure-history
           key: allure-history-${{ github.ref_name }}-${{ github.run_id }}
 
 
