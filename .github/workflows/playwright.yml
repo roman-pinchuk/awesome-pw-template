@@ -31,10 +31,11 @@ jobs:
     container: mcr.microsoft.com/playwright:v1.61.1-noble
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v6
+      - uses: actions/cache@v6
         with:
-          node-version: 22
-          cache: npm
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-${{ runner.os }}-
       - run: npm ci
       - name: Run API tests
         env:
@@ -74,10 +75,11 @@ jobs:
       fail-fast: false
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v6
+      - uses: actions/cache@v6
         with:
-          node-version: 22
-          cache: npm
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-${{ runner.os }}-
       - run: npm ci
       - name: Run UI tests (${{ matrix.browser }})
         env:
