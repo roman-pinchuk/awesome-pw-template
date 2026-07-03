@@ -16,6 +16,7 @@ export default defineConfig({
   reporter: [
     ['list'],
     ['html', { open: 'never' }],
+    ['allure-playwright'],
     ...(process.env.CTRF_REPORT_FILE
       ? [['playwright-ctrf-json-reporter', { outputFile: process.env.CTRF_REPORT_FILE }] as [string, unknown]]
       : []),

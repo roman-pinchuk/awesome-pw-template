@@ -33,6 +33,7 @@
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.61.1",
     "@types/node": "^25.5.0",
+    "allure-playwright": "^3.10.2",
     "eslint": "^10.1.0",
     "eslint-plugin-playwright": "^2.10.1",
     "playwright-ctrf-json-reporter": "^0.0.29",
