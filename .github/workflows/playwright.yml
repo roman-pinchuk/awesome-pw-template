@@ -101,7 +101,7 @@ jobs:
           pattern: ctrf-*
           merge-multiple: true
       - name: Publish CTRF Summary
-        uses: ctrf-io/github-test-reporter@v1
+        uses: ctrf-io/github-test-reporter@v1.1.0
         with:
           report-path: 'ctrf-*.json'
           summary-report: true
@@ -123,7 +123,7 @@ jobs:
           merge-multiple: true
       - name: Restore Allure history
         id: cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: allure-history/last-history
           key: allure-history-${{ github.ref_name }}
@@ -145,12 +145,12 @@ jobs:
           allure_history: allure-history
           keep_reports: 20
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: allure-history
       - name: Save Allure history
         if: always()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: allure-history/last-history
           key: allure-history-${{ github.ref_name }}
@@ -168,4 +168,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
