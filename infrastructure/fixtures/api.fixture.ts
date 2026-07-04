@@ -53,7 +53,29 @@ export const test = base.extend<APIFixtures>({
 
 test.beforeEach(({}, testInfo) => {
   setLabels(testInfo, 'API');
-  appLogger.info(`Starting test: ${testInfo.title}`);
+  const testLog = appLogger.child({
+    worker: testInfo.workerIndex,
+    test: testInfo.title,
+  });
+  testLog.info('Starting test');
+});
+
+test.afterEach(({}, testInfo) => {
+  const testLog = appLogger.child({
+    worker: testInfo.workerIndex,
+    test: testInfo.title,
+  });
+  const status = testInfo.status ?? 'unknown';
+  const durationMs = Math.round(testInfo.duration);
+  const message = `Test finished (${durationMs}ms)`;
+    if (testInfo.status === 'failed' || testInfo.status === 'timedOut') {
+    testLog.error(`${message} [${status}]`);
+    if (testInfo.error?.message) {
+      testLog.error(testInfo.error.message);
+    }
+  } else {
+    testLog.info(`${message} [${status}]`);
+  }
 });
 
 export { expect } from '@playwright/test';

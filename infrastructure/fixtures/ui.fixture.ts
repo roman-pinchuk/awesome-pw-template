@@ -32,7 +32,17 @@ type UIFixtures = {
   users: TestUsers;
 };
 
-export const test = base.extend<UIFixtures>({
+type ConsoleEntry = {
+  type: string;
+  text: string;
+  location: string | undefined;
+};
+
+type UIFixturesWithConsole = UIFixtures & {
+  consoleEntries: ConsoleEntry[];
+};
+
+export const test = base.extend<UIFixturesWithConsole>({
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
   },
@@ -74,11 +84,83 @@ export const test = base.extend<UIFixtures>({
   users: async ({}, use) => {
     await use(createUsers(env));
   },
+
+  consoleEntries: [
+    async ({ page }, use, testInfo) => {
+      const entries: ConsoleEntry[] = [];
+
+      page.on('console', (msg) => {
+        const loc = msg.location();
+        entries.push({
+          type: msg.type(),
+          text: msg.text(),
+          location: loc ? `${loc.url}:${loc.lineNumber}` : undefined,
+        });
+      });
+
+      page.on('pageerror', (error) => {
+        entries.push({
+          type: 'pageerror',
+          text: error.message,
+          location: undefined,
+        });
+      });
+
+      await use(entries);
+
+      const errors = entries.filter(
+        (e) => e.type === 'error' || e.type === 'pageerror',
+      );
+
+      if (entries.length > 0) {
+        await testInfo.attach('browser-console', {
+          body: entries
+            .map(
+              (e) =>
+                `[${e.type}]${e.location ? ` (${e.location})` : ''} ${e.text}`,
+            )
+            .join('\n'),
+          contentType: 'text/plain',
+        });
+      }
+
+      if (errors.length > 0) {
+        for (const err of errors) {
+          appLogger.warn(
+            `Browser ${err.type}${err.location ? ` at ${err.location}` : ''}: ${err.text}`,
+          );
+        }
+      }
+    },
+    { auto: true },
+  ],
 });
 
 test.beforeEach(({}, testInfo) => {
   setLabels(testInfo, 'UI');
-  appLogger.info(`Starting test: ${testInfo.title}`);
+  const testLog = appLogger.child({
+    worker: testInfo.workerIndex,
+    test: testInfo.title,
+  });
+  testLog.info('Starting test');
+});
+
+test.afterEach(({}, testInfo) => {
+  const testLog = appLogger.child({
+    worker: testInfo.workerIndex,
+    test: testInfo.title,
+  });
+  const status = testInfo.status ?? 'unknown';
+  const durationMs = Math.round(testInfo.duration);
+  const message = `Test finished (${durationMs}ms)`;
+    if (testInfo.status === 'failed' || testInfo.status === 'timedOut') {
+    testLog.error(`${message} [${status}]`);
+    if (testInfo.error?.message) {
+      testLog.error(testInfo.error.message);
+    }
+  } else {
+    testLog.info(`${message} [${status}]`);
+  }
 });
 
 export { expect } from '@playwright/test';

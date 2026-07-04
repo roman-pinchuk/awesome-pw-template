@@ -1,46 +1,44 @@
-import { loadEnv } from '@infrastructure/config/env';
+import pino from 'pino';
 
-type LogLevel = 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'NONE';
+let instance = pino({ level: 'info' });
 
-const LOG_LEVEL_PRIORITY: Record<LogLevel, number> = {
-  DEBUG: 0,
-  INFO: 1,
-  WARN: 2,
-  ERROR: 3,
-  NONE: 4,
+export const logger = {
+  configure(config: { level: string; format: 'plain' | 'json' }) {
+    const level = config.level === 'NONE' ? 'silent' : config.level.toLowerCase();
+
+    instance =
+      config.format === 'plain'
+        ? pino({
+            level,
+            transport: {
+              target: 'pino-pretty',
+              options: { colorize: true, translateTime: 'SYS:standard' },
+            },
+          })
+        : pino({ level });
+  },
+
+  child(context: Record<string, unknown>): pino.Logger {
+    return instance.child(context);
+  },
+
+  debug(msg: string, ...args: unknown[]): void {
+    // @ts-expect-error pino overloads accept any[], not unknown[]
+    instance.debug(msg, ...args);
+  },
+
+  info(msg: string, ...args: unknown[]): void {
+    // @ts-expect-error pino overloads accept any[], not unknown[]
+    instance.info(msg, ...args);
+  },
+
+  warn(msg: string, ...args: unknown[]): void {
+    // @ts-expect-error pino overloads accept any[], not unknown[]
+    instance.warn(msg, ...args);
+  },
+
+  error(msg: string, ...args: unknown[]): void {
+    // @ts-expect-error pino overloads accept any[], not unknown[]
+    instance.error(msg, ...args);
+  },
 };
-
-class Logger {
-  private readonly currentLevel: number;
-
-  constructor() {
-    const env = loadEnv();
-    this.currentLevel = LOG_LEVEL_PRIORITY[env.LOG_LEVEL] ?? LOG_LEVEL_PRIORITY.INFO;
-  }
-
-  debug(message: string, ...args: unknown[]): void {
-    if (this.currentLevel <= LOG_LEVEL_PRIORITY.DEBUG) {
-      console.debug(`[DEBUG] ${message}`, ...args);
-    }
-  }
-
-  info(message: string, ...args: unknown[]): void {
-    if (this.currentLevel <= LOG_LEVEL_PRIORITY.INFO) {
-      console.info(`[INFO] ${message}`, ...args);
-    }
-  }
-
-  warn(message: string, ...args: unknown[]): void {
-    if (this.currentLevel <= LOG_LEVEL_PRIORITY.WARN) {
-      console.warn(`[WARN] ${message}`, ...args);
-    }
-  }
-
-  error(message: string, ...args: unknown[]): void {
-    if (this.currentLevel <= LOG_LEVEL_PRIORITY.ERROR) {
-      console.error(`[ERROR] ${message}`, ...args);
-    }
-  }
-}
-
-export const logger = new Logger();

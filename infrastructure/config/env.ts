@@ -18,6 +18,7 @@ const envSchema = z.object({
     .url()
     .transform((value) => (value.endsWith('/') ? value : `${value}/`)),
   LOG_LEVEL: z.enum(['DEBUG', 'INFO', 'WARN', 'ERROR', 'NONE']).default('INFO'),
+  LOG_FORMAT: z.enum(['plain', 'json']).default(process.env.CI === 'true' ? 'json' : 'plain'),
   BASE_URL: z.url().default('https://www.saucedemo.com'),
   SAUCE_USERNAME: z.string().default('standard_user'),
   SAUCE_PASSWORD: z.string().default('secret_sauce'),

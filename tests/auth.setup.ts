@@ -10,9 +10,11 @@ const AUTH_FILE = '.playwright/auth/user.json';
 const TTL_MS = 8 * 60 * 1000;
 const env = loadEnv();
 
-setup('authenticate to SauceDemo', async ({ page }) => {
+setup('authenticate to SauceDemo', async ({ page }, testInfo) => {
+  const authLogger = logger.child({ setup: 'auth', worker: testInfo.workerIndex });
+
   if (fs.existsSync(AUTH_FILE) && Date.now() - fs.statSync(AUTH_FILE).mtime.getTime() < TTL_MS) {
-    logger.info('Using existing SauceDemo auth state (TTL valid)');
+    authLogger.info('Using existing SauceDemo auth state (TTL valid)');
     return;
   }
 

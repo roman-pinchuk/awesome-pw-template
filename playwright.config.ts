@@ -1,8 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 import { loadEnv } from '@infrastructure/config/env';
+import { logger } from '@infrastructure/utils/logger';
 
 const env = loadEnv();
 const isCI = env.CI;
+
+logger.configure({ level: env.LOG_LEVEL, format: env.LOG_FORMAT });
 
 export default defineConfig({
   tsconfig: './tsconfig.json',
@@ -14,19 +17,21 @@ export default defineConfig({
   expect: {
     timeout: 7_500,
   },
-  reporter: [
-    ['list'],
-    ['html', { open: 'never' }],
-    ['allure-playwright'],
-    ...(process.env.CTRF_REPORT_FILE
-      ? [
-          ['playwright-ctrf-json-reporter', { outputFile: process.env.CTRF_REPORT_FILE }] as [
-            string,
-            unknown,
-          ],
-        ]
-      : []),
-  ],
+  reporter: isCI
+    ? [
+        ['dot'],
+        ['html', { open: 'never' }],
+        ['allure-playwright'],
+        ...(process.env.CTRF_REPORT_FILE
+          ? [
+              ['playwright-ctrf-json-reporter', { outputFile: process.env.CTRF_REPORT_FILE }] as [
+                string,
+                unknown,
+              ],
+            ]
+          : []),
+      ]
+    : [['list']],
   outputDir: 'test-results',
   use: {
     trace: 'on-first-retry',
