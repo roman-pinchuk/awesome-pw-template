@@ -22,16 +22,12 @@ export default defineConfig({
         ['dot'],
         ['html', { open: 'never' }],
         ['allure-playwright'],
-        ...(process.env.CTRF_REPORT_FILE
-          ? [
-              ['playwright-ctrf-json-reporter', { outputFile: process.env.CTRF_REPORT_FILE }] as [
-                string,
-                unknown,
-              ],
-            ]
-          : []),
+        [
+          'playwright-ctrf-json-reporter',
+          { outputFile: process.env.CTRF_REPORT_FILE ?? 'ctrf-report.json' },
+        ],
       ]
-    : [['list']],
+    : [['list'], ['html', { open: 'on-failure' }]],
   outputDir: 'test-results',
   use: {
     trace: 'on-first-retry',
