@@ -6,6 +6,14 @@ import type { CartPage } from '@pages/cart.page';
 import type { CheckoutStepOnePage } from '@pages/checkout-step-one.page';
 import type { CheckoutStepTwoPage } from '@pages/checkout-step-two.page';
 
+export type OverviewDetails = {
+  payment: string;
+  shipping: string;
+  subtotal: string;
+  tax: string;
+  total: string;
+};
+
 export class CheckoutJourney {
   constructor(
     private readonly page: Page,
@@ -26,7 +34,11 @@ export class CheckoutJourney {
     });
   }
 
-  async completePurchase(product: string, customerInfo: CustomerInfo): Promise<void> {
+  async completePurchase(
+    product: string,
+    customerInfo: CustomerInfo,
+    overview: OverviewDetails,
+  ): Promise<void> {
     await test.step('complete purchase', async () => {
       await this.startCheckout(product);
       await this.checkoutStepOnePage.submitCheckout(customerInfo);
@@ -38,38 +50,38 @@ export class CheckoutJourney {
           this.checkoutStepTwoPage.cartItems,
         )
         .toHaveCount(1);
-      await this.expectOverview();
+      await this.expectOverview(overview);
       await this.checkoutStepTwoPage.finish();
     });
   }
 
-  async expectOverview(): Promise<void> {
+  async expectOverview(details: OverviewDetails): Promise<void> {
     await test.step('expect checkout overview details', async () => {
       await expect
         .configure({ message: 'Expected payment info on overview' })(
           this.checkoutStepTwoPage.paymentInfoValue,
         )
-        .toHaveText('SauceCard #31337');
+        .toHaveText(details.payment);
       await expect
         .configure({ message: 'Expected shipping info on overview' })(
           this.checkoutStepTwoPage.shippingInfoValue,
         )
-        .toHaveText('Free Pony Express Delivery!');
+        .toHaveText(details.shipping);
       await expect
         .configure({ message: 'Expected subtotal on overview' })(
           this.checkoutStepTwoPage.subtotalLabel,
         )
-        .toContainText('Item total: $');
+        .toHaveText(details.subtotal);
       await expect
         .configure({ message: 'Expected tax on overview' })(
           this.checkoutStepTwoPage.taxLabel,
         )
-        .toContainText('Tax: $');
+        .toHaveText(details.tax);
       await expect
         .configure({ message: 'Expected total on overview' })(
           this.checkoutStepTwoPage.totalLabel,
         )
-        .toContainText('Total: $');
+        .toHaveText(details.total);
     });
   }
 
