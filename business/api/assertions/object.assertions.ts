@@ -8,6 +8,13 @@ const expectOk = async (response: APIResponse): Promise<void> => {
   ).toBeTruthy();
 };
 
+/**
+ * Verifies a REST Object response and returns the matched object.
+ *
+ * @remarks
+ * PostgREST may return either an object or a single-item array depending on the
+ * request shape. This helper normalizes that response contract for tests.
+ */
 export const expectObject = async (
   response: APIResponse,
   expected: Partial<RestObject>,
@@ -20,11 +27,13 @@ export const expectObject = async (
   return obj!;
 };
 
+/** Verifies a successful list response and returns REST Object records. */
 export const expectObjects = async (response: APIResponse): Promise<RestObject[]> => {
   await expectOk(response);
   return (await response.json()) as RestObject[];
 };
 
+/** Verifies a successful delete response references the deleted REST Object. */
 export const expectDeleteMessage = async (
   response: APIResponse,
   objectId: string,

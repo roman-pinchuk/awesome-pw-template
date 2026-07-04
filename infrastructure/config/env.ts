@@ -24,8 +24,17 @@ const envSchema = z.object({
   SAUCE_PASSWORD: z.string().default('secret_sauce'),
 });
 
+/** Validated runtime configuration for UI and API test execution. */
 export type Env = z.infer<typeof envSchema>;
 
+/**
+ * Loads and validates test runtime configuration.
+ *
+ * @remarks
+ * Local runs read `.env.local`; CI relies on the process environment. Failing
+ * fast here prevents tests from hiding configuration issues behind flaky UI or
+ * API failures.
+ */
 export const loadEnv = (): Env => {
   const result = envSchema.safeParse(process.env);
   if (!result.success) {

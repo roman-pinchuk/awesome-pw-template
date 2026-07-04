@@ -1,5 +1,6 @@
 const BASE = process.env.BASE_URL ?? 'https://www.saucedemo.com';
 
+/** Route paths used by page objects through {@link BasePage.goto}. */
 export const ROUTES = {
   LOGIN: '/',
   INVENTORY: '/inventory.html',
@@ -9,6 +10,7 @@ export const ROUTES = {
   CHECKOUT_COMPLETE: '/checkout-complete.html',
 } as const;
 
+/** Absolute URLs used when assertions need to verify browser routing. */
 export const URLS = {
   INVENTORY: `${BASE}${ROUTES.INVENTORY}`,
   CART: `${BASE}${ROUTES.CART}`,
@@ -17,6 +19,7 @@ export const URLS = {
   CHECKOUT_COMPLETE: `${BASE}${ROUTES.CHECKOUT_COMPLETE}`,
 } as const;
 
+/** Canonical Product Catalog names from SauceDemo. */
 export const PRODUCTS = {
   BACKPACK: 'Sauce Labs Backpack',
   BIKE_LIGHT: 'Sauce Labs Bike Light',
@@ -26,6 +29,7 @@ export const PRODUCTS = {
   TEST_ALL_THINGS: 'Test.allTheThings() T-Shirt (Red)',
 } as const;
 
+/** Expected Product Catalog orderings for sort behavior assertions. */
 export const PRODUCT_SORT_ORDERS = {
   NAME_ASC: [
     PRODUCTS.BACKPACK,
@@ -61,6 +65,7 @@ export const PRODUCT_SORT_ORDERS = {
   ],
 } as const;
 
+/** Product prices used for checkout and catalog price expectations. */
 export const PRODUCT_PRICES: Record<string, number> = {
   [PRODUCTS.BACKPACK]: 29.99,
   [PRODUCTS.BIKE_LIGHT]: 9.99,

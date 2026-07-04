@@ -8,6 +8,14 @@ type ListOptions = {
 
 const OBJECTS_PATH = '/rest/v1/objects';
 
+/**
+ * REST Adapter for the Supabase PostgREST objects endpoint.
+ *
+ * @remarks
+ * This transport layer owns HTTP details and returns raw Playwright API
+ * responses. REST Object domain shape and assertions intentionally live in the
+ * business API modules.
+ */
 export class RestfulApiClient {
   private readonly headers: Record<string, string>;
 
@@ -18,6 +26,7 @@ export class RestfulApiClient {
     this.headers = { apikey: apiKey ?? '' };
   }
 
+  /** Lists REST Objects within one isolated collection scope. */
   async listObjects(collectionName: string, options: ListOptions = {}): Promise<APIResponse> {
     const params: Record<string, string | number> = {
       collectionName: `eq.${collectionName}`,
@@ -27,6 +36,7 @@ export class RestfulApiClient {
     return this.request.get(OBJECTS_PATH, { params, headers: this.headers });
   }
 
+  /** Creates a REST Object in the requested collection scope. */
   async createObject(collectionName: string, payload: RestObjectPayload): Promise<APIResponse> {
     return this.request.post(OBJECTS_PATH, {
       data: { collectionName, ...payload },
@@ -34,6 +44,7 @@ export class RestfulApiClient {
     });
   }
 
+  /** Fetches a REST Object by id using PostgREST filtering semantics. */
   async getObject(objectId: string): Promise<APIResponse> {
     return this.request.get(OBJECTS_PATH, {
       params: { id: `eq.${objectId}` },
@@ -41,6 +52,7 @@ export class RestfulApiClient {
     });
   }
 
+  /** Replaces the mutable fields of a REST Object while preserving its id. */
   async replaceObject(
     collectionName: string,
     objectId: string,
@@ -53,6 +65,7 @@ export class RestfulApiClient {
     });
   }
 
+  /** Applies a partial update to a REST Object. */
   async updateObject(
     collectionName: string,
     objectId: string,
@@ -65,6 +78,7 @@ export class RestfulApiClient {
     });
   }
 
+  /** Deletes a REST Object by id and returns the raw API response. */
   async deleteObject(objectId: string): Promise<APIResponse> {
     return this.request.delete(OBJECTS_PATH, {
       params: { id: `eq.${objectId}` },

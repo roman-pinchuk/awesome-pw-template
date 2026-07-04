@@ -8,10 +8,18 @@ import { buildCollectionName } from '@business/api/factories/object.factory';
 import { logger as appLogger } from '@infrastructure/utils/logger';
 import { setLabels } from '@infrastructure/utils/allure-labels';
 
+/** REST Object lifecycle helper exposed to API specs. */
 type ApiObjects = {
   create: (payload: RestObjectPayload, collectionName?: string) => Promise<RestObject>;
 };
 
+/**
+ * API fixture surface for REST Object tests.
+ *
+ * @remarks
+ * The fixture owns API client construction, per-test collection isolation,
+ * domain assertions, and REST Object cleanup.
+ */
 type APIFixtures = {
   apiClientForKey: (apiKey: string) => RestfulApiClient;
   apiObjects: ApiObjects;
@@ -20,6 +28,14 @@ type APIFixtures = {
   apiAssertions: typeof apiAssertions;
 };
 
+/**
+ * API test fixture with REST Object lifecycle ownership.
+ *
+ * @remarks
+ * Tests should create records through {@link ApiObjects.create} instead of
+ * local try/finally blocks. Cleanup runs after the test in reverse creation
+ * order to keep API specs isolated and parallel-safe.
+ */
 export const test = base.extend<APIFixtures>({
   collection: async ({}, use) => {
     await use(buildCollectionName());

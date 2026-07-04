@@ -17,6 +17,7 @@ import { createUsers, type TestUsers } from '@business/factories/user.factory';
 
 const env = loadEnv();
 
+/** Page objects, journeys, and domain data available to UI specs. */
 type UIFixtures = {
   loginPage: LoginPage;
   loginJourney: LoginJourney;
@@ -32,16 +33,26 @@ type UIFixtures = {
   users: TestUsers;
 };
 
+/** Captured browser console signal attached to UI test results. */
 type ConsoleEntry = {
   type: string;
   text: string;
   location: string | undefined;
 };
 
+/** UI fixture surface with automatic console capture. */
 type UIFixturesWithConsole = UIFixtures & {
   consoleEntries: ConsoleEntry[];
 };
 
+/**
+ * UI test fixture that composes page objects and business journeys.
+ *
+ * @remarks
+ * Specs receive intent-level journey objects by default, while page objects
+ * remain available for page-specific assertions. The automatic console fixture
+ * records browser errors without coupling tests to logging mechanics.
+ */
 export const test = base.extend<UIFixturesWithConsole>({
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));

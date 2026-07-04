@@ -2,6 +2,14 @@ import pino from 'pino';
 
 let instance = pino({ level: 'info' });
 
+/**
+ * Test-run logger facade.
+ *
+ * @remarks
+ * Keeps logging format and level configuration behind one infrastructure seam
+ * so fixtures can add consistent worker and test context without importing
+ * pino details directly.
+ */
 export const logger = {
   configure(config: { level: string; format: 'plain' | 'json' }) {
     const level = config.level === 'NONE' ? 'silent' : config.level.toLowerCase();

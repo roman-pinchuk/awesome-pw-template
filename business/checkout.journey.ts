@@ -6,6 +6,7 @@ import type { CartPage } from '@pages/cart.page';
 import type { CheckoutStepOnePage } from '@pages/checkout-step-one.page';
 import type { CheckoutStepTwoPage } from '@pages/checkout-step-two.page';
 
+/** User-visible values from the checkout overview summary. */
 export type OverviewDetails = {
   payment: string;
   shipping: string;
@@ -14,6 +15,13 @@ export type OverviewDetails = {
   total: string;
 };
 
+/**
+ * Intent-level workflow for the SauceDemo Checkout Journey.
+ *
+ * @remarks
+ * Coordinates cart preparation, customer information, overview validation, and
+ * order completion so checkout specs stay focused on purchase behavior.
+ */
 export class CheckoutJourney {
   constructor(
     private readonly page: Page,
@@ -23,6 +31,7 @@ export class CheckoutJourney {
     private readonly checkoutStepTwoPage: CheckoutStepTwoPage,
   ) {}
 
+  /** Starts checkout from a cart populated with the requested products. */
   async startCheckout(...products: string[]): Promise<void> {
     await test.step('start checkout from cart', async () => {
       await this.cartJourney.openCartWithProducts(...products);
@@ -34,6 +43,13 @@ export class CheckoutJourney {
     });
   }
 
+  /**
+   * Completes a single-product purchase through checkout overview and finish.
+   *
+   * @remarks
+   * The expected overview details are supplied by the test because pricing and
+   * fulfillment text are domain expectations, not page mechanics.
+   */
   async completePurchase(
     product: string,
     customerInfo: CustomerInfo,
@@ -55,6 +71,7 @@ export class CheckoutJourney {
     });
   }
 
+  /** Asserts the checkout overview displays the expected payment and totals. */
   async expectOverview(details: OverviewDetails): Promise<void> {
     await test.step('expect checkout overview details', async () => {
       await expect
@@ -85,12 +102,14 @@ export class CheckoutJourney {
     });
   }
 
+  /** Submits checkout step one with no customer information. */
   async submitEmptyCustomerInfo(): Promise<void> {
     await test.step('submit empty customer info', async () => {
       await this.checkoutStepOnePage.continue();
     });
   }
 
+  /** Asserts validation prevents checkout without required customer fields. */
   async expectMissingCustomerInfoError(): Promise<void> {
     await test.step('expect missing customer info error', async () => {
       await expect
@@ -101,6 +120,7 @@ export class CheckoutJourney {
     });
   }
 
+  /** Asserts the completed checkout confirmation is visible and routed. */
   async expectComplete(): Promise<void> {
     await test.step('expect checkout complete', async () => {
       await expect
