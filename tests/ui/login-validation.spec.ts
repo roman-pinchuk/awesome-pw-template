@@ -1,64 +1,41 @@
-import { test, expect } from '@infrastructure/fixtures/ui.fixture';
-import { URLS } from '@business/constants';
+import { test } from '@infrastructure/fixtures/ui.fixture';
 
 test.describe('SauceDemo login validation', () => {
   test(
     'rejects locked out user with an error message',
     { tag: '@smoke', annotation: { type: 'feature', description: 'Login' } },
-    async ({ loginPage, users, page }) => {
-      await loginPage.goto();
-      await loginPage.login(users.lockedOut);
-
-      await expect
-        .configure({ message: 'Expected error message for locked out user' })(
-          loginPage.errorMessage,
-        )
-        .toBeVisible();
-      await expect
-        .configure({ message: 'Expected URL to stay on login page' })(page)
-        .not.toHaveURL(URLS.INVENTORY);
+    async ({ loginJourney, users }) => {
+      await loginJourney.loginAs(users.lockedOut);
+      await loginJourney.expectLoginError();
+      await loginJourney.expectRedirectDenied();
     },
   );
 
   test(
     'requires both username and password fields',
     { tag: '@smoke', annotation: { type: 'feature', description: 'Login' } },
-    async ({ loginPage }) => {
-      await loginPage.goto();
-      await loginPage.login({ username: '', password: '' });
-
-      await expect
-        .configure({ message: 'Expected error for empty credentials' })(loginPage.errorMessage)
-        .toBeVisible();
+    async ({ loginJourney }) => {
+      await loginJourney.loginAs({ username: '', password: '' });
+      await loginJourney.expectLoginError();
     },
   );
 
   test(
     'rejects wrong password with an error',
     { annotation: { type: 'feature', description: 'Login' } },
-    async ({ loginPage, users, page }) => {
-      await loginPage.goto();
-      await loginPage.login({ username: users.standard.username, password: 'wrong_password' });
-
-      await expect
-        .configure({ message: 'Expected error for wrong password' })(loginPage.errorMessage)
-        .toBeVisible();
-      await expect
-        .configure({ message: 'Expected URL to stay on login page' })(page)
-        .not.toHaveURL(URLS.INVENTORY);
+    async ({ loginJourney, users }) => {
+      await loginJourney.loginAs({ username: users.standard.username, password: 'wrong_password' });
+      await loginJourney.expectLoginError();
+      await loginJourney.expectRedirectDenied();
     },
   );
 
   test(
     'successful login for standard user',
     { tag: '@smoke', annotation: { type: 'feature', description: 'Login' } },
-    async ({ loginPage, users, page }) => {
-      await loginPage.goto();
-      await loginPage.login(users.standard);
-
-      await expect
-        .configure({ message: 'Expected redirect to inventory after successful login' })(page)
-        .toHaveURL(URLS.INVENTORY);
+    async ({ loginJourney, users }) => {
+      await loginJourney.loginAs(users.standard);
+      await loginJourney.expectRedirectToInventory();
     },
   );
 });

@@ -1,5 +1,12 @@
 import type { RestObjectPayload } from '@business/api/object';
-import { randomId, randomInt } from '@infrastructure/utils/random';
+
+function randomInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function randomId(prefix: string): string {
+  return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
 
 export function buildCollectionName(prefix = 'pw_objects'): string {
   return randomId(prefix).replace(/-/g, '_');

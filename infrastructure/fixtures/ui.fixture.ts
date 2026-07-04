@@ -8,6 +8,7 @@ import { CheckoutStepTwoPage } from '@pages/checkout-step-two.page';
 import { CheckoutCompletePage } from '@pages/checkout-complete.page';
 import { CartJourney } from '@business/cart.journey';
 import { CheckoutJourney } from '@business/checkout.journey';
+import { LoginJourney } from '@business/login.journey';
 import { logger as appLogger } from '@infrastructure/utils/logger';
 import { setLabels } from '@infrastructure/utils/allure-labels';
 import { loadEnv } from '@infrastructure/config/env';
@@ -17,6 +18,7 @@ const env = loadEnv();
 
 type UIFixtures = {
   loginPage: LoginPage;
+  loginJourney: LoginJourney;
   inventoryPage: InventoryPage;
   productDetailPage: ProductDetailPage;
   cartPage: CartPage;
@@ -31,6 +33,9 @@ type UIFixtures = {
 export const test = base.extend<UIFixtures>({
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
+  },
+  loginJourney: async ({ page, loginPage }, use) => {
+    await use(new LoginJourney(page, loginPage));
   },
   inventoryPage: async ({ page }, use) => {
     await use(new InventoryPage(page));

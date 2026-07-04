@@ -35,7 +35,36 @@ export class CheckoutJourney {
         this.checkoutStepTwoPage.cartItems,
       )
       .toHaveCount(1);
+    await this.expectOverview();
     await this.checkoutStepTwoPage.finish();
+  }
+
+  async expectOverview(): Promise<void> {
+    await expect
+      .configure({ message: 'Expected payment info on overview' })(
+        this.checkoutStepTwoPage.paymentInfoValue,
+      )
+      .toHaveText('SauceCard #31337');
+    await expect
+      .configure({ message: 'Expected shipping info on overview' })(
+        this.checkoutStepTwoPage.shippingInfoValue,
+      )
+      .toHaveText('Free Pony Express Delivery!');
+    await expect
+      .configure({ message: 'Expected subtotal on overview' })(
+        this.checkoutStepTwoPage.subtotalLabel,
+      )
+      .toContainText('Item total: $');
+    await expect
+      .configure({ message: 'Expected tax on overview' })(
+        this.checkoutStepTwoPage.taxLabel,
+      )
+      .toContainText('Tax: $');
+    await expect
+      .configure({ message: 'Expected total on overview' })(
+        this.checkoutStepTwoPage.totalLabel,
+      )
+      .toContainText('Total: $');
   }
 
   async submitEmptyCustomerInfo(): Promise<void> {
