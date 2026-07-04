@@ -15,7 +15,7 @@ Playwright + TypeScript template that showcases a senior-level automation approa
 ## Project structure
 
 ```mermaid
-flowchart TD
+flowchart TB
     classDef testStyle fill:#fae8ff,stroke:#d946ef,stroke-width:2px,color:#701a75;
     classDef bizStyle fill:#e0f2fe,stroke:#0ea5e9,stroke-width:2px,color:#0369a1;
     classDef pageStyle fill:#ecfdf5,stroke:#10b981,stroke-width:2px,color:#047857;
@@ -23,39 +23,43 @@ flowchart TD
 
     subgraph testSuite["TESTS LAYER (tests/)"]
         direction LR
-        auth["auth.setup.ts"]
-        ui_specs["ui/*.spec.ts<br/>(7 UI specs)"]
         api_specs["api/*.spec.ts<br/>(4 API specs)"]
+        ui_specs["ui/*.spec.ts<br/>(7 UI specs)"]
+        auth["auth.setup.ts"]
     end
 
     subgraph domain["CORE BUSINESS LOGIC (business/)"]
         direction LR
-        journeys["<b>Journeys</b><br/>login, cart, checkout, product"]
         api_logic["<b>API Domain</b><br/>object, assertions, factories"]
+        journeys["<b>Journeys</b><br/>login, cart, checkout, product"]
     end
 
     subgraph pageLayer["PAGE OBJECTS (pages/)"]
-        direction TB
+        direction LR
         login_p["login.page.ts"]
         pages["<b>Flow Pages</b><br/>inventory, cart, checkout,<br/>product detail, header"]
     end
 
     subgraph infrastructure["INFRASTRUCTURE (infrastructure/)"]
-        direction LR
+        direction TB
         fixtures["Fixtures<br/>api.fixture.ts, ui.fixture.ts"]
         client["restful.client.ts"]
         env["config/env.ts"]
     end
 
-    ui_specs --> journeys
-    ui_specs --> pageLayer
     api_specs --> fixtures
-    auth --> login_p
-    journeys --> pageLayer
-    api_logic --> client
     fixtures --> api_logic
     fixtures --> client
     client --> env
+    api_logic --> client
+    ui_specs --> journeys
+    journeys --> pageLayer
+    ui_specs --> pageLayer
+    auth --> login_p
+
+    testSuite ~~~ infrastructure
+    infrastructure ~~~ domain
+    domain ~~~ pageLayer
 
     class auth,ui_specs,api_specs testStyle;
     class journeys,api_logic bizStyle;
@@ -167,11 +171,11 @@ npm run test:api
 
 ### CI
 
-| Script                | Description                                |
-| --------------------- | ------------------------------------------ |
-| `npm run test:ci`     | Full suite via encrypted `.env.production` |
-| `npm run test:ui:ci`  | UI tests (Chromium, Firefox, WebKit) via encrypted `.env.production` |
-| `npm run test:api:ci` | API tests via encrypted `.env.production`  |
+| Script                | Description                                                           |
+| --------------------- | --------------------------------------------------------------------- |
+| `npm run test:ci`     | Full suite via encrypted `.env.production`                            |
+| `npm run test:ui:ci`  | UI tests (Chromium, Firefox, WebKit) via encrypted `.env.production`  |
+| `npm run test:api:ci` | API tests via encrypted `.env.production`                             |
 
 ## CI pipeline
 
