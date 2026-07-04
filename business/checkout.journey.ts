@@ -3,7 +3,6 @@ import type { CustomerInfo } from '@business/checkout';
 import { URLS } from '@business/constants';
 import type { CartJourney } from '@business/cart.journey';
 import type { CartPage } from '@pages/cart.page';
-import type { CheckoutCompletePage } from '@pages/checkout-complete.page';
 import type { CheckoutStepOnePage } from '@pages/checkout-step-one.page';
 import type { CheckoutStepTwoPage } from '@pages/checkout-step-two.page';
 
@@ -14,7 +13,6 @@ export class CheckoutJourney {
     private readonly cartPage: CartPage,
     private readonly checkoutStepOnePage: CheckoutStepOnePage,
     private readonly checkoutStepTwoPage: CheckoutStepTwoPage,
-    private readonly checkoutCompletePage: CheckoutCompletePage,
   ) {}
 
   async startCheckout(...products: string[]): Promise<void> {
@@ -56,6 +54,10 @@ export class CheckoutJourney {
     await expect
       .configure({ message: 'Expected URL to navigate to checkout complete' })(this.page)
       .toHaveURL(URLS.CHECKOUT_COMPLETE);
-    await this.checkoutCompletePage.expectSuccess();
+    await expect
+      .configure({ message: 'Expected checkout success message' })(
+        this.page.locator('[data-test="complete-header"]'),
+      )
+      .toHaveText('Thank you for your order!');
   }
 }

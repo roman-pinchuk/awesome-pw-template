@@ -54,18 +54,11 @@ export const test = base.extend<UIFixtures>({
     await use(new CartJourney(inventoryPage, cartPage));
   },
   checkoutJourney: async (
-    { page, cartJourney, cartPage, checkoutStepOnePage, checkoutStepTwoPage, checkoutCompletePage },
+    { page, cartJourney, cartPage, checkoutStepOnePage, checkoutStepTwoPage },
     use,
   ) => {
     await use(
-      new CheckoutJourney(
-        page,
-        cartJourney,
-        cartPage,
-        checkoutStepOnePage,
-        checkoutStepTwoPage,
-        checkoutCompletePage,
-      ),
+      new CheckoutJourney(page, cartJourney, cartPage, checkoutStepOnePage, checkoutStepTwoPage),
     );
   },
   users: async ({}, use) => {

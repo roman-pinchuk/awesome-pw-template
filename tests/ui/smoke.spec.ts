@@ -7,9 +7,21 @@ test.describe('SauceDemo smoke tests', () => {
     { tag: ['@smoke'], annotation: { type: 'feature', description: 'Smoke' } },
     async ({ inventoryPage }) => {
       await inventoryPage.goto();
-      await inventoryPage.expectProductCount(6);
-      await inventoryPage.expectVisibleProduct(PRODUCTS.BACKPACK);
-      await inventoryPage.expectVisibleProduct(PRODUCTS.BIKE_LIGHT);
+      await expect
+        .configure({ message: 'Expected inventory to show 6 products' })(
+          inventoryPage.inventoryItems,
+        )
+        .toHaveCount(6);
+      await expect
+        .configure({ message: `Expected product "${PRODUCTS.BACKPACK}" to be visible in inventory` })(
+          inventoryPage.itemName(PRODUCTS.BACKPACK),
+        )
+        .toBeVisible();
+      await expect
+        .configure({ message: `Expected product "${PRODUCTS.BIKE_LIGHT}" to be visible in inventory` })(
+          inventoryPage.itemName(PRODUCTS.BIKE_LIGHT),
+        )
+        .toBeVisible();
       await expect
         .configure({ message: 'Expected inventory page header to be visible' })(
           inventoryPage.header.appLogo,
@@ -25,7 +37,11 @@ test.describe('SauceDemo smoke tests', () => {
       await inventoryPage.goto();
       await inventoryPage.openProduct(PRODUCTS.BACKPACK);
 
-      await productDetailPage.expectLoaded(PRODUCTS.BACKPACK);
+      await expect
+        .configure({ message: `Expected product detail to be loaded for "${PRODUCTS.BACKPACK}"` })(
+          productDetailPage.itemName,
+        )
+        .toHaveText(PRODUCTS.BACKPACK);
       await expect
         .configure({ message: 'Expected product add-to-cart button on detail page' })(
           productDetailPage.addToCartButton,
@@ -42,13 +58,13 @@ test.describe('SauceDemo smoke tests', () => {
   test(
     'cart badge displays correct count',
     { tag: ['@smoke'], annotation: { type: 'feature', description: 'Smoke' } },
-    async ({ inventoryPage }) => {
+    async ({ cartJourney, inventoryPage }) => {
       await inventoryPage.goto();
       await inventoryPage.addProductToCart(PRODUCTS.BACKPACK);
-      await inventoryPage.header.expectCartQuantity(1);
+      await cartJourney.expectCartQuantity(1);
 
       await inventoryPage.addProductToCart(PRODUCTS.BIKE_LIGHT);
-      await inventoryPage.header.expectCartQuantity(2);
+      await cartJourney.expectCartQuantity(2);
     },
   );
 });

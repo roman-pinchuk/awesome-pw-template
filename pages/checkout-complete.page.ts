@@ -1,4 +1,4 @@
-import { expect, type Page } from '@playwright/test';
+import { type Page } from '@playwright/test';
 import { ROUTES } from '@business/constants';
 import { BasePage } from '@pages/base.page';
 
@@ -13,11 +13,5 @@ export class CheckoutCompletePage extends BasePage {
 
   override async goto(): Promise<void> {
     await super.goto(ROUTES.CHECKOUT_COMPLETE);
-  }
-
-  async expectSuccess(): Promise<void> {
-    await expect
-      .configure({ message: 'Expected checkout success message' })(this.completeHeader)
-      .toHaveText('Thank you for your order!');
   }
 }

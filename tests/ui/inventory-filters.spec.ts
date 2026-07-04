@@ -10,8 +10,16 @@ test.describe('SauceDemo inventory filters', () => {
       await expect
         .configure({ message: 'Expected default sort to be A-Z' })(inventoryPage.sortSelect)
         .toHaveValue('az');
-      await inventoryPage.expectProductCount(6);
-      await inventoryPage.expectProductOrder(PRODUCT_SORT_ORDERS.NAME_ASC);
+      await expect
+        .configure({ message: 'Expected inventory to show 6 products' })(
+          inventoryPage.inventoryItems,
+        )
+        .toHaveCount(6);
+      await expect
+        .configure({ message: 'Expected inventory products to be sorted by visible order' })(
+          inventoryPage.itemNameElements,
+        )
+        .toHaveText([...PRODUCT_SORT_ORDERS.NAME_ASC]);
     },
   );
 
@@ -25,7 +33,11 @@ test.describe('SauceDemo inventory filters', () => {
       await expect
         .configure({ message: 'Expected sort to be Z-A' })(inventoryPage.sortSelect)
         .toHaveValue('za');
-      await inventoryPage.expectProductOrder(PRODUCT_SORT_ORDERS.NAME_DESC);
+      await expect
+        .configure({ message: 'Expected inventory products to be sorted by visible order' })(
+          inventoryPage.itemNameElements,
+        )
+        .toHaveText([...PRODUCT_SORT_ORDERS.NAME_DESC]);
     },
   );
 
@@ -39,7 +51,11 @@ test.describe('SauceDemo inventory filters', () => {
       await expect
         .configure({ message: 'Expected sort to be low-high' })(inventoryPage.sortSelect)
         .toHaveValue('lohi');
-      await inventoryPage.expectProductOrder(PRODUCT_SORT_ORDERS.PRICE_ASC);
+      await expect
+        .configure({ message: 'Expected inventory products to be sorted by visible order' })(
+          inventoryPage.itemNameElements,
+        )
+        .toHaveText([...PRODUCT_SORT_ORDERS.PRICE_ASC]);
     },
   );
 
@@ -53,7 +69,11 @@ test.describe('SauceDemo inventory filters', () => {
       await expect
         .configure({ message: 'Expected sort to be high-low' })(inventoryPage.sortSelect)
         .toHaveValue('hilo');
-      await inventoryPage.expectProductOrder(PRODUCT_SORT_ORDERS.PRICE_DESC);
+      await expect
+        .configure({ message: 'Expected inventory products to be sorted by visible order' })(
+          inventoryPage.itemNameElements,
+        )
+        .toHaveText([...PRODUCT_SORT_ORDERS.PRICE_DESC]);
     },
   );
 });

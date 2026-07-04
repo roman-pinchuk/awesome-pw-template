@@ -10,7 +10,7 @@ test.describe('SauceDemo cart item removal', () => {
       await cartJourney.expectCartContains(PRODUCTS.FLEECE_JACKET, PRODUCTS.ONESIE);
 
       await cartPage.removeProduct(PRODUCTS.FLEECE_JACKET);
-      await cartPage.expectLineItem(PRODUCTS.ONESIE);
+      await cartJourney.expectCartContains(PRODUCTS.ONESIE);
       await expect
         .configure({ message: 'Expected only one item left after removal' })(cartPage.cartItems)
         .toHaveCount(1);
@@ -25,7 +25,7 @@ test.describe('SauceDemo cart item removal', () => {
       await cartJourney.expectCartContains(PRODUCTS.BACKPACK);
 
       await cartPage.removeProduct(PRODUCTS.BACKPACK);
-      await cartPage.expectEmpty();
+      await cartJourney.expectEmpty();
     },
   );
 });

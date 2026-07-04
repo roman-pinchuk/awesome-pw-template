@@ -1,4 +1,4 @@
-import { expect, type Page } from '@playwright/test';
+import { type Page } from '@playwright/test';
 import { ROUTES } from '@business/constants';
 import { BasePage } from '@pages/base.page';
 
@@ -22,11 +22,5 @@ export class CheckoutStepTwoPage extends BasePage {
 
   async finish(): Promise<void> {
     await this.finishButton.click();
-  }
-
-  async expectTotal(total: string): Promise<void> {
-    await expect
-      .configure({ message: `Expected total to be "${total}"` })(this.totalLabel)
-      .toHaveText(total);
   }
 }

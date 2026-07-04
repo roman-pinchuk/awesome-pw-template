@@ -1,4 +1,4 @@
-import { expect, type Page } from '@playwright/test';
+import { type Page } from '@playwright/test';
 import { BasePage } from '@pages/base.page';
 import { HeaderComponent } from '@pages/components/header.component';
 
@@ -13,12 +13,6 @@ export class ProductDetailPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-  }
-
-  async expectLoaded(name: string): Promise<void> {
-    await expect
-      .configure({ message: `Expected product detail to be loaded for "${name}"` })(this.itemName)
-      .toHaveText(name);
   }
 
   async addToCart(): Promise<void> {

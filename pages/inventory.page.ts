@@ -1,4 +1,4 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 import { ROUTES } from '@business/constants';
 import { BasePage } from '@pages/base.page';
 import { HeaderComponent } from '@pages/components/header.component';
@@ -7,6 +7,7 @@ export class InventoryPage extends BasePage {
   readonly header = new HeaderComponent(this.page);
   readonly sortSelect = this.page.locator('[data-test="product-sort-container"]');
   readonly inventoryItems = this.page.locator('[data-test="inventory-item"]');
+  readonly itemNameElements = this.page.locator('[data-test="inventory-item-name"]');
 
   constructor(page: Page) {
     super(page);
@@ -21,7 +22,7 @@ export class InventoryPage extends BasePage {
   }
 
   itemName(name: string): Locator {
-    return this.page.locator('[data-test="inventory-item-name"]').filter({ hasText: name });
+    return this.itemNameElements.filter({ hasText: name });
   }
 
   addToCartButton(name: string): Locator {
@@ -38,30 +39,5 @@ export class InventoryPage extends BasePage {
 
   async addProductToCart(name: string): Promise<void> {
     await this.addToCartButton(name).click();
-  }
-
-  async expectVisibleProduct(name: string): Promise<void> {
-    await expect
-      .configure({ message: `Expected product "${name}" to be visible in inventory` })(
-        this.itemName(name),
-      )
-      .toBeVisible();
-  }
-
-  async expectProductCount(count: number): Promise<void> {
-    await expect
-      .configure({ message: `Expected inventory to show ${count} products` })(this.inventoryItems)
-      .toHaveCount(count);
-  }
-
-  async expectProductOrder(expectedNames: readonly string[]): Promise<void> {
-    const actualNames = await this.page
-      .locator('[data-test="inventory-item-name"]')
-      .allTextContents();
-    expect
-      .configure({ message: 'Expected inventory products to be sorted by visible order' })(
-        actualNames,
-      )
-      .toEqual([...expectedNames]);
   }
 }

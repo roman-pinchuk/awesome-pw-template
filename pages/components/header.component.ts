@@ -1,4 +1,4 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 
 export class HeaderComponent {
   readonly cartLink: Locator;
@@ -15,19 +15,5 @@ export class HeaderComponent {
 
   async openCart(): Promise<void> {
     await this.cartLink.click();
-  }
-
-  async expectCartQuantity(expected: number): Promise<void> {
-    if (expected > 0) {
-      await expect
-        .configure({ message: `Expected cart badge to show ${expected}` })(this.cartBadge)
-        .toHaveText(String(expected));
-    } else {
-      await expect
-        .configure({ message: 'Expected cart badge to not exist when cart is empty' })(
-          this.cartBadge,
-        )
-        .not.toBeVisible();
-    }
   }
 }
