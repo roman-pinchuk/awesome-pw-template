@@ -18,7 +18,7 @@
     "test:headed": "playwright test --project=chromium --headed",
     "test:debug": "playwright test --project=chromium --debug",
     "test:ci": "dotenvx run -f .env.production -- playwright test",
-    "test:ui:ci": "dotenvx run -f .env.production -- playwright test --project=chromium --project=firefox",
+    "test:ui:ci": "dotenvx run -f .env.production -- playwright test --project=chromium --project=firefox --project=webkit",
     "test:api:ci": "dotenvx run -f .env.production -- playwright test --project=api",
     "report": "playwright show-report",
     "prettier": "prettier --write .",

@@ -1,6 +1,6 @@
-[![Playwright](https://github.com/roman-pinchuk/awesome-pw-template/actions/workflows/playwright.yml/badge.svg)](https://github.com/roman-pinchuk/awesome-pw-template/actions/workflows/playwright.yml)
-
 # Awesome Playwright Template
+
+[![Playwright](https://github.com/roman-pinchuk/awesome-pw-template/actions/workflows/playwright.yml/badge.svg)](https://github.com/roman-pinchuk/awesome-pw-template/actions/workflows/playwright.yml)
 
 Playwright + TypeScript template that showcases a senior-level automation approach for both UI and API testing.
 
@@ -14,61 +14,53 @@ Playwright + TypeScript template that showcases a senior-level automation approa
 
 ## Project structure
 
-```text
-.
-├── business/
-│   ├── api/
-│   │   ├── assertions/
-│   │   │   └── object.assertions.ts
-│   │   └── factories/
-│   │       └── object.factory.ts
-│   ├── checkout.ts
-│   └── constants.ts
-├── infrastructure/
-│   ├── clients/
-│   │   └── restful.client.ts
-│   ├── config/
-│   │   └── env.ts
-│   ├── fixtures/
-│   │   ├── api.fixture.ts
-│   │   └── ui.fixture.ts
-│   └── utils/
-│       ├── api-assertions.ts
-│       ├── logger.ts
-│       └── random.ts
-├── pages/
-│   ├── components/
-│   │   └── header.component.ts
-│   ├── base.page.ts
-│   ├── cart.page.ts
-│   ├── checkout-complete.page.ts
-│   ├── checkout-step-one.page.ts
-│   ├── checkout-step-two.page.ts
-│   ├── inventory.page.ts
-│   ├── login.page.ts
-│   └── product-detail.page.ts
-├── tests/
-│   ├── api/
-│   │   └── objects/
-│   │       ├── object-auth.spec.ts
-│   │       ├── object-crud.spec.ts
-│   │       ├── object-patch.spec.ts
-│   │       └── object-query.spec.ts
-│   ├── ui/
-│   │   ├── cart-journey.spec.ts
-│   │   ├── cart-remove.spec.ts
-│   │   ├── checkout-flow.spec.ts
-│   │   ├── inventory-filters.spec.ts
-│   │   ├── login-validation.spec.ts
-│   │   └── smoke.spec.ts
-│   └── auth.setup.ts
-├── .env.example
-├── .env.production
-├── .env.keys
-├── eslint.config.mjs
-├── package.json
-├── playwright.config.ts
-└── tsconfig.json
+```mermaid
+flowchart TD
+    classDef testStyle fill:#fae8ff,stroke:#d946ef,stroke-width:2px,color:#701a75;
+    classDef bizStyle fill:#e0f2fe,stroke:#0ea5e9,stroke-width:2px,color:#0369a1;
+    classDef pageStyle fill:#ecfdf5,stroke:#10b981,stroke-width:2px,color:#047857;
+    classDef infraStyle fill:#fff1f2,stroke:#f43f5e,stroke-width:2px,color:#be123c;
+
+    subgraph testSuite["TESTS LAYER (tests/)"]
+        direction LR
+        auth["auth.setup.ts"]
+        ui_specs["ui/*.spec.ts<br/>(7 UI specs)"]
+        api_specs["api/*.spec.ts<br/>(4 API specs)"]
+    end
+
+    subgraph domain["CORE BUSINESS LOGIC (business/)"]
+        direction LR
+        journeys["<b>Journeys</b><br/>login, cart, checkout, product"]
+        api_logic["<b>API Domain</b><br/>object, assertions, factories"]
+    end
+
+    subgraph pageLayer["PAGE OBJECTS (pages/)"]
+        direction TB
+        login_p["login.page.ts"]
+        pages["<b>Flow Pages</b><br/>inventory, cart, checkout,<br/>product detail, header"]
+    end
+
+    subgraph infrastructure["INFRASTRUCTURE (infrastructure/)"]
+        direction LR
+        fixtures["Fixtures<br/>api.fixture.ts, ui.fixture.ts"]
+        client["restful.client.ts"]
+        env["config/env.ts"]
+    end
+
+    ui_specs --> journeys
+    ui_specs --> pageLayer
+    api_specs --> fixtures
+    auth --> login_p
+    journeys --> pageLayer
+    api_logic --> client
+    fixtures --> api_logic
+    fixtures --> client
+    client --> env
+
+    class auth,ui_specs,api_specs testStyle;
+    class journeys,api_logic bizStyle;
+    class login_p,pages pageStyle;
+    class fixtures,client,env infraStyle;
 ```
 
 ## Design principles
@@ -178,7 +170,7 @@ npm run test:api
 | Script                | Description                                |
 | --------------------- | ------------------------------------------ |
 | `npm run test:ci`     | Full suite via encrypted `.env.production` |
-| `npm run test:ui:ci`  | UI tests via encrypted `.env.production`   |
+| `npm run test:ui:ci`  | UI tests (Chromium, Firefox, WebKit) via encrypted `.env.production` |
 | `npm run test:api:ci` | API tests via encrypted `.env.production`  |
 
 ## CI pipeline
