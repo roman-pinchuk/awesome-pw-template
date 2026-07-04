@@ -26,7 +26,7 @@ const envSchema = z.object({
 
 export type Env = z.infer<typeof envSchema>;
 
-export function loadEnv(): Env {
+export const loadEnv = (): Env => {
   const result = envSchema.safeParse(process.env);
   if (!result.success) {
     const missing = result.error.issues
@@ -35,4 +35,4 @@ export function loadEnv(): Env {
     throw new Error(`Environment validation failed:\n${missing}`);
   }
   return result.data;
-}
+};

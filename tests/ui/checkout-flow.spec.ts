@@ -3,7 +3,7 @@ import type { OverviewDetails } from '@business/checkout.journey';
 import { PRODUCTS, PRODUCT_PRICES } from '@business/constants';
 import { DEFAULT_ADDRESS } from '@business/checkout';
 
-function overviewFor(product: string): OverviewDetails {
+const overviewFor = (product: string): OverviewDetails => {
   const price = PRODUCT_PRICES[product]!;
   const tax = Math.round(price * 0.08 * 100) / 100;
 
@@ -14,7 +14,7 @@ function overviewFor(product: string): OverviewDetails {
     tax: `Tax: $${tax.toFixed(2)}`,
     total: `Total: $${(price + tax).toFixed(2)}`,
   };
-}
+};
 
 test.describe('SauceDemo checkout flow', () => {
   test(

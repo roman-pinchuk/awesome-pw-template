@@ -1,7 +1,7 @@
 import * as allure from 'allure-js-commons/sync';
 import type { TestInfo } from '@playwright/test';
 
-export function setLabels(testInfo: TestInfo, epic: string) {
+export const setLabels = (testInfo: TestInfo, epic: string): void => {
   allure.epic(epic);
   for (const ann of testInfo.annotations) {
     if (ann.type === 'feature') allure.feature(ann.description!);
@@ -9,4 +9,4 @@ export function setLabels(testInfo: TestInfo, epic: string) {
   for (const tag of testInfo.tags) {
     allure.tag(tag.replace(/^@/, ''));
   }
-}
+};
