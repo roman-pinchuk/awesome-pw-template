@@ -87,6 +87,29 @@ npx playwright install chromium firefox
 npm run check
 ```
 
+## Dev container
+
+This repo includes a VS Code devcontainer that mirrors the Playwright Docker image used in CI:
+
+- Base image: `mcr.microsoft.com/playwright:v1.61.1-noble`
+- Install step: `npm ci`
+- Version guard: `npm run verify:playwright` checks devcontainer and CI Playwright Docker images against `package-lock.json`
+- Browser stability flag: `--ipc=host`
+- Playwright UI Mode port: `9323`
+
+To use it:
+
+1. Install the VS Code **Dev Containers** extension locally.
+2. Open the command palette and run **Dev Containers: Reopen in Container**.
+3. Make sure `.env.local` exists. UI tests still load `playwright.config.ts`, so `API_BASE_URL` must be present even when you only run SauceDemo UI tests.
+4. Start Playwright UI Mode:
+
+```bash
+npm run test:ui:mode
+```
+
+The UI Mode server binds to `0.0.0.0:9323` so VS Code can forward it from the container to your browser.
+
 To run API tests, complete the [Supabase API setup](#supabase-api-setup) first, then:
 
 ```bash
@@ -170,6 +193,7 @@ npm run test:api
 | `npm run test:api`    | Run API tests against the configured Supabase project |
 | `npm run test:headed` | Run SauceDemo Chromium in headed mode                 |
 | `npm run test:debug`  | Debug SauceDemo Chromium                              |
+| `npm run test:ui:mode` | Open Playwright UI Mode on forwarded port `9323`      |
 | `npm run report`      | Open the HTML test report                             |
 | `npm run check`       | Lint + typecheck                                      |
 

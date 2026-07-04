@@ -28,6 +28,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  FORCE_COLOR: '1'
+  PLAYWRIGHT_IMAGE: &playwright_image mcr.microsoft.com/playwright:v1.61.1-noble
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -46,7 +50,7 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    container: mcr.microsoft.com/playwright:v1.61.1-noble
+    container: *playwright_image
     steps:
       - uses: actions/checkout@v7
       - uses: actions/cache@v6
@@ -86,7 +90,7 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    container: mcr.microsoft.com/playwright:v1.61.1-noble
+    container: *playwright_image
     strategy:
       matrix:
         browser: [chromium, firefox, webkit]

@@ -11,6 +11,7 @@ export default tseslint.config(
       'business/contracts/*.generated.ts',
       '.agents/**',
       '.playwright/**',
+      'scripts/**/*.mjs',
       'eslint.config.mjs',
     ],
   },

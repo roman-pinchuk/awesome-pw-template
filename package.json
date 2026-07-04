@@ -17,6 +17,8 @@
     "test:api": "playwright test --project=api",
     "test:headed": "playwright test --project=chromium --headed",
     "test:debug": "playwright test --project=chromium --debug",
+    "test:ui:mode": "playwright test --ui --ui-host=0.0.0.0 --ui-port=9323",
+    "verify:playwright": "node scripts/verify-playwright-version.mjs",
     "test:ci": "dotenvx run -f .env.production -- playwright test",
     "test:ui:ci": "dotenvx run -f .env.production -- playwright test --project=chromium --project=firefox --project=webkit",
     "test:api:ci": "dotenvx run -f .env.production -- playwright test --project=api",
@@ -24,7 +26,7 @@
     "prettier": "prettier --write .",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc",
-    "check": "npm run lint && npm run typecheck"
+    "check": "npm run verify:playwright && npm run lint && npm run typecheck"
   },
   "author": "Roman Pinchuk",
   "license": "ISC",
@@ -32,7 +34,7 @@
   "devDependencies": {
     "@dotenvx/dotenvx": "^2.1.4",
     "@eslint/js": "^10.0.1",
-    "@playwright/test": "^1.61.1",
+    "@playwright/test": "1.61.1",
     "@types/node": "^26.1.0",
     "@types/pino": "^7.0.4",
     "allure-playwright": "^3.10.2",

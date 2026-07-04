@@ -1,0 +1,31 @@
+{
+  "name": "${localWorkspaceFolderBasename}",
+  "image": "mcr.microsoft.com/playwright:v1.61.1-noble",
+  "init": true,
+  "runArgs": ["--ipc=host"],
+  "postCreateCommand": "npm ci",
+  "forwardPorts": [9323],
+  "portsAttributes": {
+    "9323": {
+      "label": "Playwright UI Mode",
+      "onAutoForward": "openBrowser"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-playwright.playwright",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "christian-kohler.npm-intellisense",
+        "eamodio.gitlens",
+        "jasonnutter.vscode-codeowners",
+        "mikestead.dotenv",
+        "streetsidesoftware.code-spell-checker",
+        "github.github-vscode-theme",
+        "pkief.material-icon-theme",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  }
+}
