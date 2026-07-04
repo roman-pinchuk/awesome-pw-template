@@ -3,7 +3,25 @@ name: Playwright
 on:
   push:
     branches: ['main']
+    # Run expensive tests only when testable code or CI config changes.
+    paths: &ci_paths
+      - '.github/workflows/playwright.yml'
+      - 'business/**'
+      - 'infrastructure/**'
+      - 'pages/**'
+      - 'tests/**'
+      - 'playwright.config.ts'
+      - 'eslint.config.mjs'
+      - 'tsconfig.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.env.example'
+      - '.env.production'
   pull_request:
+    paths: *ci_paths
+  schedule:
+    - cron: '0 13 * * *'
+      timezone: 'Asia/Jerusalem'
   workflow_dispatch:
 
 concurrency:
