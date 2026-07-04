@@ -35,27 +35,11 @@ test.describe('SauceDemo smoke tests', () => {
   test(
     'product detail page opens from inventory',
     { tag: ['@smoke'], annotation: { type: 'feature', description: 'Smoke' } },
-    async ({ inventoryPage, productDetailPage }) => {
-      await test.step('open product detail and verify content', async () => {
-        await inventoryPage.goto();
-        await inventoryPage.openProduct(PRODUCTS.BACKPACK);
-
-        await expect
-          .configure({ message: `Expected product detail to be loaded for "${PRODUCTS.BACKPACK}"` })(
-            productDetailPage.itemName,
-          )
-          .toHaveText(PRODUCTS.BACKPACK);
-        await expect
-          .configure({ message: 'Expected product add-to-cart button on detail page' })(
-            productDetailPage.addToCartButton,
-          )
-          .toBeVisible();
-        await expect
-          .configure({ message: 'Expected product price on detail page' })(
-            productDetailPage.itemPrice,
-          )
-          .toBeVisible();
-      });
+    async ({ productJourney }) => {
+      await productJourney.openProduct(PRODUCTS.BACKPACK);
+      await productJourney.expectLoaded(PRODUCTS.BACKPACK);
+      await productJourney.expectAddToCartVisible();
+      await productJourney.expectPriceVisible();
     },
   );
 

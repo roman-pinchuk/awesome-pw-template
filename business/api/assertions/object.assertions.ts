@@ -1,6 +1,12 @@
 import { expect, type APIResponse } from '@playwright/test';
 import type { RestObject } from '@business/api/object';
-import { expectOk } from '@infrastructure/utils/api-assertions';
+
+async function expectOk(response: APIResponse): Promise<void> {
+  expect(
+    response.ok(),
+    `Expected successful response. Received ${response.status()} ${response.statusText()} with body: ${await response.text()}`,
+  ).toBeTruthy();
+}
 
 export async function expectObject(
   response: APIResponse,

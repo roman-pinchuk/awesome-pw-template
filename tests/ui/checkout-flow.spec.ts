@@ -1,15 +1,20 @@
 import { test } from '@infrastructure/fixtures/ui.fixture';
 import type { OverviewDetails } from '@business/checkout.journey';
-import { PRODUCTS } from '@business/constants';
+import { PRODUCTS, PRODUCT_PRICES } from '@business/constants';
 import { DEFAULT_ADDRESS } from '@business/checkout';
 
-const BACKPACK_OVERVIEW: OverviewDetails = {
-  payment: 'SauceCard #31337',
-  shipping: 'Free Pony Express Delivery!',
-  subtotal: 'Item total: $29.99',
-  tax: 'Tax: $2.40',
-  total: 'Total: $32.39',
-};
+function overviewFor(product: string): OverviewDetails {
+  const price = PRODUCT_PRICES[product]!;
+  const tax = Math.round(price * 0.08 * 100) / 100;
+
+  return {
+    payment: 'SauceCard #31337',
+    shipping: 'Free Pony Express Delivery!',
+    subtotal: `Item total: $${price.toFixed(2)}`,
+    tax: `Tax: $${tax.toFixed(2)}`,
+    total: `Total: $${(price + tax).toFixed(2)}`,
+  };
+}
 
 test.describe('SauceDemo checkout flow', () => {
   test(
@@ -19,7 +24,7 @@ test.describe('SauceDemo checkout flow', () => {
       await checkoutJourney.completePurchase(
         PRODUCTS.BACKPACK,
         DEFAULT_ADDRESS,
-        BACKPACK_OVERVIEW,
+        overviewFor(PRODUCTS.BACKPACK),
       );
       await checkoutJourney.expectComplete();
     },

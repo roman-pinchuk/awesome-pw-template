@@ -60,3 +60,12 @@ export const PRODUCT_SORT_ORDERS = {
     PRODUCTS.ONESIE,
   ],
 } as const;
+
+export const PRODUCT_PRICES: Record<string, number> = {
+  [PRODUCTS.BACKPACK]: 29.99,
+  [PRODUCTS.BIKE_LIGHT]: 9.99,
+  [PRODUCTS.BOLT_SHIRT]: 15.99,
+  [PRODUCTS.FLEECE_JACKET]: 49.99,
+  [PRODUCTS.ONESIE]: 7.99,
+  [PRODUCTS.TEST_ALL_THINGS]: 15.99,
+} as const;
