@@ -16,7 +16,8 @@ approach for both UI and API testing.
 - Deep module structure: CRUD separated from assertions, thin page objects,
   resource lifecycle fixtures
 - Separate Playwright projects for UI and API execution
-- CI-ready reporting, retries, traces, linting, and type checking
+- CI-ready reporting, retries, traces, linting, type checking, and local Git
+  hooks
 
 ## Project structure
 
@@ -206,7 +207,18 @@ npm run test:api
 - `npm run test:debug` — Debug SauceDemo Chromium
 - `npm run test:ui:mode` — Open Playwright UI Mode on forwarded port `9323`
 - `npm run report` — Open the HTML test report
-- `npm run check` — Lint + typecheck
+- `npm run check` — Verify Playwright Docker image versions, lint, and typecheck
+
+### Git hooks
+
+Local hooks are managed by `simple-git-hooks` and installed by `npm install`
+through the `prepare` script:
+
+- `pre-commit` — runs `lint-staged`
+- `pre-push` — runs `npm run typecheck`
+
+`lint-staged` runs ESLint autofix and Prettier on staged TypeScript files, and
+Prettier on staged JS, JSON, Markdown, and YAML files.
 
 ### CI
 
