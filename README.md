@@ -4,7 +4,6 @@
 ![Playwright](https://img.shields.io/badge/Playwright-1.61.1-2EAD33?logo=playwright&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-22-5FA04E?logo=nodedotjs&logoColor=white)
-[![Dependencies](https://img.shields.io/librariesio/github/roman-pinchuk/awesome-pw-template?logo=npm)](https://libraries.io/github/roman-pinchuk/awesome-pw-template)
 ![Test scope](https://img.shields.io/badge/tests-UI%20%2B%20API-blue)
 
 Playwright + TypeScript template that showcases a senior-level automation
