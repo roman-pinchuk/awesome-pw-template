@@ -33,7 +33,7 @@
   "license": "ISC",
   "type": "module",
   "devDependencies": {
-    "@dotenvx/dotenvx": "^2.1.4",
+    "@dotenvx/dotenvx": "^2.1.5",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "1.61.1",
     "@types/node": "^26.1.0",
