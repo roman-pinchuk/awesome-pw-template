@@ -1,0 +1,101 @@
+name: Snyk Security Hub & README Matrix
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * 1' # Weekly Monday sweep
+
+jobs:
+  security-pipeline:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # For writing back to README.md
+      security-events: write # For uploading SARIF files natively to the Security tab
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Project Dependencies
+        run: npm ci
+
+      # Step 1: Scan for your README Markdown table (JSON output)
+      - name: Run Snyk for Markdown Generation
+        continue-on-error: true # Allows matrix generation even when vulnerabilities are found
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --dev --json-file-output=snyk-results.json
+          json: true
+
+      # Step 2: Scan for native GitHub Security Alerts (SARIF output)
+      - name: Run Snyk for GitHub Security Tab
+        continue-on-error: true # Essential: Prevents pipeline failure so the upload step always executes
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --dev --sarif-file-output=snyk.sarif
+
+      # Step 3: Stream SARIF findings into GitHub Advanced Security
+      - name: Upload Scan Results to GitHub Security Tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk.sarif
+
+      # Step 4: Construct and rewrite the Markdown Matrix
+      - name: Inject Matrix into README
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            let rawData = fs.readFileSync('snyk-results.json', 'utf8');
+            let snykData = JSON.parse(rawData);
+            if (Array.isArray(snykData)) snykData = snykData[0];
+
+            const vulns = snykData.vulnerabilities || [];
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
+
+            let table = '\n### 📦 Dynamic Dependency & Security Matrix\n\n';
+            table += '| Dependency | Manifest Target | Security Status | Shields.io Version |\n';
+            table += '| :--- | :--- | :--- | :--- |\n';
+
+            for (const [name, version] of Object.entries(allDeps)) {
+              const issueCount = vulns.filter(v => v.packageName === name).length;
+              const status = issueCount > 0 ? `❌ ${issueCount} Issues` : '✅ Secure';
+              const badgeName = encodeURIComponent(name).replace(/-/g, '--');
+              const badge = `![${name}](https://img.shields.io/npm/v/${badgeName})`;
+
+              table += `| **${name}** | \`${version}\` | ${status} | ${badge} |\n`;
+            }
+            table += '\n';
+
+            let readme = fs.readFileSync('README.md', 'utf8');
+            const startMarker = '<!-- START_MATRIX_TABLE -->';
+            const endMarker = '<!-- END_MATRIX_TABLE -->';
+
+            const regex = new RegExp(`${startMarker}[\\s\\S]*${endMarker}`);
+            readme = readme.replace(regex, `${startMarker}${table}${endMarker}`);
+
+            fs.writeFileSync('README.md', readme);
+
+      # Step 5: Save Markdown alterations to git tree (Skips on Pull Requests)
+      - name: Commit Matrix Updates
+        if: github.event_name != 'pull_request'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git diff-index --quiet HEAD || git commit -m "chore: automated update to security matrix"
+          git push

@@ -232,6 +232,27 @@ Prettier on staged JS, JSON, Markdown, and YAML files.
 The `.github/workflows/playwright.yml` workflow runs on every push to `main`
 and pull request.
 
+### Dependency and security automation
+
+- `.github/dependabot.yml` keeps npm packages and GitHub Actions versions fresh
+  with weekly Monday update checks.
+- Dependabot groups Playwright/reporting packages, TypeScript/linting tooling,
+  and GitHub Actions updates into focused PRs.
+- `.github/workflows/snyk-security.yml` runs on pushes to `main`, pull requests,
+  and a weekly Monday schedule.
+- The Snyk workflow requires `SNYK_TOKEN` in repository secrets, uploads SARIF
+  results to GitHub Security, and updates the dependency security matrix below
+  on non-PR runs.
+
+<!-- START_MATRIX_TABLE -->
+
+### Dynamic Dependency & Security Matrix
+
+The Snyk workflow replaces this block with dependency versions and current
+security status after scheduled or `main` branch runs.
+
+<!-- END_MATRIX_TABLE -->
+
 ### Jobs
 
 - `lint` — always runs `npm run check` (linter + typecheck)
