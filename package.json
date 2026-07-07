@@ -46,7 +46,7 @@
     "prettier": "^3.8.1",
     "simple-git-hooks": "^2.13.1",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.57.2",
+    "typescript-eslint": "^8.63.0",
     "zod": "^4.4.3"
   },
   "private": true,
