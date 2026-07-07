@@ -10,6 +10,7 @@ on:
 
 jobs:
   security-pipeline:
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     env:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -29,16 +30,15 @@ jobs:
       - name: Install Project Dependencies
         run: npm ci
 
-      - name: Skip Snyk scan when token is unavailable
+      - name: Require Snyk token
         if: env.SNYK_TOKEN == ''
         run: |
-          echo "SNYK_TOKEN is unavailable for this event."
-          echo "Add SNYK_TOKEN under repository Actions secrets for push/scheduled runs."
-          echo "Add SNYK_TOKEN under repository Dependabot secrets for Dependabot PRs."
+          echo "SNYK_TOKEN is unavailable."
+          echo "Add SNYK_TOKEN under repository Actions secrets."
+          exit 1
 
       # Step 1: Scan for your README Markdown table (JSON output)
       - name: Run Snyk for Markdown Generation
-        if: env.SNYK_TOKEN != ''
         continue-on-error: true # Allows matrix generation even when vulnerabilities are found
         uses: snyk/actions/node@v1
         with:
@@ -47,7 +47,6 @@ jobs:
 
       # Step 2: Scan for native GitHub Security Alerts (SARIF output)
       - name: Run Snyk for GitHub Security Tab
-        if: env.SNYK_TOKEN != ''
         continue-on-error: true # Essential: Prevents pipeline failure so the upload step always executes
         uses: snyk/actions/node@v1
         with:
@@ -55,14 +54,14 @@ jobs:
 
       # Step 3: Stream SARIF findings into GitHub Advanced Security
       - name: Upload Scan Results to GitHub Security Tab
-        if: env.SNYK_TOKEN != '' && hashFiles('snyk.sarif') != ''
+        if: hashFiles('snyk.sarif') != ''
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: snyk.sarif
 
       # Step 4: Construct and rewrite the Markdown Matrix
       - name: Inject Matrix into README
-        if: env.SNYK_TOKEN != '' && hashFiles('snyk-results.json') != ''
+        if: hashFiles('snyk-results.json') != ''
         uses: actions/github-script@v9
         with:
           script: |
@@ -101,7 +100,7 @@ jobs:
 
       # Step 5: Save Markdown alterations to git tree (Skips on Pull Requests)
       - name: Commit Matrix Updates
-        if: github.event_name != 'pull_request' && env.SNYK_TOKEN != '' && hashFiles('snyk-results.json') != ''
+        if: github.event_name != 'pull_request' && hashFiles('snyk-results.json') != ''
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
