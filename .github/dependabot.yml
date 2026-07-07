@@ -8,23 +8,11 @@ updates:
       day: 'monday'
     open-pull-requests-limit: 5 # Prevents PR tab from being overwhelmed
 
-    # Grouping Rules Matrix
     groups:
-      # Group 1: Combines Playwright & Test Architecture Tools
-      testing-framework:
+      all-deps:
         applies-to: version-updates
         patterns:
-          - '*playwright*' # Bumps @playwright/test, playwright-ctrf-json-reporter, etc.
-          - '*ctrf*'
-          - 'allure-playwright'
-
-      # Group 2: Combines Compilation & Code Quality Stack
-      development-tooling:
-        applies-to: version-updates
-        patterns:
-          - 'typescript'
-          - '*eslint*'
-          - 'prettier'
+          - '*'
 
   # Also tracks GitHub Actions workflows to keep checkout/setup steps fresh
   - package-ecosystem: 'github-actions'
