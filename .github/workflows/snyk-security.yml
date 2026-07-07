@@ -75,12 +75,12 @@ jobs:
             const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
 
             let table = '\n### 📦 Dynamic Dependency & Security Matrix\n\n';
-            table += '| Dependency | Manifest Target | Security Status | Shields.io Version |\n';
+            table += '| Dependency | Manifest Target | Snyk Status | Latest npm Version |\n';
             table += '| :--- | :--- | :--- | :--- |\n';
 
             for (const [name, version] of Object.entries(allDeps)) {
               const issueCount = vulns.filter(v => v.packageName === name).length;
-              const status = issueCount > 0 ? `❌ ${issueCount} Issues` : '✅ Secure';
+              const status = issueCount > 0 ? `❌ ${issueCount} Snyk issues` : '✅ No Snyk issues';
               const badgeName = encodeURIComponent(name);
               const badge = `![${name}](https://img.shields.io/npm/v/${badgeName})`;
 
