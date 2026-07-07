@@ -9,6 +9,15 @@
 Playwright + TypeScript template that showcases a senior-level automation
 approach for both UI and API testing.
 
+<!-- START_MATRIX_TABLE -->
+
+### Dynamic Dependency & Security Matrix
+
+The Snyk workflow replaces this block with dependency versions and current
+security status after scheduled or `main` branch runs.
+
+<!-- END_MATRIX_TABLE -->
+
 ## What this repo demonstrates
 
 - UI automation against `https://www.saucedemo.com`
@@ -243,15 +252,6 @@ and pull request.
 - The Snyk workflow requires `SNYK_TOKEN` in repository secrets, uploads SARIF
   results to GitHub Security, and updates the dependency security matrix below
   on non-PR runs.
-
-<!-- START_MATRIX_TABLE -->
-
-### Dynamic Dependency & Security Matrix
-
-The Snyk workflow replaces this block with dependency versions and current
-security status after scheduled or `main` branch runs.
-
-<!-- END_MATRIX_TABLE -->
 
 ### Jobs
 
