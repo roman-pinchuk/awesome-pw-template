@@ -251,8 +251,9 @@ and pull request.
   and a weekly Monday schedule.
 - The Snyk workflow requires `SNYK_TOKEN` in repository Actions secrets for
   push/scheduled runs and in repository Dependabot secrets for Dependabot PRs.
-  It uploads SARIF results to GitHub Security and updates the dependency
-  security matrix below on non-PR runs.
+  When the matching secret source is available, it uploads SARIF results to
+  GitHub Security and updates the dependency security matrix below on non-PR
+  runs.
 
 ### Jobs
 
