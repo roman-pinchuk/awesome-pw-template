@@ -11,7 +11,7 @@ approach for both UI and API testing.
 
 <!-- START_MATRIX_TABLE -->
 
-### 📦 Dynamic Dependency & Security Matrix
+## 📦 Dynamic Dependency & Security Matrix
 
 | Dependency                        | Manifest Target | Snyk Status       | Latest npm Version                                                                           |
 | :-------------------------------- | :-------------- | :---------------- | :------------------------------------------------------------------------------------------- |
