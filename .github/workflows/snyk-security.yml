@@ -11,50 +11,58 @@ on:
 jobs:
   security-pipeline:
     runs-on: ubuntu-latest
+    env:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     permissions:
       contents: write # For writing back to README.md
       security-events: write # For uploading SARIF files natively to the Security tab
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: 22
           cache: 'npm'
 
       - name: Install Project Dependencies
         run: npm ci
 
+      - name: Skip Snyk scan when token is unavailable
+        if: env.SNYK_TOKEN == ''
+        run: |
+          echo "SNYK_TOKEN is unavailable for this event."
+          echo "For Dependabot PRs, add SNYK_TOKEN under repository Dependabot secrets."
+
       # Step 1: Scan for your README Markdown table (JSON output)
       - name: Run Snyk for Markdown Generation
+        if: env.SNYK_TOKEN != ''
         continue-on-error: true # Allows matrix generation even when vulnerabilities are found
-        uses: snyk/actions/node@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        uses: snyk/actions/node@v1
         with:
           args: --dev --json-file-output=snyk-results.json
           json: true
 
       # Step 2: Scan for native GitHub Security Alerts (SARIF output)
       - name: Run Snyk for GitHub Security Tab
+        if: env.SNYK_TOKEN != ''
         continue-on-error: true # Essential: Prevents pipeline failure so the upload step always executes
-        uses: snyk/actions/node@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        uses: snyk/actions/node@v1
         with:
           args: --dev --sarif-file-output=snyk.sarif
 
       # Step 3: Stream SARIF findings into GitHub Advanced Security
       - name: Upload Scan Results to GitHub Security Tab
-        uses: github/codeql-action/upload-sarif@v3
+        if: env.SNYK_TOKEN != '' && hashFiles('snyk.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: snyk.sarif
 
       # Step 4: Construct and rewrite the Markdown Matrix
       - name: Inject Matrix into README
-        uses: actions/github-script@v7
+        if: env.SNYK_TOKEN != '' && hashFiles('snyk-results.json') != ''
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require('fs');
@@ -92,7 +100,7 @@ jobs:
 
       # Step 5: Save Markdown alterations to git tree (Skips on Pull Requests)
       - name: Commit Matrix Updates
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && env.SNYK_TOKEN != '' && hashFiles('snyk-results.json') != ''
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
