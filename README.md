@@ -11,7 +11,7 @@ approach for both UI and API testing.
 
 <!-- START_MATRIX_TABLE -->
 
-### Dynamic Dependency & Security Matrix
+## Dynamic Dependency & Security Matrix
 
 The Snyk workflow replaces this block with dependency versions and current
 security status after scheduled or `main` branch runs.
