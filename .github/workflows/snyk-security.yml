@@ -103,6 +103,11 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          npx prettier --write README.md
           git add README.md
-          git diff-index --quiet HEAD || git commit -m "chore: automated update to security matrix"
-          git push
+          if git diff --cached --quiet; then
+            echo "No README matrix changes to commit."
+          else
+            git commit -m "chore: automated update to security matrix"
+            git push
+          fi
