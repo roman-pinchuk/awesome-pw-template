@@ -42,8 +42,7 @@ jobs:
         continue-on-error: true # Allows matrix generation even when vulnerabilities are found
         uses: snyk/actions/node@v1
         with:
-          args: --dev --json-file-output=snyk-results.json
-          json: true
+          args: --dev --json --json-file-output=snyk-results.json
 
       # Step 2: Scan for native GitHub Security Alerts (SARIF output)
       - name: Run Snyk for GitHub Security Tab
