@@ -74,7 +74,7 @@ jobs:
             const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
             const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
 
-            let table = '\n### 📦 Dynamic Dependency & Security Matrix\n\n';
+            let table = '\n## 📦 Dynamic Dependency & Security Matrix\n\n';
             table += '| Dependency | Manifest Target | Snyk Status | Latest npm Version |\n';
             table += '| :--- | :--- | :--- | :--- |\n';
 
