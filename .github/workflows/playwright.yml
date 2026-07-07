@@ -48,6 +48,7 @@ jobs:
 
   api-tests:
     needs: lint
+    if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     container: *playwright_image
@@ -88,6 +89,7 @@ jobs:
 
   ui-tests:
     needs: lint
+    if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     container: *playwright_image
@@ -135,7 +137,7 @@ jobs:
 
   ctrf-report:
     needs: [api-tests, ui-tests]
-    if: ${{ !cancelled() }}
+    if: ${{ github.actor != 'dependabot[bot]' && !cancelled() }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
