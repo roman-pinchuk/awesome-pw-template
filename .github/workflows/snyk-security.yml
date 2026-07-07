@@ -30,10 +30,17 @@ jobs:
         run: npm ci
 
       - name: Skip Snyk scan when token is unavailable
-        if: env.SNYK_TOKEN == ''
+        if: env.SNYK_TOKEN == '' && github.actor == 'dependabot[bot]'
         run: |
           echo "SNYK_TOKEN is unavailable for this event."
           echo "For Dependabot PRs, add SNYK_TOKEN under repository Dependabot secrets."
+
+      - name: Require Snyk token for trusted runs
+        if: env.SNYK_TOKEN == '' && github.actor != 'dependabot[bot]'
+        run: |
+          echo "SNYK_TOKEN is unavailable for this trusted run."
+          echo "Add SNYK_TOKEN under repository Actions secrets for push and scheduled runs."
+          exit 1
 
       # Step 1: Scan for your README Markdown table (JSON output)
       - name: Run Snyk for Markdown Generation
