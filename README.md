@@ -47,57 +47,49 @@ approach for both UI and API testing.
 
 ## Project structure
 
-```mermaid
-flowchart TB
-    classDef testStyle fill:#fae8ff,stroke:#d946ef,stroke-width:2px,color:#701a75;
-    classDef bizStyle fill:#e0f2fe,stroke:#0ea5e9,stroke-width:2px,color:#0369a1;
-    classDef pageStyle fill:#ecfdf5,stroke:#10b981,stroke-width:2px,color:#047857;
-    classDef infraStyle fill:#fff1f2,stroke:#f43f5e,stroke-width:2px,color:#be123c;
-
-    subgraph testSuite["TESTS LAYER (tests/)"]
-        direction LR
-        api_specs["api/*.spec.ts<br/>(4 API specs)"]
-        ui_specs["ui/*.spec.ts<br/>(7 UI specs)"]
-        auth["auth.setup.ts"]
-    end
-
-    subgraph domain["CORE BUSINESS LOGIC (business/)"]
-        direction LR
-        api_logic["<b>API Domain</b><br/>object, assertions, factories"]
-        journeys["<b>Journeys</b><br/>login, cart, checkout, product"]
-    end
-
-    subgraph pageLayer["PAGE OBJECTS (pages/)"]
-        direction LR
-        login_p["login.page.ts"]
-        flow_p["<b>Flow</b><br/>inventory<br/>cart<br/>checkout<br/>detail"]
-    end
-
-    subgraph infrastructure["INFRASTRUCTURE (infrastructure/)"]
-        direction TB
-        fixtures["Fixtures<br/>api.fixture.ts, ui.fixture.ts"]
-        client["restful.client.ts"]
-        env["config/env.ts"]
-    end
-
-    api_specs --> fixtures
-    fixtures --> api_logic
-    fixtures --> client
-    client --> env
-    api_logic --> client
-    ui_specs --> journeys
-    journeys --> pageLayer
-    ui_specs --> pageLayer
-    auth --> login_p
-
-    testSuite ~~~ infrastructure
-    infrastructure ~~~ domain
-    domain ~~~ pageLayer
-
-    class auth,ui_specs,api_specs testStyle;
-    class journeys,api_logic bizStyle;
-    class login_p,flow_p pageStyle;
-    class fixtures,client,env infraStyle;
+```text
+┌───────────────────────────────────────────────────────────────────────────────────┐
+│                               TESTS LAYER (tests/)                                │
+│                                                                                   │
+│   ┌───────────────────────┐      ┌───────────────────────┐    ┌───────────────┐   │
+│   │     api/*.spec.ts     │      │     ui/*.spec.ts      │    │ auth.setup.ts │   │
+│   │     (4 API specs)     │      │     (7 UI specs)      │    └───────┬───────┘   │
+│   └───────────┬───────────┘      └─────┬───────────┬─────┘            │           │
+└───────────────┼────────────────────────┼───────────┼──────────────────┼───────────┘
+                │                        │           │                  │
+                │                        │           └───────┐          │
+                ▼                        ▼                   │          │
+┌───────────────────────────────┐  ┌──────────────────────┐  │          │
+│        INFRASTRUCTURE         │  │ CORE BUSINESS LOGIC  │  │          │
+│       (infrastructure/)       │  │     (business/)      │  │          │
+│                               │  │                      │  │          │
+│  ┌─────────────────────────┐  │  │  ┌────────────────┐  │  │          │
+│  │        Fixtures         ├──┼──┼─▶│   API Domain   │  │  │          │
+│  │  api.fixture.ts,        │  │  │  │    objects,    │  │  │          │
+│  │  ui.fixture.ts          │  │  │  │   assertions,  │  │  │          │
+│  └────────────┬────────────┘  │  │  │   factories    │  │  │          │
+│               │               │  │  └───────┬────────┘  │  │          │
+│               │               │  │          │           │  │          │
+│               ▼               │  │          │           │  │          │
+│  ┌─────────────────────────┐  │  │          │           │  │          │
+│  │    restful.client.ts    │◀─┼──┼──────────┘           │  │          │
+│  └────────────┬────────────┘  │  │  ┌────────────────┐  │  │          │
+│               │               │  │  │    Journeys    │◀─┼──┘          │
+│               ▼               │  │  │  login, cart,  │  │             │
+│  ┌─────────────────────────┐  │  │  │ checkout, etc. │  │             │
+│  │      config/env.ts      │  │  │  └───────┬────────┘  │             │
+│  └─────────────────────────┘  │  └──────────┼───────────┘             │
+└───────────────────────────────┘             │                         │
+                                              ▼                         ▼
+                                   ┌────────────────────────────────────────┐
+                                   │         PAGE OBJECTS (pages/)          │
+                                   │                                        │
+                                   │  ┌──────────────────┐  ┌────────────┐  │
+                                   │  │       Flow       │  │login.page  │  │
+                                   │  │ inventory, cart, │  │    .ts     │  │
+                                   │  │ checkout, detail │  └────────────┘  │
+                                   │  └──────────────────┘                  │
+                                   └────────────────────────────────────────┘
 ```
 
 ## Design principles
