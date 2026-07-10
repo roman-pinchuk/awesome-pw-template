@@ -3,8 +3,12 @@ name: Snyk Security Hub & README Matrix
 on:
   push:
     branches: [main]
+    paths: &dependency_paths
+      - 'package.json'
+      - 'package-lock.json'
   pull_request:
     branches: [main]
+    paths: *dependency_paths
   schedule:
     - cron: '0 0 * * 1' # Weekly Monday sweep
 
