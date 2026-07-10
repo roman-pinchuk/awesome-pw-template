@@ -100,6 +100,7 @@ jobs:
       matrix:
         browser: [chromium, firefox, webkit]
       fail-fast: false
+      max-parallel: 2
     steps:
       - uses: actions/checkout@v7
       - uses: actions/cache@v6
