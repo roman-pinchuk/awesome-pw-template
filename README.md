@@ -1,6 +1,7 @@
 # Awesome Playwright Template
 
 [![CI](https://github.com/roman-pinchuk/awesome-pw-template/actions/workflows/playwright.yml/badge.svg)](https://github.com/roman-pinchuk/awesome-pw-template/actions/workflows/playwright.yml)
+[![Allure Report](https://img.shields.io/badge/Allure-Latest%20Report-ff6f00?logo=allure&logoColor=white)](https://roman-pinchuk.github.io/awesome-pw-template/)
 ![Playwright](https://img.shields.io/badge/Playwright-1.61.1-2EAD33?logo=playwright&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-22-5FA04E?logo=nodedotjs&logoColor=white)
