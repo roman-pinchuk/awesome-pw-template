@@ -189,7 +189,7 @@ jobs:
         run: |
           echo "Branch=${{ github.ref_name }}" >> allure-results/environment.properties
           echo "Commit=${{ github.sha }}" >> allure-results/environment.properties
-          echo "Workflow URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> allure-results/environment.properties
+          echo "Workflow=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> allure-results/environment.properties
       - name: Generate Allure Report
         uses: simple-elf/allure-report-action@v1.14
         with:
