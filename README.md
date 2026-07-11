@@ -12,27 +12,27 @@ approach for both UI and API testing.
 
 <!-- START_MATRIX_TABLE -->
 
-## 📦 Dynamic Dependency & Security Matrix
+## Dynamic Dependency & Security Matrix
 
-| Dependency                        | Manifest Target | Snyk Status       | Latest npm Version                                                                           |
-| :-------------------------------- | :-------------- | :---------------- | :------------------------------------------------------------------------------------------- |
-| **pino**                          | `^10.3.1`       | ✅ No Snyk issues | ![pino](https://img.shields.io/npm/v/pino)                                                   |
-| **pino-pretty**                   | `^13.1.3`       | ✅ No Snyk issues | ![pino-pretty](https://img.shields.io/npm/v/pino-pretty)                                     |
-| **@dotenvx/dotenvx**              | `^2.1.5`        | ✅ No Snyk issues | ![@dotenvx/dotenvx](https://img.shields.io/npm/v/%40dotenvx%2Fdotenvx)                       |
-| **@eslint/js**                    | `^10.0.1`       | ✅ No Snyk issues | ![@eslint/js](https://img.shields.io/npm/v/%40eslint%2Fjs)                                   |
-| **@playwright/test**              | `1.61.1`        | ✅ No Snyk issues | ![@playwright/test](https://img.shields.io/npm/v/%40playwright%2Ftest)                       |
-| **@types/node**                   | `^26.1.0`       | ✅ No Snyk issues | ![@types/node](https://img.shields.io/npm/v/%40types%2Fnode)                                 |
-| **@types/pino**                   | `^7.0.5`        | ✅ No Snyk issues | ![@types/pino](https://img.shields.io/npm/v/%40types%2Fpino)                                 |
-| **allure-playwright**             | `^3.10.2`       | ✅ No Snyk issues | ![allure-playwright](https://img.shields.io/npm/v/allure-playwright)                         |
-| **eslint**                        | `^10.1.0`       | ✅ No Snyk issues | ![eslint](https://img.shields.io/npm/v/eslint)                                               |
-| **eslint-plugin-playwright**      | `^2.10.5`       | ✅ No Snyk issues | ![eslint-plugin-playwright](https://img.shields.io/npm/v/eslint-plugin-playwright)           |
-| **lint-staged**                   | `^17.0.8`       | ✅ No Snyk issues | ![lint-staged](https://img.shields.io/npm/v/lint-staged)                                     |
-| **playwright-ctrf-json-reporter** | `^0.0.29`       | ✅ No Snyk issues | ![playwright-ctrf-json-reporter](https://img.shields.io/npm/v/playwright-ctrf-json-reporter) |
-| **prettier**                      | `^3.8.1`        | ✅ No Snyk issues | ![prettier](https://img.shields.io/npm/v/prettier)                                           |
-| **simple-git-hooks**              | `^2.13.1`       | ✅ No Snyk issues | ![simple-git-hooks](https://img.shields.io/npm/v/simple-git-hooks)                           |
-| **typescript**                    | `^6.0.3`        | ✅ No Snyk issues | ![typescript](https://img.shields.io/npm/v/typescript)                                       |
-| **typescript-eslint**             | `^8.63.0`       | ✅ No Snyk issues | ![typescript-eslint](https://img.shields.io/npm/v/typescript-eslint)                         |
-| **zod**                           | `^4.4.3`        | ✅ No Snyk issues | ![zod](https://img.shields.io/npm/v/zod)                                                     |
+| Dependency                        | Type            | Current Version | Security Status | Latest npm Version |
+| :-------------------------------- | :-------------- | :-------------- | :-------------- | :----------------- |
+| **@dotenvx/dotenvx**              | devDependencies | `^2.1.5`        | No known issues | `2.4.1`            |
+| **@eslint/js**                    | devDependencies | `^10.0.1`       | No known issues | `10.0.1`           |
+| **@playwright/test**              | devDependencies | `1.61.1`        | No known issues | `1.61.1`           |
+| **@types/node**                   | devDependencies | `^26.1.0`       | No known issues | `26.1.1`           |
+| **@types/pino**                   | devDependencies | `^7.0.5`        | No known issues | `7.0.5`            |
+| **allure-playwright**             | devDependencies | `^3.10.2`       | No known issues | `3.10.2`           |
+| **eslint**                        | devDependencies | `^10.1.0`       | No known issues | `10.7.0`           |
+| **eslint-plugin-playwright**      | devDependencies | `^2.10.5`       | No known issues | `2.10.5`           |
+| **lint-staged**                   | devDependencies | `^17.0.8`       | No known issues | `17.0.8`           |
+| **pino**                          | dependencies    | `^10.3.1`       | No known issues | `10.3.1`           |
+| **pino-pretty**                   | dependencies    | `^13.1.3`       | No known issues | `13.1.3`           |
+| **playwright-ctrf-json-reporter** | devDependencies | `^0.0.29`       | No known issues | `0.0.29`           |
+| **prettier**                      | devDependencies | `^3.8.1`        | No known issues | `3.9.5`            |
+| **simple-git-hooks**              | devDependencies | `^2.13.1`       | No known issues | `2.13.1`           |
+| **typescript**                    | devDependencies | `^6.0.3`        | No known issues | `7.0.2`            |
+| **typescript-eslint**             | devDependencies | `^8.63.0`       | No known issues | `8.63.0`           |
+| **zod**                           | devDependencies | `^4.4.3`        | No known issues | `4.4.3`            |
 
 <!-- END_MATRIX_TABLE -->
 
