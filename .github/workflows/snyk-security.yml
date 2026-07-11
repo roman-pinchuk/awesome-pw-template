@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
     paths: &dependency_paths
+      - '.github/workflows/snyk-security.yml'
       - 'package.json'
       - 'package-lock.json'
   pull_request:
@@ -11,9 +12,14 @@ on:
     paths: *dependency_paths
   schedule:
     - cron: '0 0 * * 1' # Weekly Monday sweep
+  workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   security-pipeline:
@@ -37,24 +43,22 @@ jobs:
       - name: Install Project Dependencies
         run: npm ci
 
-      - name: Require Snyk token
-        if: env.SNYK_TOKEN == ''
-        run: |
-          echo "SNYK_TOKEN is unavailable."
-          echo "Add SNYK_TOKEN under repository Actions secrets."
-          exit 1
-
-      # Step 1: Scan for your README Markdown table (JSON output)
+      # Step 1: Scan for the README matrix security status (JSON output).
+      # This is best-effort; the matrix action falls back to dependency inventory.
       - name: Run Snyk for Markdown Generation
-        continue-on-error: true # Allows matrix generation even when vulnerabilities are found
+        continue-on-error: true
         uses: snyk/actions/node@v1
+        env:
+          SNYK_TOKEN: ${{ env.SNYK_TOKEN }}
         with:
           args: --dev --json --json-file-output=snyk-results.json
 
       # Step 2: Scan for native GitHub Security Alerts (SARIF output)
       - name: Run Snyk for GitHub Security Tab
-        continue-on-error: true # Essential: Prevents pipeline failure so the upload step always executes
+        continue-on-error: true
         uses: snyk/actions/node@v1
+        env:
+          SNYK_TOKEN: ${{ env.SNYK_TOKEN }}
         with:
           args: --dev --sarif-file-output=snyk.sarif
 
@@ -65,51 +69,24 @@ jobs:
         with:
           sarif_file: snyk.sarif
 
-      # Step 4: Construct and rewrite the Markdown Matrix
-      - name: Inject Matrix into README
-        if: hashFiles('snyk-results.json') != ''
-        uses: actions/github-script@v9
+      # Step 4: Construct and rewrite the Markdown Matrix.
+      - name: Generate Dependency Security Matrix
+        id: matrix
+        uses: roman-pinchuk/dependency-security-matrix-action@v1
         with:
-          script: |
-            const fs = require('fs');
-
-            let rawData = fs.readFileSync('snyk-results.json', 'utf8');
-            let snykData = JSON.parse(rawData);
-            if (Array.isArray(snykData)) snykData = snykData[0];
-
-            const vulns = snykData.vulnerabilities || [];
-            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-            const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
-
-            let table = '\n## 📦 Dynamic Dependency & Security Matrix\n\n';
-            table += '| Dependency | Manifest Target | Snyk Status | Latest npm Version |\n';
-            table += '| :--- | :--- | :--- | :--- |\n';
-
-            for (const [name, version] of Object.entries(allDeps)) {
-              const issueCount = vulns.filter(v => v.packageName === name).length;
-              const status = issueCount > 0 ? `❌ ${issueCount} Snyk issues` : '✅ No Snyk issues';
-              const badgeName = encodeURIComponent(name);
-              const badge = `![${name}](https://img.shields.io/npm/v/${badgeName})`;
-
-              table += `| **${name}** | \`${version}\` | ${status} | ${badge} |\n`;
-            }
-            table += '\n';
-
-            let readme = fs.readFileSync('README.md', 'utf8');
-            const startMarker = '<!-- START_MATRIX_TABLE -->';
-            const endMarker = '<!-- END_MATRIX_TABLE -->';
-
-            const regex = new RegExp(`${startMarker}[\\s\\S]*${endMarker}`);
-            readme = readme.replace(regex, `${startMarker}${table}${endMarker}`);
-
-            fs.writeFileSync('README.md', readme);
+          scanner: snyk
+          scanner-report: snyk-results.json
+          manifest: package.json
+          manifest-type: npm
+          readme: README.md
+          heading: '## Dynamic Dependency & Security Matrix'
 
       # Step 5: Save Markdown alterations to git tree (Skips on Pull Requests)
       - name: Commit Matrix Updates
-        if: github.event_name != 'pull_request' && hashFiles('snyk-results.json') != ''
+        if: github.event_name != 'pull_request' && steps.matrix.outputs.updated == 'true'
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           npx prettier --write README.md
           git add README.md
           if git diff --cached --quiet; then

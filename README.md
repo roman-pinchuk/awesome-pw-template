@@ -257,13 +257,18 @@ and pull request.
   with weekly Monday update checks.
 - Dependabot groups Playwright/reporting packages, TypeScript/linting tooling,
   and GitHub Actions updates into focused PRs.
-- `.github/workflows/snyk-security.yml` runs on pushes to `main`,
-  non-Dependabot pull requests, and a weekly Monday schedule.
-- The Snyk workflow uses one repository Actions secret: `SNYK_TOKEN`.
+- `.github/workflows/snyk-security.yml` runs on dependency changes, manual
+  dispatch, non-Dependabot pull requests, and a weekly Monday schedule.
+- The Snyk scan uses one optional repository Actions secret: `SNYK_TOKEN`.
   Dependabot PRs skip this workflow because GitHub does not expose Actions
   secrets to Dependabot-triggered runs.
-- When `SNYK_TOKEN` is available, the workflow uploads SARIF results to GitHub
-  Security and updates the dependency security matrix below on non-PR runs.
+- The workflow uses
+  `roman-pinchuk/dependency-security-matrix-action@v1` to update the dependency
+  matrix on non-PR runs. When `SNYK_TOKEN` is unavailable or invalid, the
+  matrix still updates with dependency versions and latest npm versions, but
+  without scanner-backed security status.
+- When `SNYK_TOKEN` is available, the workflow also uploads SARIF results to
+  GitHub Security.
 
 ### Jobs
 
