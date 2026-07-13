@@ -16,22 +16,21 @@ approach for both UI and API testing.
 
 | Dependency                        | Type            | Current Version | Security Status | Latest npm Version |
 | :-------------------------------- | :-------------- | :-------------- | :-------------- | :----------------- |
-| **@dotenvx/dotenvx**              | devDependencies | `^2.1.5`        | No known issues | `2.6.0`            |
+| **@dotenvx/dotenvx**              | devDependencies | `^2.7.0`        | No known issues | `2.7.0`            |
 | **@eslint/js**                    | devDependencies | `^10.0.1`       | No known issues | `10.0.1`           |
 | **@playwright/test**              | devDependencies | `1.61.1`        | No known issues | `1.61.1`           |
-| **@types/node**                   | devDependencies | `^26.1.0`       | No known issues | `26.1.1`           |
-| **@types/pino**                   | devDependencies | `^7.0.5`        | No known issues | `7.0.5`            |
+| **@types/node**                   | devDependencies | `^26.1.1`       | No known issues | `26.1.1`           |
 | **allure-playwright**             | devDependencies | `^3.10.2`       | No known issues | `3.10.2`           |
-| **eslint**                        | devDependencies | `^10.1.0`       | No known issues | `10.7.0`           |
+| **eslint**                        | devDependencies | `^10.7.0`       | No known issues | `10.7.0`           |
 | **eslint-plugin-playwright**      | devDependencies | `^2.10.5`       | No known issues | `2.10.5`           |
 | **lint-staged**                   | devDependencies | `^17.0.8`       | No known issues | `17.0.8`           |
 | **pino**                          | dependencies    | `^10.3.1`       | No known issues | `10.3.1`           |
 | **pino-pretty**                   | dependencies    | `^13.1.3`       | No known issues | `13.1.3`           |
 | **playwright-ctrf-json-reporter** | devDependencies | `^0.0.29`       | No known issues | `0.0.29`           |
-| **prettier**                      | devDependencies | `^3.8.1`        | No known issues | `3.9.5`            |
+| **prettier**                      | devDependencies | `^3.9.5`        | No known issues | `3.9.5`            |
 | **simple-git-hooks**              | devDependencies | `^2.13.1`       | No known issues | `2.13.1`           |
 | **typescript**                    | devDependencies | `^6.0.3`        | No known issues | `7.0.2`            |
-| **typescript-eslint**             | devDependencies | `^8.63.0`       | No known issues | `8.63.0`           |
+| **typescript-eslint**             | devDependencies | `8.63.0`        | No known issues | `8.64.0`           |
 | **zod**                           | devDependencies | `^4.4.3`        | No known issues | `4.4.3`            |
 
 <!-- END_MATRIX_TABLE -->
