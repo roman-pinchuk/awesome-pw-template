@@ -44,8 +44,8 @@
     "playwright-ctrf-json-reporter": "^0.0.29",
     "prettier": "^3.9.5",
     "simple-git-hooks": "^2.13.1",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "8.63.0",
+    "typescript": "^7.0.2",
+    "typescript-eslint": "8.64.0",
     "zod": "^4.4.3"
   },
   "private": true,
