@@ -16,7 +16,7 @@ approach for both UI and API testing.
 
 | Dependency                        | Type            | Current Version | Security Status | Latest npm Version |
 | :-------------------------------- | :-------------- | :-------------- | :-------------- | :----------------- |
-| **@dotenvx/dotenvx**              | devDependencies | `^2.1.5`        | No known issues | `2.4.1`            |
+| **@dotenvx/dotenvx**              | devDependencies | `^2.1.5`        | No known issues | `2.6.0`            |
 | **@eslint/js**                    | devDependencies | `^10.0.1`       | No known issues | `10.0.1`           |
 | **@playwright/test**              | devDependencies | `1.61.1`        | No known issues | `1.61.1`           |
 | **@types/node**                   | devDependencies | `^26.1.0`       | No known issues | `26.1.1`           |
