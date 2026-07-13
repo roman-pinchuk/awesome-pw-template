@@ -294,8 +294,10 @@ and pull request.
 - The reporter writes to `ctrf/<filename>` (default subdirectory)
 - Uploaded as artifact `ctrf-*`
 - `ctrf-report` job downloads all `ctrf-*` artifacts, merges, and runs
-  `ctrf-io/github-test-reporter` with `suite-folded-report: true` +
-  `group-by: suite`
+  `ctrf-io/github-test-reporter` with `summary-report: true`,
+  `insights-report: true`, `suite-folded-report: true` + `group-by: suite` +
+  `upload-artifact: true` (processed CTRF artifact enables multi-run
+  insights across previous workflow runs)
 
 #### Allure — GitHub Pages dashboard
 

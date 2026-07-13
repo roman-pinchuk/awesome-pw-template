@@ -26,6 +26,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -154,8 +155,12 @@ jobs:
         with:
           report-path: 'ctrf-*.json'
           summary-report: true
+          insights-report: true
           suite-folded-report: true
           group-by: 'suite'
+          upload-artifact: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   allure-report:
     needs: [api-tests, ui-tests]
