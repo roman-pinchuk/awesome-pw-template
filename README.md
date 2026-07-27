@@ -16,12 +16,12 @@ approach for both UI and API testing.
 
 | Dependency                        | Type            | Current Version | Security Status | Latest npm Version |
 | :-------------------------------- | :-------------- | :-------------- | :-------------- | :----------------- |
-| **@dotenvx/dotenvx**              | devDependencies | `^2.14.0`       | No known issues | `2.17.2`           |
+| **@dotenvx/dotenvx**              | devDependencies | `^2.14.0`       | No known issues | `2.18.1`           |
 | **@eslint/js**                    | devDependencies | `^10.0.1`       | No known issues | `10.0.1`           |
-| **@playwright/test**              | devDependencies | `1.61.1`        | No known issues | `1.61.1`           |
+| **@playwright/test**              | devDependencies | `1.61.1`        | No known issues | `1.62.0`           |
 | **@types/node**                   | devDependencies | `^26.1.1`       | No known issues | `26.1.1`           |
 | **allure-playwright**             | devDependencies | `^3.10.2`       | No known issues | `3.10.2`           |
-| **eslint**                        | devDependencies | `^10.7.0`       | No known issues | `10.7.0`           |
+| **eslint**                        | devDependencies | `^10.7.0`       | No known issues | `10.8.0`           |
 | **eslint-plugin-playwright**      | devDependencies | `^2.10.5`       | No known issues | `2.10.5`           |
 | **lint-staged**                   | devDependencies | `^17.1.0`       | No known issues | `17.2.0`           |
 | **pino**                          | dependencies    | `^10.3.1`       | No known issues | `10.3.1`           |
