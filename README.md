@@ -247,8 +247,8 @@ Prettier on staged JS, JSON, Markdown, and YAML files.
 
 ## CI pipeline
 
-The `.github/workflows/playwright.yml` workflow runs on every push to `main`
-and pull request.
+The `.github/workflows/playwright.yml` workflow runs on every push to `main`,
+pull request, and every Monday at 13:00 in the `Asia/Jerusalem` timezone.
 
 ### Dependency and security automation
 
