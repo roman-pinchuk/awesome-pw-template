@@ -20,7 +20,7 @@ on:
   pull_request:
     paths: *ci_paths
   schedule:
-    - cron: '0 13 * * 1'
+    - cron: '0 13 * * 1,4'
       timezone: 'Asia/Jerusalem'
   workflow_dispatch:
 
