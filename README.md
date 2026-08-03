@@ -16,14 +16,14 @@ approach for both UI and API testing.
 
 | Dependency                        | Type            | Current Version | Security Status | Latest npm Version |
 | :-------------------------------- | :-------------- | :-------------- | :-------------- | :----------------- |
-| **@dotenvx/dotenvx**              | devDependencies | `^2.14.0`       | No known issues | `2.18.1`           |
+| **@dotenvx/dotenvx**              | devDependencies | `^2.14.0`       | No known issues | `2.19.1`           |
 | **@eslint/js**                    | devDependencies | `^10.0.1`       | No known issues | `10.0.1`           |
-| **@playwright/test**              | devDependencies | `1.61.1`        | No known issues | `1.62.0`           |
-| **@types/node**                   | devDependencies | `^26.1.1`       | No known issues | `26.1.1`           |
+| **@playwright/test**              | devDependencies | `1.61.1`        | No known issues | `1.62.1`           |
+| **@types/node**                   | devDependencies | `^26.1.1`       | No known issues | `26.1.2`           |
 | **allure-playwright**             | devDependencies | `^3.10.2`       | No known issues | `3.10.2`           |
 | **eslint**                        | devDependencies | `^10.7.0`       | No known issues | `10.8.0`           |
-| **eslint-plugin-playwright**      | devDependencies | `^2.10.5`       | No known issues | `2.10.5`           |
-| **lint-staged**                   | devDependencies | `^17.1.0`       | No known issues | `17.2.0`           |
+| **eslint-plugin-playwright**      | devDependencies | `^2.10.5`       | No known issues | `2.11.0`           |
+| **lint-staged**                   | devDependencies | `^17.1.0`       | No known issues | `17.3.0`           |
 | **pino**                          | dependencies    | `^10.3.1`       | No known issues | `10.3.1`           |
 | **pino-pretty**                   | dependencies    | `^13.1.3`       | No known issues | `13.1.3`           |
 | **playwright-ctrf-json-reporter** | devDependencies | `^0.0.29`       | No known issues | `0.0.29`           |
