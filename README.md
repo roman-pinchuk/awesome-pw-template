@@ -16,7 +16,7 @@ approach for both UI and API testing.
 
 | Dependency                        | Type            | Current Version | Security Status | Latest npm Version |
 | :-------------------------------- | :-------------- | :-------------- | :-------------- | :----------------- |
-| **@dotenvx/dotenvx**              | devDependencies | `^2.14.0`       | No known issues | `2.20.1`           |
+| **@dotenvx/dotenvx**              | devDependencies | `^2.14.0`       | No known issues | `2.21.0`           |
 | **@eslint/js**                    | devDependencies | `^10.0.1`       | No known issues | `10.0.1`           |
 | **@playwright/test**              | devDependencies | `1.61.1`        | No known issues | `1.62.1`           |
 | **@types/node**                   | devDependencies | `^26.1.1`       | No known issues | `26.2.0`           |
@@ -30,7 +30,7 @@ approach for both UI and API testing.
 | **prettier**                      | devDependencies | `^3.9.5`        | No known issues | `3.9.6`            |
 | **simple-git-hooks**              | devDependencies | `^2.13.1`       | No known issues | `2.13.1`           |
 | **typescript**                    | devDependencies | `^6.0.3`        | No known issues | `7.0.2`            |
-| **typescript-eslint**             | devDependencies | `8.64.0`        | No known issues | `8.66.0`           |
+| **typescript-eslint**             | devDependencies | `8.64.0`        | No known issues | `8.67.0`           |
 | **zod**                           | devDependencies | `^4.4.3`        | No known issues | `4.4.3`            |
 
 <!-- END_MATRIX_TABLE -->
