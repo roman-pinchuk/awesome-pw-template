@@ -151,7 +151,7 @@ jobs:
           pattern: ctrf-*
           merge-multiple: true
       - name: Publish CTRF Summary
-        uses: ctrf-io/github-test-reporter@v1.1.0
+        uses: ctrf-io/github-test-reporter@v1.1.1
         with:
           report-path: 'ctrf-*.json'
           summary-report: true
