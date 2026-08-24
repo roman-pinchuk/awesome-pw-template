@@ -21,7 +21,7 @@ approach for both UI and API testing.
 | **@playwright/test**              | devDependencies | `1.61.1`        | No known issues | `1.62.1`           |
 | **@types/node**                   | devDependencies | `^26.1.1`       | No known issues | `26.2.0`           |
 | **allure-playwright**             | devDependencies | `^3.10.2`       | No known issues | `3.10.2`           |
-| **eslint**                        | devDependencies | `^10.7.0`       | No known issues | `10.8.1`           |
+| **eslint**                        | devDependencies | `^10.7.0`       | No known issues | `10.9.0`           |
 | **eslint-plugin-playwright**      | devDependencies | `^2.10.5`       | No known issues | `2.11.0`           |
 | **lint-staged**                   | devDependencies | `^17.1.0`       | No known issues | `17.3.0`           |
 | **pino**                          | dependencies    | `^10.3.1`       | No known issues | `10.3.1`           |
