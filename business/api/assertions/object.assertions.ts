@@ -1,5 +1,5 @@
 import { expect, type APIResponse } from '@playwright/test';
-import type { RestObject } from '@business/api/object';
+import { RestObjectListSchema, RestObjectSchema, type RestObject } from '@business/api/object';
 
 const expectOk = async (response: APIResponse): Promise<void> => {
   expect(
@@ -21,16 +21,16 @@ export const expectObject = async (
 ): Promise<RestObject> => {
   await expectOk(response);
   const body: unknown = await response.json();
-  const obj = Array.isArray(body) ? (body as RestObject[])[0] : (body as RestObject);
+  const obj = RestObjectSchema.parse(Array.isArray(body) ? body[0] : body);
   expect(obj).toBeDefined();
   expect(obj).toMatchObject(expected);
-  return obj!;
+  return obj;
 };
 
 /** Verifies a successful list response and returns REST Object records. */
 export const expectObjects = async (response: APIResponse): Promise<RestObject[]> => {
   await expectOk(response);
-  return (await response.json()) as RestObject[];
+  return RestObjectListSchema.parse(await response.json());
 };
 
 /** Verifies a successful delete response references the deleted REST Object. */
@@ -40,7 +40,7 @@ export const expectDeleteMessage = async (
 ): Promise<void> => {
   await expectOk(response);
   const body: unknown = await response.json();
-  const deleted = Array.isArray(body) ? (body as RestObject[])[0] : (body as RestObject);
+  const deleted = RestObjectSchema.parse(Array.isArray(body) ? body[0] : body);
   expect(deleted).toBeDefined();
-  expect(deleted!.id).toBe(objectId);
+  expect(deleted.id).toBe(objectId);
 };
