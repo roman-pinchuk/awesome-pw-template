@@ -34,7 +34,7 @@ concurrency:
 
 env:
   FORCE_COLOR: '1'
-  PLAYWRIGHT_IMAGE: &playwright_image mcr.microsoft.com/playwright:v1.61.1-noble
+  PLAYWRIGHT_IMAGE: &playwright_image mcr.microsoft.com/playwright:v1.62.1-noble
 
 jobs:
   lint:
@@ -47,6 +47,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm run verify:playwright
       - run: npm run typecheck
       - run: npm run lint
 

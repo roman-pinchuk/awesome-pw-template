@@ -1,6 +1,6 @@
 {
   "name": "${localWorkspaceFolderBasename}",
-  "image": "mcr.microsoft.com/playwright:v1.61.1-noble",
+  "image": "mcr.microsoft.com/playwright:v1.62.1-noble",
   "init": true,
   "runArgs": ["--ipc=host"],
   "postCreateCommand": "npm ci",
