@@ -31,7 +31,7 @@ approach for both UI and API testing.
 | **simple-git-hooks**              | devDependencies | `^2.13.1`       | No known issues | `2.14.0`           |
 | **typescript**                    | devDependencies | `^6.0.3`        | No known issues | `7.0.2`            |
 | **typescript-eslint**             | devDependencies | `8.67.0`        | No known issues | `8.68.0`           |
-| **zod**                           | devDependencies | `^4.4.3`        | No known issues | `4.5.1`            |
+| **zod**                           | devDependencies | `^4.4.3`        | No known issues | `4.5.4`            |
 
 <!-- END_MATRIX_TABLE -->
 
