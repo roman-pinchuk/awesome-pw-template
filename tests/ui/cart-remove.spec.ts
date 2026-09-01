@@ -4,7 +4,7 @@ import { PRODUCTS } from '@business/constants';
 test.describe('SauceDemo cart item removal', () => {
   test(
     'removes an item from the cart and updates badge',
-    { annotation: { type: 'feature', description: 'Cart' } },
+    { tag: '@CASE-007', annotation: { type: 'feature', description: 'Cart' } },
     async ({ cartJourney, cartPage }) => {
       await cartJourney.openCartWithProducts(PRODUCTS.FLEECE_JACKET, PRODUCTS.ONESIE);
       await cartJourney.expectCartContains(PRODUCTS.FLEECE_JACKET, PRODUCTS.ONESIE);
@@ -19,7 +19,7 @@ test.describe('SauceDemo cart item removal', () => {
 
   test(
     'removes the only item and shows empty cart',
-    { annotation: { type: 'feature', description: 'Cart' } },
+    { tag: '@CASE-008', annotation: { type: 'feature', description: 'Cart' } },
     async ({ cartJourney, cartPage }) => {
       await cartJourney.openCartWithProducts(PRODUCTS.BACKPACK);
       await cartJourney.expectCartContains(PRODUCTS.BACKPACK);

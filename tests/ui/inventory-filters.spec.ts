@@ -4,7 +4,7 @@ import { PRODUCT_SORT_ORDERS } from '@business/constants';
 test.describe('SauceDemo inventory filters', () => {
   test(
     'sorts products by name A to Z (default)',
-    { annotation: { type: 'feature', description: 'Inventory' } },
+    { tag: '@CASE-003', annotation: { type: 'feature', description: 'Inventory' } },
     async ({ inventoryPage }) => {
       await inventoryPage.goto();
       await expect
@@ -25,7 +25,7 @@ test.describe('SauceDemo inventory filters', () => {
 
   test(
     'sorts products by name Z to A',
-    { annotation: { type: 'feature', description: 'Inventory' } },
+    { tag: '@CASE-004', annotation: { type: 'feature', description: 'Inventory' } },
     async ({ inventoryPage }) => {
       await inventoryPage.goto();
       await inventoryPage.sortSelect.selectOption('za');
@@ -43,7 +43,7 @@ test.describe('SauceDemo inventory filters', () => {
 
   test(
     'sorts products by price low to high',
-    { annotation: { type: 'feature', description: 'Inventory' } },
+    { tag: '@CASE-005', annotation: { type: 'feature', description: 'Inventory' } },
     async ({ inventoryPage }) => {
       await inventoryPage.goto();
       await inventoryPage.sortSelect.selectOption('lohi');
@@ -61,7 +61,7 @@ test.describe('SauceDemo inventory filters', () => {
 
   test(
     'sorts products by price high to low',
-    { annotation: { type: 'feature', description: 'Inventory' } },
+    { tag: '@CASE-006', annotation: { type: 'feature', description: 'Inventory' } },
     async ({ inventoryPage }) => {
       await inventoryPage.goto();
       await inventoryPage.sortSelect.selectOption('hilo');

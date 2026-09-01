@@ -4,7 +4,7 @@ import { buildCollectionName, buildObject } from '@business/api/factories/object
 test.describe('RESTful API object queries', () => {
   test(
     'returns an empty array for a new collection',
-    { annotation: { type: 'feature', description: 'Queries' } },
+    { tag: '@CASE-027', annotation: { type: 'feature', description: 'Queries' } },
     async ({ collection, restApi, apiAssertions }) => {
       const response = await restApi.listObjects(collection);
       const objects = await apiAssertions.expectObjects(response);
@@ -17,7 +17,7 @@ test.describe('RESTful API object queries', () => {
 
   test(
     'lists objects created in a collection',
-    { annotation: { type: 'feature', description: 'Queries' } },
+    { tag: '@CASE-028', annotation: { type: 'feature', description: 'Queries' } },
     async ({ apiObjects, collection, restApi, apiAssertions }) => {
       const first = buildObject();
       const second = buildObject();
@@ -40,7 +40,7 @@ test.describe('RESTful API object queries', () => {
 
   test(
     'supports collection pagination',
-    { annotation: { type: 'feature', description: 'Queries' } },
+    { tag: '@CASE-029', annotation: { type: 'feature', description: 'Queries' } },
     async ({ apiObjects, collection, restApi, apiAssertions }) => {
       for (const name of ['one', 'two', 'three']) {
         await apiObjects.create(buildObject({ name: `page-${name}` }));
@@ -64,7 +64,7 @@ test.describe('RESTful API object queries', () => {
 
   test(
     'keeps collections isolated from each other',
-    { annotation: { type: 'feature', description: 'Queries' } },
+    { tag: '@CASE-030', annotation: { type: 'feature', description: 'Queries' } },
     async ({ apiObjects, restApi, apiAssertions }) => {
       const firstCollection = buildCollectionName('pw_collection_a');
       const secondCollection = buildCollectionName('pw_collection_b');

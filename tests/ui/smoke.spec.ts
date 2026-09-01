@@ -4,7 +4,7 @@ import { PRODUCTS } from '@business/constants';
 test.describe('SauceDemo smoke tests', () => {
   test(
     'inventory page loads with products',
-    { tag: ['@smoke'], annotation: { type: 'feature', description: 'Smoke' } },
+    { tag: ['@smoke', '@CASE-014'], annotation: { type: 'feature', description: 'Smoke' } },
     async ({ inventoryPage }) => {
       await test.step('load inventory and verify products', async () => {
         await inventoryPage.goto();
@@ -14,14 +14,14 @@ test.describe('SauceDemo smoke tests', () => {
           )
           .toHaveCount(6);
         await expect
-          .configure({ message: `Expected product "${PRODUCTS.BACKPACK}" to be visible in inventory` })(
-            inventoryPage.itemName(PRODUCTS.BACKPACK),
-          )
+          .configure({
+            message: `Expected product "${PRODUCTS.BACKPACK}" to be visible in inventory`,
+          })(inventoryPage.itemName(PRODUCTS.BACKPACK))
           .toBeVisible();
         await expect
-          .configure({ message: `Expected product "${PRODUCTS.BIKE_LIGHT}" to be visible in inventory` })(
-            inventoryPage.itemName(PRODUCTS.BIKE_LIGHT),
-          )
+          .configure({
+            message: `Expected product "${PRODUCTS.BIKE_LIGHT}" to be visible in inventory`,
+          })(inventoryPage.itemName(PRODUCTS.BIKE_LIGHT))
           .toBeVisible();
         await expect
           .configure({ message: 'Expected inventory page header to be visible' })(
@@ -34,7 +34,7 @@ test.describe('SauceDemo smoke tests', () => {
 
   test(
     'product detail page opens from inventory',
-    { tag: ['@smoke'], annotation: { type: 'feature', description: 'Smoke' } },
+    { tag: ['@smoke', '@CASE-015'], annotation: { type: 'feature', description: 'Smoke' } },
     async ({ productJourney }) => {
       await productJourney.openProduct(PRODUCTS.BACKPACK);
       await productJourney.expectLoaded(PRODUCTS.BACKPACK);
@@ -45,7 +45,7 @@ test.describe('SauceDemo smoke tests', () => {
 
   test(
     'cart badge displays correct count',
-    { tag: ['@smoke'], annotation: { type: 'feature', description: 'Smoke' } },
+    { tag: ['@smoke', '@CASE-016'], annotation: { type: 'feature', description: 'Smoke' } },
     async ({ cartJourney, inventoryPage }) => {
       await test.step('add products and verify cart badge updates', async () => {
         await inventoryPage.goto();

@@ -19,7 +19,7 @@ const overviewFor = (product: string): OverviewDetails => {
 test.describe('SauceDemo checkout flow', () => {
   test(
     'completes a full purchase journey',
-    { tag: '@smoke', annotation: { type: 'feature', description: 'Checkout' } },
+    { tag: ['@smoke', '@CASE-009'], annotation: { type: 'feature', description: 'Checkout' } },
     async ({ checkoutJourney }) => {
       await checkoutJourney.completePurchase(
         PRODUCTS.BACKPACK,
@@ -32,7 +32,7 @@ test.describe('SauceDemo checkout flow', () => {
 
   test(
     'shows error for empty checkout form',
-    { annotation: { type: 'feature', description: 'Checkout' } },
+    { tag: '@CASE-010', annotation: { type: 'feature', description: 'Checkout' } },
     async ({ checkoutJourney }) => {
       await checkoutJourney.startCheckout(PRODUCTS.BIKE_LIGHT);
       await checkoutJourney.submitEmptyCustomerInfo();

@@ -4,7 +4,7 @@ import { buildObject } from '@business/api/factories/object.factory';
 test.describe('RESTful API partial updates', () => {
   test(
     'patches the object name without overwriting its data',
-    { annotation: { type: 'feature', description: 'CRUD' } },
+    { tag: '@CASE-031', annotation: { type: 'feature', description: 'CRUD' } },
     async ({ apiObjects, collection, restApi, apiAssertions }) => {
       const original = buildObject();
 

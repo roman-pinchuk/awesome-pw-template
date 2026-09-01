@@ -4,7 +4,7 @@ import { PRODUCTS } from '@business/constants';
 test.describe('SauceDemo cart journey', () => {
   test(
     'adds a product from inventory and verifies cart contents',
-    { tag: '@smoke', annotation: { type: 'feature', description: 'Cart' } },
+    { tag: ['@smoke', '@CASE-001'], annotation: { type: 'feature', description: 'Cart' } },
     async ({ cartJourney }) => {
       await cartJourney.openCartWithProducts(PRODUCTS.BACKPACK);
       await cartJourney.expectCartContains(PRODUCTS.BACKPACK);
@@ -13,7 +13,7 @@ test.describe('SauceDemo cart journey', () => {
 
   test(
     'adds multiple products and verifies cart quantity',
-    { annotation: { type: 'feature', description: 'Cart' } },
+    { tag: '@CASE-002', annotation: { type: 'feature', description: 'Cart' } },
     async ({ cartJourney }) => {
       await cartJourney.openCartWithProducts(
         PRODUCTS.BACKPACK,

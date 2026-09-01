@@ -4,13 +4,11 @@ import { buildObject } from '@business/api/factories/object.factory';
 test.describe('RESTful API object CRUD', () => {
   test(
     'creates, reads, replaces, and deletes an object',
-    { annotation: { type: 'feature', description: 'CRUD' } },
+    { tag: '@CASE-025', annotation: { type: 'feature', description: 'CRUD' } },
     async ({ apiObjects, collection, restApi, apiAssertions }) => {
       const original = buildObject();
 
-      const createdObject = await test.step('create object', () =>
-        apiObjects.create(original),
-      );
+      const createdObject = await test.step('create object', () => apiObjects.create(original));
 
       await test.step('read created object', async () => {
         const getResponse = await restApi.getObject(createdObject.id);
@@ -68,7 +66,7 @@ test.describe('RESTful API object CRUD', () => {
 
   test(
     'returns an empty array for a missing object id',
-    { annotation: { type: 'feature', description: 'CRUD' } },
+    { tag: '@CASE-026', annotation: { type: 'feature', description: 'CRUD' } },
     async ({ restApi, apiAssertions }) => {
       await test.step('query non-existent object id', async () => {
         const response = await restApi.getObject('00000000-0000-0000-0000-000000000000');

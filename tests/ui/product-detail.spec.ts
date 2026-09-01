@@ -4,7 +4,7 @@ import { PRODUCTS } from '@business/constants';
 test.describe('SauceDemo product detail', () => {
   test(
     'adds product to cart from detail page',
-    { annotation: { type: 'feature', description: 'Product' } },
+    { tag: '@CASE-011', annotation: { type: 'feature', description: 'Product' } },
     async ({ productJourney, cartJourney }) => {
       await productJourney.openProduct(PRODUCTS.BACKPACK);
       await productJourney.addToCart();
@@ -15,7 +15,7 @@ test.describe('SauceDemo product detail', () => {
 
   test(
     'removes product from cart via detail page',
-    { annotation: { type: 'feature', description: 'Product' } },
+    { tag: '@CASE-012', annotation: { type: 'feature', description: 'Product' } },
     async ({ productJourney }) => {
       await productJourney.openProduct(PRODUCTS.BACKPACK);
       await productJourney.addToCart();
@@ -26,7 +26,7 @@ test.describe('SauceDemo product detail', () => {
 
   test(
     'navigates back to inventory from detail page',
-    { annotation: { type: 'feature', description: 'Product' } },
+    { tag: '@CASE-013', annotation: { type: 'feature', description: 'Product' } },
     async ({ productJourney }) => {
       await productJourney.openProduct(PRODUCTS.BACKPACK);
       await productJourney.navigateBackToInventory();
