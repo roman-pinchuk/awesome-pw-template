@@ -16,11 +16,11 @@ approach for both UI and API testing.
 
 | Dependency                        | Type            | Current Version | Security Status | Latest npm Version |
 | :-------------------------------- | :-------------- | :-------------- | :-------------- | :----------------- |
-| **@dotenvx/dotenvx**              | devDependencies | `^2.21.0`       | No known issues | `2.22.0`           |
+| **@dotenvx/dotenvx**              | devDependencies | `^2.21.0`       | No known issues | `2.23.0`           |
 | **@eslint/js**                    | devDependencies | `^10.0.1`       | No known issues | `10.0.1`           |
 | **@playwright/test**              | devDependencies | `1.62.1`        | No known issues | `1.62.1`           |
 | **@types/node**                   | devDependencies | `^26.2.0`       | No known issues | `26.4.0`           |
-| **allure-playwright**             | devDependencies | `^3.10.2`       | No known issues | `3.11.0`           |
+| **allure-playwright**             | devDependencies | `^3.10.2`       | No known issues | `3.11.1`           |
 | **eslint**                        | devDependencies | `^10.9.0`       | No known issues | `10.9.1`           |
 | **eslint-plugin-playwright**      | devDependencies | `^2.11.0`       | No known issues | `2.11.0`           |
 | **lint-staged**                   | devDependencies | `^17.3.0`       | No known issues | `17.4.1`           |
@@ -30,7 +30,7 @@ approach for both UI and API testing.
 | **prettier**                      | devDependencies | `^3.9.6`        | No known issues | `3.9.6`            |
 | **simple-git-hooks**              | devDependencies | `^2.13.1`       | No known issues | `2.14.0`           |
 | **typescript**                    | devDependencies | `^6.0.3`        | No known issues | `7.0.2`            |
-| **typescript-eslint**             | devDependencies | `8.67.0`        | No known issues | `8.68.0`           |
+| **typescript-eslint**             | devDependencies | `8.67.0`        | No known issues | `8.69.0`           |
 | **zod**                           | devDependencies | `^4.4.3`        | No known issues | `4.5.4`            |
 
 <!-- END_MATRIX_TABLE -->
