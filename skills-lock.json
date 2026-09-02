@@ -25,6 +25,12 @@
       "skillPath": "skills/engineering/improve-codebase-architecture/SKILL.md",
       "computedHash": "8bf292143ca93b00276a0de0fc5f84f2381f4690c5b0d32e99fa283a072f392f"
     },
+    "memory": {
+      "source": "roman-pinchuk/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/memory/SKILL.md",
+      "computedHash": "a7a29ce331494ef9152b2ba09fe2c214278bf7f2ba480f5d63f52f9357974a1f"
+    },
     "playwright-best-practices": {
       "source": "currents-dev/playwright-best-practices-skill",
       "sourceType": "github",
