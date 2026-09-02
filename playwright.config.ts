@@ -1,5 +1,4 @@
 import { defineConfig, devices } from '@playwright/test';
-import { allureCategories } from '@infrastructure/config/allure';
 import { loadEnv } from '@infrastructure/config/env';
 import { logger } from '@infrastructure/utils/logger';
 
@@ -22,7 +21,7 @@ export default defineConfig({
     ? [
         ['dot'],
         ['html', { open: 'never' }],
-        ['allure-playwright', { categories: allureCategories }],
+        ['allure-playwright'],
         [
           'playwright-ctrf-json-reporter',
           { outputFile: process.env.CTRF_REPORT_FILE ?? 'ctrf-report.json' },

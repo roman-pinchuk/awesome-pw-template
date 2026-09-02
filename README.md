@@ -304,25 +304,18 @@ pull request, and every Monday at 13:00 in the `Asia/Jerusalem` timezone.
 - Only runs on push to `main` (not on PRs)
 - Accessible at `https://roman-pinchuk.github.io/awesome-pw-template/`
 
-### Allure history caching
+### Allure 3 history
 
-Cross-run trend data (history graphs, duration trends) is preserved via
-`actions/cache`:
-
-1. **Restore** — `actions/cache/restore@v6` loads the full
-   `allure-history/` directory (previous run reports + trend data)
-2. **Seed** — If `allure-history/last-history/` exists, trend data is copied
-   into `allure-results/history/` before the report generator runs
-3. **Generate** — `simple-elf/allure-report-action@v1.14` generates the HTML
-   report. `keep_reports: 20` limits the number of historical runs
-4. **Deploy** — `actions/upload-pages-artifact@v5` uploads `allure-history/`
-   (all cached runs + the new one). `actions/deploy-pages@v5` publishes to
-   GitHub Pages
-5. **Save** — `actions/cache/save@v6` stores the updated `allure-history/` for
-   the next run
-
-Cache key: `allure-history-<branch>-<run_id>` — unique per run, no concurrent
-save conflicts. Cache eviction: 7 days of inactivity.
+- The official `allure` CLI generates the report from `allure-results/`.
+- `allurerc.mjs` stores cross-run history in `allure-history/history.jsonl` and
+  limits it to 20 runs.
+- `scripts/publish-allure-report.mjs` keeps the matching 20 report directories
+  and creates the root redirect to the latest run.
+- The complete `allure-history/` directory is restored and saved with a
+  branch-scoped GitHub Actions cache before deployment.
+- History starts fresh after the migration because Allure 3 uses JSONL rather
+  than Allure 2's `history/` files. GitHub cache eviction can remove history;
+  use Allure Report Storage when durable history is required.
 
 ### Action versions
 
@@ -336,7 +329,7 @@ save conflicts. Cache eviction: 7 days of inactivity.
 - `actions/upload-pages-artifact` — `@v5`, latest as of 2026-07
 - `actions/deploy-pages` — `@v5`, latest as of 2026-07
 - `ctrf-io/github-test-reporter` — `@v1.1.0`, latest as of 2026-07
-- `simple-elf/allure-report-action` — `@v1.14`, latest as of 2026-07
+- `allure` — `3.16.0`, official Allure Report CLI
 
 ## Environment loading
 

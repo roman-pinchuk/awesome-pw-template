@@ -12,6 +12,7 @@ export default tseslint.config(
       '.agents/**',
       '.playwright/**',
       'scripts/**/*.mjs',
+      'allurerc.mjs',
       'eslint.config.mjs',
     ],
   },
