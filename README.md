@@ -19,7 +19,8 @@ approach for both UI and API testing.
 | **@dotenvx/dotenvx**              | devDependencies | `^2.22.0`       | No known issues | `2.23.0`           |
 | **@eslint/js**                    | devDependencies | `^10.0.1`       | No known issues | `10.0.1`           |
 | **@playwright/test**              | devDependencies | `1.62.1`        | No known issues | `1.62.1`           |
-| **@types/node**                   | devDependencies | `^26.4.0`       | No known issues | `26.4.0`           |
+| **@types/node**                   | devDependencies | `^26.4.0`       | No known issues | `26.4.1`           |
+| **allure**                        | devDependencies | `^3.16.0`       | No known issues | `3.16.0`           |
 | **allure-playwright**             | devDependencies | `^3.11.0`       | No known issues | `3.11.1`           |
 | **eslint**                        | devDependencies | `^10.9.1`       | No known issues | `10.9.1`           |
 | **eslint-plugin-playwright**      | devDependencies | `^2.11.0`       | No known issues | `2.11.0`           |
