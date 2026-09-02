@@ -5,6 +5,35 @@ export default defineConfig({
   output: process.env.ALLURE_OUTPUT ?? './allure-report',
   historyPath: process.env.ALLURE_HISTORY_PATH ?? './allure-history/history.jsonl',
   historyLimit: 20,
+  plugins: {
+    awesome: {
+      options: {
+        groupBy: ['project', 'parentSuite', 'suite', 'subSuite'],
+      },
+    },
+  },
+  environments: {
+    chromium: {
+      name: 'Chromium',
+      matcher: ({ labels }) =>
+        labels.some(({ name, value }) => name === 'project' && value === 'chromium'),
+    },
+    firefox: {
+      name: 'Firefox',
+      matcher: ({ labels }) =>
+        labels.some(({ name, value }) => name === 'project' && value === 'firefox'),
+    },
+    webkit: {
+      name: 'WebKit',
+      matcher: ({ labels }) =>
+        labels.some(({ name, value }) => name === 'project' && value === 'webkit'),
+    },
+    api: {
+      name: 'API',
+      matcher: ({ labels }) =>
+        labels.some(({ name, value }) => name === 'project' && value === 'api'),
+    },
+  },
   categories: {
     rules: [
       {

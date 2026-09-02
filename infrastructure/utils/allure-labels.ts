@@ -10,10 +10,13 @@ import type { TestInfo } from '@playwright/test';
  */
 export const setLabels = (testInfo: TestInfo, epic: string): void => {
   allure.epic(epic);
+  allure.label('project', testInfo.project.name);
   for (const ann of testInfo.annotations) {
     if (ann.type === 'feature') allure.feature(ann.description!);
   }
   for (const tag of testInfo.tags) {
-    allure.tag(tag.replace(/^@/, ''));
+    const value = tag.replace(/^@/, '');
+    allure.tag(value);
+    if (/^CASE-/i.test(value)) allure.testCaseId(value);
   }
 };

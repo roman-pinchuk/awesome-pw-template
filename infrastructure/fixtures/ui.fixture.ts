@@ -14,6 +14,7 @@ import { logger as appLogger } from '@infrastructure/utils/logger';
 import { setLabels } from '@infrastructure/utils/allure-labels';
 import { loadEnv } from '@infrastructure/config/env';
 import { createUsers, type TestUsers } from '@business/factories/user.factory';
+import * as allure from 'allure-js-commons/sync';
 
 const env = loadEnv();
 
@@ -119,17 +120,12 @@ export const test = base.extend<UIFixturesWithConsole>({
 
       await use(entries);
 
-      const errors = entries.filter(
-        (e) => e.type === 'error' || e.type === 'pageerror',
-      );
+      const errors = entries.filter((e) => e.type === 'error' || e.type === 'pageerror');
 
       if (entries.length > 0) {
         await testInfo.attach('browser-console', {
           body: entries
-            .map(
-              (e) =>
-                `[${e.type}]${e.location ? ` (${e.location})` : ''} ${e.text}`,
-            )
+            .map((e) => `[${e.type}]${e.location ? ` (${e.location})` : ''} ${e.text}`)
             .join('\n'),
           contentType: 'text/plain',
         });
@@ -147,8 +143,9 @@ export const test = base.extend<UIFixturesWithConsole>({
   ],
 });
 
-test.beforeEach(({}, testInfo) => {
+test.beforeEach(({ browser }, testInfo) => {
   setLabels(testInfo, 'UI');
+  allure.parameter('Browser version', browser.version());
   const testLog = appLogger.child({
     worker: testInfo.workerIndex,
     test: testInfo.title,
@@ -164,7 +161,7 @@ test.afterEach(({}, testInfo) => {
   const status = testInfo.status ?? 'unknown';
   const durationMs = Math.round(testInfo.duration);
   const message = `Test finished (${durationMs}ms)`;
-    if (testInfo.status === 'failed' || testInfo.status === 'timedOut') {
+  if (testInfo.status === 'failed' || testInfo.status === 'timedOut') {
     testLog.error(`${message} [${status}]`);
     if (testInfo.error?.message) {
       testLog.error(testInfo.error.message);
