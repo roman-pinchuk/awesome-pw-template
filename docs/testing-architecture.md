@@ -39,9 +39,14 @@ repeating navigation and locator mechanics.
 API tests target Supabase PostgREST and model records as REST Objects.
 
 ```text
-test -> api.fixture -> business factory -> REST adapter -> PostgREST
-                         |
-                         +-> API assertion module
+┌──────┐   ┌─────────────┐   ┌──────────────────┐   ┌───────────────┐   ┌───────────┐
+│ test │──▶│ api.fixture │──▶│ business factory │──▶│ REST adapter  │──▶│ PostgREST │
+└──────┘   └─────────────┘   └─────────┬────────┘   └───────────────┘   └───────────┘
+                                       │
+                                       ▼
+                              ┌──────────────────────┐
+                              │ API assertion module │
+                              └──────────────────────┘
 ```
 
 - `business/api/object.ts` defines the REST Object domain shape.

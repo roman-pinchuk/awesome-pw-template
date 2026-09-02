@@ -10,23 +10,34 @@ mechanics.
 ## System Overview
 
 ```text
-tests/
-  UI and API specifications
-        |
-        v
-business/
-  journeys, domain records, factories, assertions
-        |                         |
-        v                         v
-pages/                      infrastructure/
-  page objects               fixtures, clients, config, utilities
-        |                         |
-        +------------+------------+
-                     v
-              Playwright runner
-                     |
-                     v
-        CI artifacts, CTRF, Allure
+┌──────────────────────────┐
+│ tests/                   │
+│ UI and API specifications│
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────────────────────────────────┐
+│ business/                                            │
+│ journeys, domain records, factories, assertions      │
+└───────────────┬──────────────────────────┬───────────┘
+                │                          │
+                ▼                          ▼
+┌──────────────────────────┐  ┌──────────────────────────────┐
+│ pages/                   │  │ infrastructure/              │
+│ page objects             │  │ fixtures, clients, config,   │
+└────────────┬─────────────┘  │ utilities                    │
+             │                └──────────────┬───────────────┘
+             └──────────────┬────────────────┘
+                            ▼
+                 ┌─────────────────────┐
+                 │ Playwright runner   │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │ CI artifacts, CTRF, │
+                 │ Allure              │
+                 └─────────────────────┘
 ```
 
 ## Dependency Direction

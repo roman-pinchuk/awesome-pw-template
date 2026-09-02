@@ -3,18 +3,33 @@
 ## Result Flow
 
 ```text
-Playwright projects
-  +-> playwright-report/       browser report artifacts
-  +-> ctrf/                    per-project JSON
-  +-> allure-results/          Allure result files
-                                      |
-                                      v
-                         allure-report job on main
-                                      |
-                         Allure 3 HTML + history
-                                      |
-                                      v
-                              GitHub Pages
+                           ┌────────────────────┐
+                           │ Playwright projects│
+                           └─────────┬──────────┘
+                                     │
+                  ┌──────────────────┼──────────────────┐
+                  ▼                  ▼                  ▼
+     ┌──────────────────────┐ ┌───────────────┐ ┌────────────────────┐
+     │ playwright-report/   │ │ ctrf/         │ │ allure-results/    │
+     │ browser artifacts    │ │ project JSON  │ │ Allure result files │
+     └──────────────────────┘ └──────┬────────┘ └──────────┬─────────┘
+                                     │                     │
+                                     ▼                     ▼
+                           ┌──────────────────┐ ┌────────────────────┐
+                           │ ctrf-report      │ │ allure-report job  │
+                           │ PR summary +     │ │ on main            │
+                           │ insights artifact│ └──────────┬─────────┘
+                           └──────────────────┘            │
+                                                          ▼
+                                               ┌────────────────────┐
+                                               │ Allure 3 HTML +    │
+                                               │ history            │
+                                               └──────────┬─────────┘
+                                                          │
+                                                          ▼
+                                               ┌────────────────────┐
+                                               │ GitHub Pages       │
+                                               └────────────────────┘
 ```
 
 ## CTRF
