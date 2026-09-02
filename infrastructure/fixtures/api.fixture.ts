@@ -1,7 +1,5 @@
 import { test as base } from '@playwright/test';
-import {
-  RestfulApiClient,
-} from '@infrastructure/clients/restful.client';
+import { RestfulApiClient } from '@infrastructure/clients/restful.client';
 import type { RestObject, RestObjectPayload } from '@business/api/object';
 import * as apiAssertions from '@business/api/assertions/object.assertions';
 import { buildCollectionName } from '@business/api/factories/object.factory';
@@ -11,6 +9,11 @@ import { setLabels } from '@infrastructure/utils/allure-labels';
 /** REST Object lifecycle helper exposed to API specs. */
 type ApiObjects = {
   create: (payload: RestObjectPayload, collectionName?: string) => Promise<RestObject>;
+};
+
+/** Side-effect fixture that enriches every API test with Allure metadata. */
+type AllureMetadataFixture = {
+  allureMetadata: void;
 };
 
 /**
@@ -26,7 +29,7 @@ type APIFixtures = {
   collection: string;
   restApi: RestfulApiClient;
   apiAssertions: typeof apiAssertions;
-};
+} & AllureMetadataFixture;
 
 /**
  * API test fixture with REST Object lifecycle ownership.
@@ -65,33 +68,33 @@ export const test = base.extend<APIFixtures>({
   apiAssertions: async ({}, use) => {
     await use(apiAssertions);
   },
-});
 
-test.beforeEach(({}, testInfo) => {
-  setLabels(testInfo, 'API');
-  const testLog = appLogger.child({
-    worker: testInfo.workerIndex,
-    test: testInfo.title,
-  });
-  testLog.info('Starting test');
-});
+  allureMetadata: [
+    async ({}, use, testInfo) => {
+      const testLog = appLogger.child({
+        worker: testInfo.workerIndex,
+        test: testInfo.title,
+      });
+      testLog.info('Starting test');
 
-test.afterEach(({}, testInfo) => {
-  const testLog = appLogger.child({
-    worker: testInfo.workerIndex,
-    test: testInfo.title,
-  });
-  const status = testInfo.status ?? 'unknown';
-  const durationMs = Math.round(testInfo.duration);
-  const message = `Test finished (${durationMs}ms)`;
-    if (testInfo.status === 'failed' || testInfo.status === 'timedOut') {
-    testLog.error(`${message} [${status}]`);
-    if (testInfo.error?.message) {
-      testLog.error(testInfo.error.message);
-    }
-  } else {
-    testLog.info(`${message} [${status}]`);
-  }
+      setLabels(testInfo, 'API');
+
+      await use(undefined);
+
+      const status = testInfo.status ?? 'unknown';
+      const durationMs = Math.round(testInfo.duration);
+      const message = `Test finished (${durationMs}ms)`;
+      if (testInfo.status === 'failed' || testInfo.status === 'timedOut') {
+        testLog.error(`${message} [${status}]`);
+        if (testInfo.error?.message) {
+          testLog.error(testInfo.error.message);
+        }
+      } else {
+        testLog.info(`${message} [${status}]`);
+      }
+    },
+    { auto: true },
+  ],
 });
 
 export { expect } from '@playwright/test';

@@ -18,6 +18,11 @@ import * as allure from 'allure-js-commons/sync';
 
 const env = loadEnv();
 
+/** Side-effect fixture that enriches every UI test with Allure metadata. */
+type AllureMetadataFixture = {
+  allureMetadata: void;
+};
+
 /** Page objects, journeys, and domain data available to UI specs. */
 type UIFixtures = {
   loginPage: LoginPage;
@@ -41,10 +46,11 @@ type ConsoleEntry = {
   location: string | undefined;
 };
 
-/** UI fixture surface with automatic console capture. */
-type UIFixturesWithConsole = UIFixtures & {
-  consoleEntries: ConsoleEntry[];
-};
+/** UI fixture surface with automatic console capture and Allure metadata. */
+type UIFixturesWithConsole = UIFixtures &
+  AllureMetadataFixture & {
+    consoleEntries: ConsoleEntry[];
+  };
 
 /**
  * UI test fixture that composes page objects and business journeys.
@@ -97,6 +103,34 @@ export const test = base.extend<UIFixturesWithConsole>({
     await use(createUsers(env));
   },
 
+  allureMetadata: [
+    async ({ browser }, use, testInfo) => {
+      const testLog = appLogger.child({
+        worker: testInfo.workerIndex,
+        test: testInfo.title,
+      });
+      testLog.info('Starting test');
+
+      setLabels(testInfo, 'UI');
+      allure.parameter('Browser version', browser.version());
+
+      await use(undefined);
+
+      const status = testInfo.status ?? 'unknown';
+      const durationMs = Math.round(testInfo.duration);
+      const message = `Test finished (${durationMs}ms)`;
+      if (testInfo.status === 'failed' || testInfo.status === 'timedOut') {
+        testLog.error(`${message} [${status}]`);
+        if (testInfo.error?.message) {
+          testLog.error(testInfo.error.message);
+        }
+      } else {
+        testLog.info(`${message} [${status}]`);
+      }
+    },
+    { auto: true },
+  ],
+
   consoleEntries: [
     async ({ page }, use, testInfo) => {
       const entries: ConsoleEntry[] = [];
@@ -141,34 +175,6 @@ export const test = base.extend<UIFixturesWithConsole>({
     },
     { auto: true },
   ],
-});
-
-test.beforeEach(({ browser }, testInfo) => {
-  setLabels(testInfo, 'UI');
-  allure.parameter('Browser version', browser.version());
-  const testLog = appLogger.child({
-    worker: testInfo.workerIndex,
-    test: testInfo.title,
-  });
-  testLog.info('Starting test');
-});
-
-test.afterEach(({}, testInfo) => {
-  const testLog = appLogger.child({
-    worker: testInfo.workerIndex,
-    test: testInfo.title,
-  });
-  const status = testInfo.status ?? 'unknown';
-  const durationMs = Math.round(testInfo.duration);
-  const message = `Test finished (${durationMs}ms)`;
-  if (testInfo.status === 'failed' || testInfo.status === 'timedOut') {
-    testLog.error(`${message} [${status}]`);
-    if (testInfo.error?.message) {
-      testLog.error(testInfo.error.message);
-    }
-  } else {
-    testLog.info(`${message} [${status}]`);
-  }
 });
 
 export { expect } from '@playwright/test';

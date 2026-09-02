@@ -16,7 +16,6 @@ export const setLabels = (testInfo: TestInfo, epic: string): void => {
   }
   for (const tag of testInfo.tags) {
     const value = tag.replace(/^@/, '');
-    allure.tag(value);
     if (/^CASE-/i.test(value)) allure.testCaseId(value);
   }
 };

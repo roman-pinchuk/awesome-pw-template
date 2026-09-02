@@ -33,6 +33,20 @@ export default defineConfig({
       matcher: ({ labels }) =>
         labels.some(({ name, value }) => name === 'project' && value === 'api'),
     },
+    setup: {
+      name: 'Setup',
+      matcher: ({ labels }) =>
+        labels.some(({ name, value }) => name === 'project' && value === 'setup'),
+    },
+  },
+  qualityGate: {
+    rules: [
+      {
+        successRate: 1,
+        minTestsCount: 70,
+        fastFail: true,
+      },
+    ],
   },
   categories: {
     rules: [

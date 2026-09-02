@@ -4,6 +4,7 @@ import { LoginPage } from '@pages/login.page';
 import { URLS } from '@business/constants';
 import { loadEnv } from '@infrastructure/config/env';
 import { logger } from '@infrastructure/utils/logger';
+import * as allure from 'allure-js-commons/sync';
 import fs from 'fs';
 
 const AUTH_FILE = '.playwright/auth/user.json';
@@ -11,6 +12,7 @@ const TTL_MS = 8 * 60 * 1000;
 const env = loadEnv();
 
 setup('authenticate to SauceDemo', async ({ page }, testInfo) => {
+  allure.label('project', 'setup');
   const authLogger = logger.child({ setup: 'auth', worker: testInfo.workerIndex });
 
   if (fs.existsSync(AUTH_FILE) && Date.now() - fs.statSync(AUTH_FILE).mtime.getTime() < TTL_MS) {
