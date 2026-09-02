@@ -46,6 +46,15 @@ approach for both UI and API testing.
 - CI-ready reporting, retries, traces, linting, type checking, and local Git
   hooks
 
+## Documentation
+
+- [Architecture overview](docs/architecture.md) — system boundaries,
+  dependency direction, runtime flows, and key decisions
+- [Testing architecture](docs/testing-architecture.md) — UI/API modules,
+  journeys, page objects, fixtures, and test isolation
+- [Reporting architecture](docs/reporting-architecture.md) — CTRF, Allure 3,
+  GitHub Pages, history caching, retention, and recovery behavior
+
 ## Project structure
 
 ```text
