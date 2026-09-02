@@ -3,6 +3,15 @@
   "image": "mcr.microsoft.com/playwright:v1.62.1-noble",
   "init": true,
   "runArgs": ["--ipc=host"],
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "username": "none",
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "installOhMyZsh": true,
+      "upgradePackages": false
+    }
+  },
   "postCreateCommand": "npm ci",
   "forwardPorts": [9323],
   "portsAttributes": {
@@ -25,7 +34,15 @@
         "github.github-vscode-theme",
         "pkief.material-icon-theme",
         "ms-azuretools.vscode-docker"
-      ]
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/bin/zsh"
+          }
+        }
+      }
     }
   }
 }
