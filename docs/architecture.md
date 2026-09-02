@@ -73,7 +73,8 @@ responses. The `apiObjects` fixture owns object cleanup.
 
 The GitHub Actions workflow runs linting, API tests, and the browser matrix.
 Test jobs upload Playwright, CTRF, and Allure artifacts. Aggregation and Pages
-deployment happen only for pushes to `main`.
+deployment happen only for pushes to `main`. CI skips local Git-hook
+installation; hooks remain enabled for local development.
 
 ## Focused Documentation
 

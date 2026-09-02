@@ -36,6 +36,7 @@ concurrency:
 
 env:
   FORCE_COLOR: '1'
+  SKIP_INSTALL_SIMPLE_GIT_HOOKS: '1'
   PLAYWRIGHT_IMAGE: &playwright_image mcr.microsoft.com/playwright:v1.62.1-noble
 
 jobs:

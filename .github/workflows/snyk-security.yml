@@ -27,6 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      SKIP_INSTALL_SIMPLE_GIT_HOOKS: '1'
     permissions:
       contents: write # For writing back to README.md
       security-events: write # For uploading SARIF files natively to the Security tab
