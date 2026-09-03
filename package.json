@@ -52,10 +52,6 @@
     "zod": "^4.5.4"
   },
   "private": true,
-  "allowScripts": {
-    "fsevents": false,
-    "simple-git-hooks": false
-  },
   "dependencies": {
     "pino": "^10.3.1",
     "pino-pretty": "^13.1.3"
