@@ -44,7 +44,6 @@ export default defineConfig({
       {
         successRate: 1,
         minTestsCount: 70,
-        fastFail: true,
       },
     ],
   },

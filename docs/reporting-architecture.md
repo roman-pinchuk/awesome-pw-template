@@ -50,6 +50,12 @@ commit, and published report. `scripts/publish-allure-report.mjs` copies the
 generated report into a numbered directory, retains the newest 20 valid report
 directories, and creates the root redirect to the latest report.
 
+The `allure-quality-gate` job validates the combined results separately from
+report generation. It requires a 100% success rate and at least 70 tests. A
+quality-gate failure makes CI red but does not prevent `allure-report` from
+publishing the diagnostic report; deployment depends only on successful report
+generation.
+
 ## History Cache Lifecycle
 
 The workflow uses a branch-scoped GitHub Actions cache:

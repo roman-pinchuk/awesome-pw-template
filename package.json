@@ -25,7 +25,7 @@
     "test:scripts": "node --test scripts/*.test.mjs",
     "report": "playwright show-report",
     "report:allure": "allure generate allure-results",
-    "prepare": "[ -z \"$CI\" ] && simple-git-hooks || true",
+    "prepare": "simple-git-hooks",
     "prettier": "prettier --write .",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc",
