@@ -170,8 +170,6 @@ jobs:
   allure-report:
     needs: [api-tests, ui-tests]
     if: ${{ github.ref == 'refs/heads/main' && !cancelled() }}
-    outputs:
-      quality-gate-outcome: ${{ steps.allure-run.outcome }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -208,17 +206,11 @@ jobs:
           echo "Commit=${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}" >> allure-results/environment.properties
           echo "Workflow=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> allure-results/environment.properties
           node scripts/write-allure-executor.mjs allure-results
-      - name: Generate report and evaluate quality gate
-        id: allure-run
-        continue-on-error: true
+      - name: Generate Allure report
         env:
           ALLURE_HISTORY_PATH: allure-history/history.jsonl
           ALLURE_OUTPUT: allure-report
-        run: >-
-          npx allure run
-          --results-dir allure-results
-          --ignore-logs
-          -- node -e ""
+        run: npx allure generate allure-results --output allure-report
       - name: Publish Allure report files
         env:
           ALLURE_REPORT_BASE_URL: https://roman-pinchuk.github.io/awesome-pw-template
@@ -235,18 +227,30 @@ jobs:
           key: allure3-history-${{ github.ref_name }}-${{ github.run_id }}
 
   allure-quality-gate:
-    needs: [allure-report]
-    if: ${{ !cancelled() && needs.allure-report.result == 'success' }}
+    needs: [api-tests, ui-tests]
+    if: ${{ github.ref == 'refs/heads/main' && !cancelled() }}
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
     steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: allure-results-*
+          path: allure-results
+          merge-multiple: true
       - name: Enforce Allure quality gate
-        env:
-          QUALITY_GATE_OUTCOME: ${{ needs.allure-report.outputs.quality-gate-outcome }}
-        run: test "$QUALITY_GATE_OUTCOME" = success
+        run: npx allure quality-gate allure-results
 
   allure-deploy:
     needs: [allure-report]
-    if: ${{ github.ref == 'refs/heads/main' && !cancelled() }}
+    if: ${{ github.ref == 'refs/heads/main' && !cancelled() && needs.allure-report.result == 'success' }}
     concurrency:
       group: pages
       cancel-in-progress: false
