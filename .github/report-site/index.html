@@ -89,9 +89,28 @@
       header {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
-        gap: 32px;
-        padding-bottom: 48px;
+        align-items: center;
+        gap: 24px;
+        padding-bottom: 24px;
+      }
+      .brand {
+        min-width: 0;
+        overflow: hidden;
+        color: var(--ink);
+        font-size: 15px;
+        font-weight: 650;
+        letter-spacing: -0.01em;
+        text-decoration: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .brand:hover {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+      .brand:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
       }
       .identity {
         display: flex;
@@ -242,8 +261,8 @@
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
       }
-      .about p {
-        margin: 0;
+      .about .tagline {
+        margin: 8px 0 0;
         color: var(--muted);
       }
       .about a {
@@ -273,11 +292,8 @@
           width: min(100% - 28px, 480px);
         }
         header {
-          display: block;
-          padding-bottom: 40px;
-        }
-        .theme-toggle {
-          margin-top: 20px;
+          gap: 16px;
+          padding-bottom: 20px;
         }
         .reports {
           grid-template-columns: 1fr;
@@ -313,32 +329,9 @@
   <body>
     <main>
       <header>
-        <div class="identity">
-          <a
-            class="avatar-wrap"
-            id="avatar-link"
-            href="https://github.com/roman-pinchuk"
-            aria-label="Roman Pinchuk on GitHub"
-          >
-            <img
-              src="https://avatars.githubusercontent.com/u/43293123?s=96&v=4"
-              width="48"
-              height="48"
-              alt=""
-              loading="lazy"
-              referrerpolicy="no-referrer"
-              onerror="
-                document.querySelector('#avatar-link').classList.add('avatar-fallback');
-                this.remove();
-              "
-            />
-            <span class="avatar-fallback-mark" aria-hidden="true">RP</span>
-          </a>
-          <div>
-            <div class="who">Roman Pinchuk <span class="role">· Automation Engineer</span></div>
-            <div class="eyebrow">Automation reports · GitHub Pages · latest run</div>
-          </div>
-        </div>
+        <a class="brand" href="https://github.com/roman-pinchuk/awesome-pw-template"
+          >Awesome Playwright Template</a
+        >
         <button
           id="theme-toggle"
           class="theme-toggle"
@@ -388,10 +381,35 @@
         </article>
       </section>
       <section class="about" aria-label="About the engineer">
-        <p>
-          Building maintainable test systems with Playwright, TypeScript, API checks, and pragmatic
-          CI.
-        </p>
+        <div class="identity">
+          <a
+            class="avatar-wrap"
+            id="avatar-link"
+            href="https://github.com/roman-pinchuk"
+            aria-label="Roman Pinchuk on GitHub"
+          >
+            <img
+              src="https://avatars.githubusercontent.com/u/43293123?s=96&v=4"
+              width="48"
+              height="48"
+              alt=""
+              loading="lazy"
+              referrerpolicy="no-referrer"
+              onerror="
+                document.querySelector('#avatar-link').classList.add('avatar-fallback');
+                this.remove();
+              "
+            />
+            <span class="avatar-fallback-mark" aria-hidden="true">RP</span>
+          </a>
+          <div>
+            <div class="who">Roman Pinchuk <span class="role">· Automation Engineer</span></div>
+            <p class="tagline">
+              Building maintainable test systems with Playwright, TypeScript, API checks, and
+              pragmatic CI.
+            </p>
+          </div>
+        </div>
         <a href="https://github.com/roman-pinchuk"
           >Explore Roman's GitHub <span aria-hidden="true">↗</span></a
         >
