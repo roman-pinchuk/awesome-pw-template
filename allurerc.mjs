@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: {
     awesome: {
       options: {
-        groupBy: ['project', 'parentSuite', 'suite', 'subSuite'],
+        groupBy: ['project', 'suite', 'subSuite'],
       },
     },
   },

@@ -316,8 +316,9 @@ pull request, and Monday/Thursday at 13:00 in the `Asia/Jerusalem` timezone.
   `actions/deploy-pages@v5`
 - Only runs on push to `main` (not on PRs)
 - Accessible at `https://roman-pinchuk.github.io/awesome-pw-template/`
-- The landing page supports Auto, Light, and Dark themes and responsive desktop,
-  tablet, and mobile layouts.
+- The landing page offers a single theme button cycling Auto, Light, and Dark
+  (like the Allure report control) and responsive desktop, tablet, and mobile
+  layouts.
 
 ### Allure 3 history
 

@@ -37,7 +37,10 @@ artifacts.
 
 The official `allure` CLI generates the report from the combined
 `allure-results/` directory. `allurerc.mjs` configures the output directory,
-categories, JSONL history path, and a 20-run history limit.
+categories, JSONL history path, and a 20-run history limit. The tree groups by
+project, then suite, then sub-suite; `parentSuite` is intentionally excluded
+because `allure-playwright` already labels it with the project name, which
+would render a duplicated level.
 
 The report job also writes executor metadata with links to the workflow, branch,
 commit, and published report. `scripts/publish-allure-report.mjs` copies the
@@ -55,8 +58,9 @@ deployment is blocked only when report generation fails.
 
 The report site is assembled once per main-branch run. Playwright blobs are
 merged into one HTML report under `/playwright/`; and the latest Allure report
-is published under `/allure/`. The responsive landing page supports Auto,
-Light, and Dark themes and links to both reports.
+is published under `/allure/`. The responsive landing page offers a single theme
+button cycling Auto, Light, and Dark (mirroring the Allure report control) and
+links to both reports.
 
 Raw report artifacts use one-day retention and the Pages deployment artifact
 also uses one-day retention. The published site keeps up to 20 Allure reports
