@@ -8,36 +8,30 @@
                            └─────────┬──────────┘
                                      │
                   ┌──────────────────┼──────────────────┐
-                  ▼                  ▼                  ▼
-     ┌──────────────────────┐ ┌───────────────┐ ┌────────────────────┐
-     │ playwright-report/   │ │ ctrf/         │ │ allure-results/    │
-     │ browser artifacts    │ │ project JSON  │ │ Allure result files │
-     └──────────────────────┘ └──────┬────────┘ └──────────┬─────────┘
-                                     │                     │
-                                     ▼                     ▼
-                           ┌──────────────────┐ ┌────────────────────┐
-                           │ ctrf-report      │ │ allure-report job  │
-                           │ PR summary +     │ │ on main            │
-                           │ insights artifact│ └──────────┬─────────┘
-                           └──────────────────┘            │
-                                                          ▼
-                                               ┌────────────────────┐
-                                               │ Allure 3 HTML +    │
-                                               │ history            │
-                                               └──────────┬─────────┘
-                                                          │
-                                                          ▼
-                                               ┌────────────────────┐
-                                               │ GitHub Pages       │
-                                               └────────────────────┘
+                   ▼                  ▼                  ▼
+      ┌──────────────────────┐ ┌───────────────┐ ┌────────────────────┐
+      │ blob-report/         │ │ ctrf/         │ │ allure-results/    │
+      │ Playwright blobs     │ │ project JSON  │ │ Allure result files │
+      └──────────┬───────────┘ └──────┬────────┘ └──────────┬─────────┘
+                 └────────────────────┼─────────────────────┘
+                                      ▼
+                            ┌──────────────────┐
+                            │ report-site job  │
+                            │ merge + render   │
+                            └─────────┬────────┘
+                                      ▼
+                            ┌────────────────────────────┐
+                            │ Pages landing page         │
+                            │ /playwright /allure /ctrf │
+                            └────────────────────────────┘
 ```
 
 ## CTRF
 
 Each API or browser job writes a project-specific CTRF JSON artifact. The
 `ctrf-report` job downloads and merges those artifacts, then publishes a PR
-summary and an artifact containing processed insights. CTRF is the short-lived
-CI feedback path for pull requests and workflow runs.
+summary. The main-branch `report-site` job also renders the merged data as
+HTML under `/ctrf/`. Raw CTRF files are short-lived CI artifacts.
 
 ## Allure 3
 
@@ -48,14 +42,28 @@ categories, JSONL history path, and a 20-run history limit.
 The report job also writes executor metadata with links to the workflow, branch,
 commit, and published report. `scripts/publish-allure-report.mjs` copies the
 generated report into a numbered directory, retains the newest 20 valid report
-directories, and creates the root redirect to the latest report.
+directories. The combined site exposes the latest report at `/allure/`.
 
-The `allure-report` job runs `allure generate` over the combined results. The
+The `report-site` job runs `allure generate` over the combined results. The
 separate `allure-quality-gate` job runs `allure quality-gate` against the same
 downloaded results and exposes its exit status as a dedicated CI check. It
 requires a 100% success rate and at least 70 tests. A quality-gate failure makes
 CI red but does not prevent the report from being generated or deployed;
 deployment is blocked only when report generation fails.
+
+## Pages Site and Retention
+
+The report site is assembled once per main-branch run. Playwright blobs are
+merged into one HTML report under `/playwright/`; CTRF is rendered under
+`/ctrf/`; and the latest Allure report is published under `/allure/`. The
+responsive landing page supports Auto, Light, and Dark themes and links to all
+three reports.
+
+Raw report artifacts use one-day retention and the Pages deployment artifact
+also uses one-day retention. The published site keeps up to 20 Allure reports
+under `/allure/history/`, with a 500 MiB size ceiling. Oldest reports are
+removed until both limits are satisfied. Playwright and CTRF retain only the
+latest run in Pages.
 
 ## History Cache Lifecycle
 
@@ -97,7 +105,8 @@ for the current 20-run test-template use case.
 
 ## Operational Links
 
-- [Latest Allure report](https://roman-pinchuk.github.io/awesome-pw-template/)
+- [Report landing page](https://roman-pinchuk.github.io/awesome-pw-template/)
+- [Latest Allure report](https://roman-pinchuk.github.io/awesome-pw-template/allure/)
 - [Playwright workflow](../.github/workflows/playwright.yml)
 - [Allure configuration](../allurerc.mjs)
 - [Report publisher](../scripts/publish-allure-report.mjs)

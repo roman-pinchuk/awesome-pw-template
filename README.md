@@ -259,7 +259,7 @@ Prettier on staged JS, JSON, Markdown, and YAML files.
 ## CI pipeline
 
 The `.github/workflows/playwright.yml` workflow runs on every push to `main`,
-pull request, and every Monday at 13:00 in the `Asia/Jerusalem` timezone.
+pull request, and Monday/Thursday at 13:00 in the `Asia/Jerusalem` timezone.
 
 ### Dependency and security automation
 
@@ -289,10 +289,9 @@ pull request, and every Monday at 13:00 in the `Asia/Jerusalem` timezone.
   webkit matrix against saucedemo.com
 - `ctrf-report` — depends on `api-tests` and `ui-tests`; always aggregates
   CTRF JSON into a PR comment via `ctrf-io/github-test-reporter`
-- `allure-report` — depends on `api-tests` and `ui-tests`; runs on pushes to
-  `main` to generate Allure HTML report + trend history
-- `allure-deploy` — depends on `allure-report`; runs on pushes to `main` to
-  deploy Allure report to GitHub Pages
+- `report-site` — depends on `api-tests` and `ui-tests`; merges and renders
+  Playwright HTML, Allure, and CTRF reports on pushes to `main`
+- `deploy-pages` — deploys the combined responsive report site to GitHub Pages
 
 ### Test reporting
 
@@ -309,19 +308,25 @@ pull request, and every Monday at 13:00 in the `Asia/Jerusalem` timezone.
   `upload-artifact: true` (processed CTRF artifact enables multi-run
   insights across previous workflow runs)
 
-#### Allure — GitHub Pages dashboard
+#### Reports — GitHub Pages dashboard
 
-- Allure report is deployed to GitHub Pages via `actions/deploy-pages@v5`
+- Allure, merged Playwright HTML, and rendered CTRF are deployed together via
+  `actions/deploy-pages@v5`
 - Only runs on push to `main` (not on PRs)
 - Accessible at `https://roman-pinchuk.github.io/awesome-pw-template/`
+- The landing page supports Auto, Light, and Dark themes and responsive desktop,
+  tablet, and mobile layouts.
 
 ### Allure 3 history
 
 - The official `allure` CLI generates the report from `allure-results/`.
 - `allurerc.mjs` stores cross-run history in `allure-history/history.jsonl` and
   limits it to 20 runs.
-- `scripts/publish-allure-report.mjs` keeps the matching 20 report directories
-  and creates the root redirect to the latest run.
+- `scripts/publish-allure-report.mjs` keeps the matching 20 report directories.
+- `scripts/build-report-site.mjs` enforces both a 20-report limit and a 500 MiB
+  published-site limit, pruning oldest Allure reports first.
+- Raw Playwright, CTRF, and Allure artifacts are retained for one day; the
+  Pages deployment artifact is also retained for one day.
 - The complete `allure-history/` directory is restored and saved with a
   branch-scoped GitHub Actions cache before deployment.
 - History starts fresh after the migration because Allure 3 uses JSONL rather

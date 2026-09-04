@@ -55,5 +55,8 @@ allure-report/
 allure-history/
 allure/categories.json
 
+# CTRF reports
+/ctrf/
+
 # Project Specific
 toolshop-*.yaml

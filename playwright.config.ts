@@ -20,7 +20,7 @@ export default defineConfig({
   reporter: isCI
     ? [
         ['dot'],
-        ['html', { open: 'never' }],
+        ['blob', { outputDir: 'blob-report', fileName: process.env.PW_BLOB_NAME ?? 'report.zip' }],
         ['allure-playwright'],
         [
           'playwright-ctrf-json-reporter',

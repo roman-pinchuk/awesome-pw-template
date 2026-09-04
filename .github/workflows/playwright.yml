@@ -3,7 +3,6 @@ name: Playwright
 on:
   push:
     branches: ['main']
-    # Run expensive tests only when testable code or CI config changes.
     paths: &ci_paths
       - '.github/workflows/playwright.yml'
       - 'business/**'
@@ -12,6 +11,7 @@ on:
       - 'pages/**'
       - 'tests/**'
       - 'scripts/**'
+      - '.github/report-site/**'
       - 'playwright.config.ts'
       - 'eslint.config.mjs'
       - 'tsconfig.json'
@@ -73,28 +73,32 @@ jobs:
         env:
           DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
           CTRF_REPORT_FILE: ctrf-api.json
+          PW_BLOB_NAME: api.zip
         run: npm run test:api:ci
-      - name: Upload Playwright report
+      - name: Upload Playwright blob report
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: playwright-report-api
-          path: playwright-report/
-          retention-days: 7
+          name: playwright-blob-report-api
+          path: blob-report/
+          if-no-files-found: ignore
+          retention-days: 1
       - name: Upload CTRF report
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: ctrf-api
           path: ctrf/ctrf-api.json
-          retention-days: 7
+          if-no-files-found: ignore
+          retention-days: 1
       - name: Upload Allure results
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: allure-results-api
           path: allure-results/
-          retention-days: 7
+          if-no-files-found: ignore
+          retention-days: 1
 
   ui-tests:
     needs: lint
@@ -120,31 +124,33 @@ jobs:
           DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
           CTRF_REPORT_FILE: ctrf-${{ matrix.browser }}.json
           PW_TARGET_BROWSER: ${{ matrix.browser }}
-          # Fix Firefox crash in GitHub Actions
-          # Details: https://github.com/microsoft/playwright/issues/6500#issuecomment-838515115
+          PW_BLOB_NAME: ${{ matrix.browser }}.zip
           HOME: /root
         run: npx dotenvx run -f .env.production -- npx playwright test --project=${{ matrix.browser }}
-      - name: Upload Playwright report
+      - name: Upload Playwright blob report
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: playwright-report-ui-${{ matrix.browser }}
-          path: playwright-report/
-          retention-days: 7
+          name: playwright-blob-report-ui-${{ matrix.browser }}
+          path: blob-report/
+          if-no-files-found: ignore
+          retention-days: 1
       - name: Upload CTRF report
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: ctrf-${{ matrix.browser }}
           path: ctrf/ctrf-${{ matrix.browser }}.json
-          retention-days: 7
+          if-no-files-found: ignore
+          retention-days: 1
       - name: Upload Allure results
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: allure-results-ui-${{ matrix.browser }}
           path: allure-results/
-          retention-days: 7
+          if-no-files-found: ignore
+          retention-days: 1
 
   ctrf-report:
     needs: [api-tests, ui-tests]
@@ -168,13 +174,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  allure-report:
+  report-site:
     needs: [api-tests, ui-tests]
     if: ${{ github.ref == 'refs/heads/main' && !cancelled() }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     permissions:
       contents: read
+      actions: read
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -182,6 +189,24 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: playwright-blob-report-*
+          path: blob-reports
+          merge-multiple: true
+      - name: Merge Playwright HTML report
+        run: npx playwright merge-reports --reporter html blob-reports
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: ctrf-*
+          path: ctrf-input
+          merge-multiple: true
+      - name: Merge and render CTRF report
+        run: |
+          mkdir -p report-source/ctrf
+          npx ctrf merge ctrf-input --output report-source/ctrf/ctrf-report.json
+          npx ctrf-html-reporter report-source/ctrf/ctrf-report.json --output-path report-source/ctrf --single-file
+          rm report-source/ctrf/ctrf-report.json
       - uses: actions/download-artifact@v8
         with:
           pattern: allure-results-*
@@ -192,34 +217,44 @@ jobs:
         with:
           path: allure-history
           key: allure3-history-${{ github.ref_name }}-${{ github.run_id }}
-          restore-keys: |
-            allure3-history-${{ github.ref_name }}-
-      - name: Generate environment properties
+          restore-keys: allure3-history-${{ github.ref_name }}-
+      - name: Generate Allure report
         env:
-          ALLURE_REPORT_BASE_URL: https://roman-pinchuk.github.io/awesome-pw-template
+          ALLURE_REPORT_BASE_URL: https://roman-pinchuk.github.io/awesome-pw-template/allure/history
+          ALLURE_HISTORY_PATH: allure-history/history.jsonl
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_RUN_ID: ${{ github.run_id }}
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
           GITHUB_SERVER_URL: ${{ github.server_url }}
         run: |
-          mkdir -p allure-history
+          mkdir -p allure-history report-source/allure
           echo "Branch=${{ github.server_url }}/${{ github.repository }}/tree/${{ github.ref_name }}" >> allure-results/environment.properties
           echo "Commit=${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}" >> allure-results/environment.properties
           echo "Workflow=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> allure-results/environment.properties
           node scripts/write-allure-executor.mjs allure-results
-      - name: Generate Allure report
-        env:
-          ALLURE_HISTORY_PATH: allure-history/history.jsonl
-          ALLURE_OUTPUT: allure-report
-        run: npx allure generate allure-results --output allure-report
-      - name: Publish Allure report files
-        env:
-          ALLURE_REPORT_BASE_URL: https://roman-pinchuk.github.io/awesome-pw-template
-        run: node scripts/publish-allure-report.mjs allure-report allure-history ${{ github.run_number }}
+          npx allure generate allure-results --output report-source/allure
+          node scripts/publish-allure-report.mjs report-source/allure allure-history ${{ github.run_number }}
+      - name: Assemble report site
+        run: |
+          cp .github/report-site/index.html report-source/index.html
+          mkdir -p report-source/playwright
+          cp -R playwright-report/. report-source/playwright/
+          node scripts/build-report-site.mjs \
+            --source report-source \
+            --site pages-artifact \
+            --history allure-history \
+            --run-number '${{ github.run_number }}' \
+            --base-url 'https://roman-pinchuk.github.io/awesome-pw-template' \
+            --branch '${{ github.ref_name }}' \
+            --commit '${{ github.sha }}' \
+            --run-url '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}' \
+            --max-reports 20 \
+            --max-bytes 524288000
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: allure-history
+          path: pages-artifact
+          retention-days: 1
       - name: Save Allure history
         if: always()
         uses: actions/cache/save@v6
@@ -234,6 +269,7 @@ jobs:
     timeout-minutes: 5
     permissions:
       contents: read
+      actions: read
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -249,9 +285,9 @@ jobs:
       - name: Enforce Allure quality gate
         run: npx allure quality-gate allure-results
 
-  allure-deploy:
-    needs: [allure-report]
-    if: ${{ github.ref == 'refs/heads/main' && !cancelled() && needs.allure-report.result == 'success' }}
+  deploy-pages:
+    needs: [report-site]
+    if: ${{ github.ref == 'refs/heads/main' && !cancelled() && needs.report-site.result == 'success' }}
     concurrency:
       group: pages
       cancel-in-progress: false
@@ -268,9 +304,6 @@ jobs:
         id: deployment
         continue-on-error: true
         uses: actions/deploy-pages@v5
-      # GitHub Pages sometimes accepts the artifact, then returns
-      # "Deployment failed, try again later." A rerun of the same artifact
-      # usually succeeds, so retry once before failing the job.
       - name: Retry deploy to GitHub Pages
         id: deployment_retry
         if: ${{ steps.deployment.outcome == 'failure' }}
