@@ -2,7 +2,6 @@
   "name": "awesome-pw-template",
   "version": "1.0.0",
   "description": "Senior-level Playwright TypeScript template for UI and API automation",
-  "packageManager": "npm@11.11.0",
   "keywords": [
     "playwright",
     "typescript",
