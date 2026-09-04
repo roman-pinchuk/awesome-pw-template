@@ -84,7 +84,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: ctrf-api
+          name: raw-ctrf-api
           path: ctrf/ctrf-api.json
           if-no-files-found: ignore
           retention-days: 1
@@ -136,7 +136,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: ctrf-${{ matrix.browser }}
+          name: raw-ctrf-${{ matrix.browser }}
           path: ctrf/ctrf-${{ matrix.browser }}.json
           if-no-files-found: ignore
           retention-days: 1
@@ -157,7 +157,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v8
         with:
-          pattern: ctrf-*
+          pattern: raw-ctrf-*
           merge-multiple: true
       - name: Publish CTRF Summary
         uses: ctrf-io/github-test-reporter@v1.3.0
@@ -192,15 +192,16 @@ jobs:
         run: npx playwright merge-reports --reporter html blob-reports
       - uses: actions/download-artifact@v8
         with:
-          pattern: ctrf-*
+          pattern: raw-ctrf-*
           path: ctrf-input
           merge-multiple: true
       - name: Merge and render CTRF report
         run: |
           mkdir -p report-source/ctrf
-          npx ctrf merge ctrf-input --output report-source/ctrf/ctrf-report.json
-          npx ctrf-html-reporter report-source/ctrf/ctrf-report.json --output-path report-source/ctrf --single-file
-          rm report-source/ctrf/ctrf-report.json
+          npx ctrf-cli merge ctrf-input --output "$GITHUB_WORKSPACE/report-source/ctrf/ctrf-report.json"
+          test -s "$GITHUB_WORKSPACE/report-source/ctrf/ctrf-report.json"
+          npx ctrf-html-reporter "$GITHUB_WORKSPACE/report-source/ctrf/ctrf-report.json" --output-path "$GITHUB_WORKSPACE/report-source/ctrf" --single-file
+          rm "$GITHUB_WORKSPACE/report-source/ctrf/ctrf-report.json"
       - uses: actions/download-artifact@v8
         with:
           pattern: allure-results-*
