@@ -275,7 +275,8 @@
       footer {
         display: flex;
         justify-content: space-between;
-        gap: 16px;
+        flex-wrap: wrap;
+        gap: 8px 16px;
         margin-top: 18px;
         color: var(--muted);
         font:
@@ -459,8 +460,22 @@
       fetch('report-metadata.json')
         .then((response) => response.json())
         .then((metadata) => {
+          const at = new Date(metadata.generatedAt);
+          if (Number.isNaN(at.getTime())) throw new Error('Invalid generatedAt timestamp');
+          const pad = (part) => String(part).padStart(2, '0');
+          const stamp = (year, month, day, hour, minute, second) =>
+            `${year}-${pad(month)}-${pad(day)} ${pad(hour)}:${pad(minute)}:${pad(second)}`;
+          const utc = `${stamp(at.getUTCFullYear(), at.getUTCMonth() + 1, at.getUTCDate(), at.getUTCHours(), at.getUTCMinutes(), at.getUTCSeconds())} UTC`;
+          const zone = (() => {
+            try {
+              return Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'local time';
+            } catch {
+              return 'local time';
+            }
+          })();
+          const local = `${stamp(at.getFullYear(), at.getMonth() + 1, at.getDate(), at.getHours(), at.getMinutes(), at.getSeconds())} ${zone}`;
           document.querySelector('#run-meta').textContent =
-            `Run #${metadata.runNumber} · ${metadata.branch} · ${metadata.commit.slice(0, 7)} · ${new Date(metadata.generatedAt).toLocaleString()}`;
+            `Run #${metadata.runNumber} · ${metadata.branch} · ${metadata.commit.slice(0, 7)} · ${utc} · ${local}`;
           document.querySelector('#run-link').href = metadata.runUrl;
         })
         .catch(() => {
