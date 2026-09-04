@@ -119,6 +119,7 @@ jobs:
         env:
           DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
           CTRF_REPORT_FILE: ctrf-${{ matrix.browser }}.json
+          PW_TARGET_BROWSER: ${{ matrix.browser }}
           # Fix Firefox crash in GitHub Actions
           # Details: https://github.com/microsoft/playwright/issues/6500#issuecomment-838515115
           HOME: /root

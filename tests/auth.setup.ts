@@ -13,6 +13,12 @@ const env = loadEnv();
 
 setup('authenticate to SauceDemo', async ({ page }, testInfo) => {
   allure.label('project', 'setup');
+  const targetBrowser = process.env.PW_TARGET_BROWSER;
+
+  if (targetBrowser) {
+    allure.parameter('targetBrowser', targetBrowser);
+  }
+
   const authLogger = logger.child({ setup: 'auth', worker: testInfo.workerIndex });
 
   if (fs.existsSync(AUTH_FILE) && Date.now() - fs.statSync(AUTH_FILE).mtime.getTime() < TTL_MS) {
