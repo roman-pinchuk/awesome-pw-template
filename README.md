@@ -22,8 +22,6 @@ approach for both UI and API testing.
 | **@types/node**                   | devDependencies | `^26.4.0`       | No known issues | `26.4.1`           |
 | **allure**                        | devDependencies | `^3.16.0`       | No known issues | `3.16.0`           |
 | **allure-playwright**             | devDependencies | `^3.11.0`       | No known issues | `3.12.0`           |
-| **ctrf-cli**                      | devDependencies | `^0.3.1`        | No known issues | `0.3.1`            |
-| **ctrf-html-reporter**            | devDependencies | `^1.1.22`       | No known issues | `1.1.22`           |
 | **eslint**                        | devDependencies | `^10.9.1`       | No known issues | `10.10.0`          |
 | **eslint-plugin-playwright**      | devDependencies | `^2.11.0`       | No known issues | `2.11.0`           |
 | **lint-staged**                   | devDependencies | `^17.4.1`       | No known issues | `17.4.1`           |
@@ -293,8 +291,8 @@ pull request, and Monday/Thursday at 13:00 in the `Asia/Jerusalem` timezone.
   webkit matrix against saucedemo.com
 - `ctrf-report` — depends on `api-tests` and `ui-tests`; always aggregates
   CTRF JSON into a PR comment via `ctrf-io/github-test-reporter`
-- `report-site` — depends on `api-tests` and `ui-tests`; merges and renders
-  Playwright HTML, Allure, and CTRF reports on pushes to `main`
+- `report-site` — depends on `api-tests` and `ui-tests`; merges Playwright HTML
+  and publishes Allure on pushes to `main`
 - `deploy-pages` — deploys the combined responsive report site to GitHub Pages
 
 ### Test reporting
@@ -314,7 +312,7 @@ pull request, and Monday/Thursday at 13:00 in the `Asia/Jerusalem` timezone.
 
 #### Reports — GitHub Pages dashboard
 
-- Allure, merged Playwright HTML, and rendered CTRF are deployed together via
+- Allure and merged Playwright HTML are deployed together via
   `actions/deploy-pages@v5`
 - Only runs on push to `main` (not on PRs)
 - Accessible at `https://roman-pinchuk.github.io/awesome-pw-template/`
@@ -348,7 +346,7 @@ pull request, and Monday/Thursday at 13:00 in the `Asia/Jerusalem` timezone.
 - `actions/cache/save` — `@v6`, latest as of 2026-07
 - `actions/upload-pages-artifact` — `@v5`, latest as of 2026-07
 - `actions/deploy-pages` — `@v5`, latest as of 2026-07
-- `ctrf-io/github-test-reporter` — `@v1.1.0`, latest as of 2026-07
+- `ctrf-io/github-test-reporter` — `@v1.3.0`, latest as of 2026-07
 - `allure` — `3.16.0`, official Allure Report CLI
 
 ## Environment loading

@@ -11,6 +11,7 @@ const source = value('source', '.github/report-site');
 const site = value('site', 'pages-artifact');
 const history = value('history', 'allure-history');
 const runNumber = value('run-number');
+const baseUrl = value('base-url', '');
 const maxReports = Number(value('max-reports', '20'));
 const maxBytes = Number(value('max-bytes', String(500 * 1024 * 1024)));
 
@@ -49,12 +50,15 @@ for (const oldReport of reports.slice(maxReports))
 const retained = reports.slice(0, maxReports);
 
 await copy(source, site);
-await copy(join(history, runNumber), join(site, 'allure'));
+await rm(join(site, 'allure'), { recursive: true, force: true });
 await mkdir(join(site, 'allure', 'history'), { recursive: true });
 for (const report of retained) {
-  if (report === runNumber) continue;
   await copy(join(history, report), join(site, 'allure', 'history', report));
 }
+await writeFile(
+  join(site, 'allure', 'index.html'),
+  `<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; URL=${baseUrl}/allure/history/${runNumber}/index.html"><a href="${baseUrl}/allure/history/${runNumber}/index.html">Open latest Allure report</a>\n`,
+);
 
 await writeFile(
   join(site, 'report-metadata.json'),

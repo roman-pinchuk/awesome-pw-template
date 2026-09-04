@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f5f1e8" />
-    <title>Test Reports</title>
+    <meta name="theme-color" content="#f6f8fa" />
+    <title>Roman Pinchuk · Automation Reports</title>
     <script>
       const savedTheme = (() => {
         try {
@@ -17,192 +17,297 @@
     </script>
     <style>
       :root {
-        color-scheme: light dark;
-        --bg: #f5f1e8;
-        --panel: #fffdf8;
-        --ink: #17211b;
-        --muted: #647067;
-        --line: #d9d4c8;
-        --accent: #d85b36;
-        --accent-soft: #f5d7ca;
-      }
-      :root[data-theme='light'] {
         color-scheme: light;
+        --canvas: #f6f8fa;
+        --panel: #fff;
+        --subtle: #f6f8fa;
+        --ink: #1f2328;
+        --muted: #656d76;
+        --border: #d0d7de;
+        --accent: #0969da;
+        --accent-hover: #0550ae;
+        --control: #f6f8fa;
       }
       :root[data-theme='dark'] {
         color-scheme: dark;
-        --bg: #121815;
-        --panel: #1b241f;
-        --ink: #edf2e9;
-        --muted: #a4b0a6;
-        --line: #354239;
-        --accent: #f18a62;
-        --accent-soft: #4b2e25;
+        --canvas: #22272e;
+        --panel: #2d333b;
+        --subtle: #252c35;
+        --ink: #adbac7;
+        --muted: #768390;
+        --border: #444c56;
+        --accent: #539bf5;
+        --accent-hover: #6cb6ff;
+        --control: #2d333b;
       }
       @media (prefers-color-scheme: dark) {
         :root[data-theme='auto'] {
-          --bg: #121815;
-          --panel: #1b241f;
-          --ink: #edf2e9;
-          --muted: #a4b0a6;
-          --line: #354239;
-          --accent: #f18a62;
-          --accent-soft: #4b2e25;
+          color-scheme: dark;
+          --canvas: #22272e;
+          --panel: #2d333b;
+          --subtle: #252c35;
+          --ink: #adbac7;
+          --muted: #768390;
+          --border: #444c56;
+          --accent: #539bf5;
+          --accent-hover: #6cb6ff;
+          --control: #2d333b;
         }
       }
       * {
         box-sizing: border-box;
       }
+      html {
+        background: var(--canvas);
+      }
       body {
         margin: 0;
         min-width: 320px;
-        background: var(--bg);
+        background: var(--canvas);
         color: var(--ink);
         font:
-          16px/1.5 ui-sans-serif,
-          system-ui,
+          16px/1.5 -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
           sans-serif;
       }
+      a {
+        color: var(--accent);
+      }
+      a:hover {
+        color: var(--accent-hover);
+      }
       main {
-        width: min(1120px, calc(100% - 40px));
+        width: min(1080px, calc(100% - 40px));
         margin: 0 auto;
-        padding: clamp(32px, 8vw, 96px) 0 48px;
+        padding: clamp(28px, 7vw, 76px) 0 40px;
       }
       header {
         display: flex;
         justify-content: space-between;
-        gap: 24px;
-        align-items: start;
-        margin-bottom: clamp(40px, 8vw, 80px);
+        align-items: flex-start;
+        gap: 32px;
+        padding-bottom: 48px;
       }
-      h1 {
-        max-width: 650px;
-        margin: 12px 0 16px;
-        font-size: clamp(2.6rem, 7vw, 6rem);
-        line-height: 0.92;
-        letter-spacing: -0.07em;
+      .identity {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
+      .avatar {
+        display: grid;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        background: var(--panel);
+        color: var(--accent);
+        font-weight: 700;
       }
       .eyebrow {
-        color: var(--accent);
-        font-weight: 800;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        font-size: 0.76rem;
-      }
-      .lede,
-      .meta {
         color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
       }
-      .lede {
-        max-width: 620px;
-        font-size: clamp(1rem, 2vw, 1.2rem);
+      h1 {
+        margin: 4px 0 0;
+        color: var(--ink);
+        font-size: clamp(2rem, 5vw, 4.4rem);
+        line-height: 1.05;
+        letter-spacing: -0.045em;
+      }
+      .intro {
+        max-width: 690px;
+        margin: 28px 0 0;
+        color: var(--muted);
+        font-size: clamp(1rem, 2vw, 1.18rem);
+      }
+      .intro strong {
+        color: var(--ink);
       }
       .theme {
+        position: relative;
         display: flex;
-        flex-wrap: wrap;
-        gap: 4px;
-        justify-content: end;
+        align-items: center;
+        width: 44px;
+        min-width: 44px;
+        height: 44px;
+        padding: 3px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--control);
+        transition:
+          width 0.18s ease,
+          border-radius 0.18s ease;
+      }
+      .theme:hover,
+      .theme:focus-within,
+      .theme[data-open='true'] {
+        width: 116px;
+        border-radius: 12px;
       }
       .theme button {
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        padding: 8px 12px;
+        display: grid;
+        flex: 0 0 36px;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        border: 0;
+        border-radius: 8px;
         background: transparent;
-        color: var(--ink);
+        color: var(--muted);
         cursor: pointer;
       }
-      .theme button[aria-pressed='true'] {
-        background: var(--ink);
-        color: var(--bg);
+      .theme button:hover,
+      .theme button:focus-visible {
+        color: var(--ink);
+        background: var(--subtle);
+        outline: 2px solid var(--accent);
+        outline-offset: -2px;
       }
-      .cards {
+      .theme button[aria-pressed='true'] {
+        color: var(--ink);
+      }
+      .theme svg {
+        width: 17px;
+        height: 17px;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.8;
+      }
+      .theme .option {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.1s ease;
+      }
+      .theme:hover .option,
+      .theme:focus-within .option,
+      .theme[data-open='true'] .option {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .reports {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 16px;
       }
       .card {
         display: flex;
+        min-height: 238px;
         flex-direction: column;
-        min-height: 260px;
-        padding: 24px;
-        border: 1px solid var(--line);
-        border-radius: 20px;
+        padding: 28px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
         background: var(--panel);
-        box-shadow: 0 12px 30px #17211b0d;
-      }
-      .card:nth-child(2) {
-        transform: translateY(28px);
+        box-shadow: 0 1px 0 #1f23280a;
       }
       .card h2 {
-        margin: 10px 0;
-        font-size: 1.7rem;
-        letter-spacing: -0.04em;
+        margin: 12px 0 8px;
+        color: var(--ink);
+        font-size: 1.5rem;
+        letter-spacing: -0.025em;
       }
       .card p {
+        max-width: 38ch;
+        margin: 0;
         color: var(--muted);
-        margin: 0 0 24px;
       }
-      .card a {
+      .card-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 44px;
         margin-top: auto;
-        color: var(--accent);
-        font-weight: 800;
+        font-weight: 600;
         text-decoration: none;
       }
-      .card a:focus-visible,
-      button:focus-visible {
-        outline: 3px solid var(--accent);
-        outline-offset: 3px;
+      .card-link span {
+        transition: transform 0.15s ease;
+      }
+      .card-link:hover span {
+        transform: translateX(3px);
+      }
+      .about {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        margin-top: 48px;
+        padding: 20px 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .about p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .about a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        font-weight: 600;
+        white-space: nowrap;
       }
       footer {
         display: flex;
         justify-content: space-between;
         gap: 16px;
-        margin-top: 72px;
-        padding-top: 20px;
-        border-top: 1px solid var(--line);
-        font-size: 0.9rem;
+        margin-top: 18px;
+        color: var(--muted);
+        font:
+          12px/1.5 ui-monospace,
+          SFMono-Regular,
+          Consolas,
+          monospace;
       }
-      @media (max-width: 820px) {
-        .cards {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .card:nth-child(2) {
-          transform: none;
-        }
-        .card:last-child {
-          grid-column: 1 / -1;
-        }
+      footer a {
+        color: var(--muted);
       }
-      @media (max-width: 560px) {
+      @media (max-width: 620px) {
         main {
-          width: min(100% - 28px, 420px);
+          width: min(100% - 28px, 480px);
         }
         header {
           display: block;
+          padding-bottom: 40px;
         }
         .theme {
-          justify-content: start;
           margin-top: 24px;
         }
-        .cards {
+        .reports {
           grid-template-columns: 1fr;
         }
-        .card:last-child {
-          grid-column: auto;
+        .card {
+          min-height: 210px;
+          padding: 22px;
+        }
+        .about {
+          display: block;
+        }
+        .about a {
+          margin-top: 12px;
         }
         footer {
           display: block;
         }
-      }
-      @media (prefers-reduced-motion: no-preference) {
-        .card {
-          transition:
-            transform 0.2s ease,
-            border-color 0.2s ease;
+        footer a {
+          display: inline-block;
+          margin-top: 8px;
         }
-        .card:hover {
-          transform: translateY(-5px);
-          border-color: var(--accent);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
         }
       }
     </style>
@@ -210,78 +315,167 @@
   <body>
     <main>
       <header>
-        <div>
-          <div class="eyebrow">Automation evidence</div>
-          <h1>Test reports, without the hunt.</h1>
-          <p class="lede">
-            A single view into the latest Playwright, Allure, and CTRF results from the scheduled
-            test suite.
-          </p>
+        <div class="identity">
+          <div class="avatar" aria-hidden="true">RP</div>
+          <div>
+            <div class="eyebrow">Automation reports</div>
+            <div class="eyebrow">GitHub Pages · latest run</div>
+          </div>
         </div>
-        <nav class="theme" aria-label="Color theme">
-          <button data-theme-choice="auto">Auto</button
-          ><button data-theme-choice="light">Light</button
-          ><button data-theme-choice="dark">Dark</button>
-        </nav>
+        <div class="theme" id="theme-control" data-open="false">
+          <button
+            id="theme-current"
+            type="button"
+            aria-label="Choose color theme"
+            aria-expanded="false"
+          ></button>
+          <button
+            class="option"
+            type="button"
+            data-theme-choice="auto"
+            aria-label="Use system theme"
+            aria-pressed="false"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="13" rx="2" />
+              <path d="M8 21h8M12 17v4" />
+            </svg>
+          </button>
+          <button
+            class="option"
+            type="button"
+            data-theme-choice="light"
+            aria-label="Use light theme"
+            aria-pressed="false"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="3.5" />
+              <path
+                d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+              />
+            </svg>
+          </button>
+          <button
+            class="option"
+            type="button"
+            data-theme-choice="dark"
+            aria-label="Use dark theme"
+            aria-pressed="false"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z" />
+            </svg>
+          </button>
+        </div>
       </header>
-      <section class="cards" aria-label="Available reports">
+      <section aria-labelledby="title">
+        <div class="eyebrow">Playwright test framework</div>
+        <h1 id="title">Evidence for reliable automation.</h1>
+        <p class="intro">
+          Reports from <strong>Roman Pinchuk</strong>, Automation Engineer. UI and API journeys,
+          browser coverage, and CI signals in one place.
+        </p>
+      </section>
+      <section class="reports" aria-label="Available reports">
         <article class="card">
-          <div class="eyebrow">Browser journeys</div>
+          <div class="eyebrow">Debugging and evidence</div>
           <h2>Playwright HTML</h2>
-          <p>Traceable test cases with screenshots, video, and retry details.</p>
-          <a href="playwright/index.html">Open report <span aria-hidden="true">→</span></a>
+          <p>Inspect every test, retry, screenshot, video, and trace from the latest run.</p>
+          <a class="card-link" href="playwright/index.html"
+            >Open Playwright report <span aria-hidden="true">→</span></a
+          >
         </article>
         <article class="card">
-          <div class="eyebrow">Trend and detail</div>
+          <div class="eyebrow">Trends and quality</div>
           <h2>Allure</h2>
-          <p>Rich execution detail plus history from recent workflow runs.</p>
-          <a href="allure/index.html">Open report <span aria-hidden="true">→</span></a>
-        </article>
-        <article class="card">
-          <div class="eyebrow">Portable results</div>
-          <h2>CTRF</h2>
-          <p>Unified test outcomes with filtering, suites, and execution insights.</p>
-          <a href="ctrf/index.html">Open report <span aria-hidden="true">→</span></a>
+          <p>
+            Explore the latest execution, environment details, quality gates, and retained history.
+          </p>
+          <a class="card-link" href="allure/index.html"
+            >Open Allure report <span aria-hidden="true">→</span></a
+          >
         </article>
       </section>
+      <section class="about" aria-label="About the engineer">
+        <p>
+          Building maintainable test systems with Playwright, TypeScript, API checks, and pragmatic
+          CI.
+        </p>
+        <a href="https://github.com/roman-pinchuk"
+          >Explore Roman's GitHub <span aria-hidden="true">↗</span></a
+        >
+      </section>
       <footer>
-        <span class="meta" id="run-meta">Loading run metadata...</span
-        ><a class="meta" id="run-link" href="#">GitHub Actions run ↗</a>
+        <span id="run-meta">Loading run metadata...</span
+        ><a id="run-link" href="#">GitHub Actions run ↗</a>
       </footer>
     </main>
     <script>
       const root = document.documentElement;
-      document.querySelectorAll('[data-theme-choice]').forEach((button) =>
-        button.addEventListener('click', () => {
-          const theme = button.dataset.themeChoice;
-          root.dataset.theme = theme;
-          try {
-            localStorage.setItem('report-theme', theme);
-          } catch {
-            /* Storage may be disabled. */
-          }
-          document
-            .querySelectorAll('[data-theme-choice]')
-            .forEach((item) => item.setAttribute('aria-pressed', item === button));
-        }),
-      );
-      const activeTheme = (() => {
+      const control = document.querySelector('#theme-control');
+      const current = document.querySelector('#theme-current');
+      const icons = {
+        auto: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
+        light:
+          '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
+        dark: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></svg>',
+      };
+      const getTheme = () => {
         try {
           return localStorage.getItem('report-theme') || 'auto';
         } catch {
           return 'auto';
         }
-      })();
-      document
-        .querySelector(`[data-theme-choice="${activeTheme}"]`)
-        .setAttribute('aria-pressed', 'true');
+      };
+      const setTheme = (theme) => {
+        root.dataset.theme = theme;
+        try {
+          localStorage.setItem('report-theme', theme);
+        } catch {}
+        current.innerHTML = icons[theme];
+        current.setAttribute('aria-label', `Theme: ${theme}. Choose color theme`);
+        document.querySelectorAll('[data-theme-choice]').forEach((button) => {
+          const active = button.dataset.themeChoice === theme;
+          button.hidden = active;
+          button.setAttribute('aria-pressed', active);
+        });
+        document.querySelector('meta[name="theme-color"]').content = getComputedStyle(root)
+          .getPropertyValue('--canvas')
+          .trim();
+      };
+      setTheme(getTheme());
+      current.addEventListener('click', () => {
+        const open = control.dataset.open !== 'true';
+        control.dataset.open = open;
+        current.setAttribute('aria-expanded', open);
+      });
+      document.querySelectorAll('[data-theme-choice]').forEach((button) =>
+        button.addEventListener('click', () => {
+          setTheme(button.dataset.themeChoice);
+          control.dataset.open = 'false';
+          current.setAttribute('aria-expanded', 'false');
+          current.focus();
+        }),
+      );
+      document.addEventListener('click', (event) => {
+        if (!control.contains(event.target)) {
+          control.dataset.open = 'false';
+          current.setAttribute('aria-expanded', 'false');
+        }
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          control.dataset.open = 'false';
+          current.setAttribute('aria-expanded', 'false');
+          current.focus();
+        }
+      });
       fetch('report-metadata.json')
         .then((response) => response.json())
         .then((metadata) => {
           document.querySelector('#run-meta').textContent =
-            `Run #${metadata.runNumber} · ${metadata.branch} · ${metadata.commit} · ${new Date(metadata.generatedAt).toLocaleString()}`;
-          const link = document.querySelector('#run-link');
-          link.href = metadata.runUrl;
+            `Run #${metadata.runNumber} · ${metadata.branch} · ${metadata.commit.slice(0, 7)} · ${new Date(metadata.generatedAt).toLocaleString()}`;
+          document.querySelector('#run-link').href = metadata.runUrl;
         })
         .catch(() => {
           document.querySelector('#run-meta').textContent = 'Latest published run';

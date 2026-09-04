@@ -12,17 +12,17 @@
       ┌──────────────────────┐ ┌───────────────┐ ┌────────────────────┐
       │ blob-report/         │ │ ctrf/         │ │ allure-results/    │
       │ Playwright blobs     │ │ project JSON  │ │ Allure result files │
-      └──────────┬───────────┘ └──────┬────────┘ └──────────┬─────────┘
-                 └────────────────────┼─────────────────────┘
-                                      ▼
-                            ┌──────────────────┐
-                            │ report-site job  │
-                            │ merge + render   │
-                            └─────────┬────────┘
-                                      ▼
+       └──────────┬───────────┘ └──────┬────────┘ └──────────┬─────────┘
+                  │                    │                     │
+                  ▼                    │                     ▼
+       ┌──────────────────┐            │           ┌──────────────────┐
+       │ ctrf-report job  │            │           │ report-site job  │
+       │ Actions summary  │            │           │ merge + publish  │
+       └──────────────────┘            │           └─────────┬────────┘
+                                       │                     ▼
                             ┌────────────────────────────┐
                             │ Pages landing page         │
-                            │ /playwright /allure /ctrf │
+                            │ /playwright /allure       │
                             └────────────────────────────┘
 ```
 
@@ -30,8 +30,8 @@
 
 Each API or browser job writes a project-specific CTRF JSON artifact. The
 `ctrf-report` job downloads and merges those artifacts, then publishes a PR
-summary. The main-branch `report-site` job also renders the merged data as
-HTML under `/ctrf/`. Raw CTRF files are short-lived CI artifacts.
+summary. CTRF is not published to Pages; its raw files are short-lived CI
+artifacts.
 
 ## Allure 3
 
@@ -54,16 +54,15 @@ deployment is blocked only when report generation fails.
 ## Pages Site and Retention
 
 The report site is assembled once per main-branch run. Playwright blobs are
-merged into one HTML report under `/playwright/`; CTRF is rendered under
-`/ctrf/`; and the latest Allure report is published under `/allure/`. The
-responsive landing page supports Auto, Light, and Dark themes and links to all
-three reports.
+merged into one HTML report under `/playwright/`; and the latest Allure report
+is published under `/allure/`. The responsive landing page supports Auto,
+Light, and Dark themes and links to both reports.
 
 Raw report artifacts use one-day retention and the Pages deployment artifact
 also uses one-day retention. The published site keeps up to 20 Allure reports
 under `/allure/history/`, with a 500 MiB size ceiling. Oldest reports are
-removed until both limits are satisfied. Playwright and CTRF retain only the
-latest run in Pages.
+removed until both limits are satisfied. Playwright retains only the latest run
+in Pages.
 
 ## History Cache Lifecycle
 

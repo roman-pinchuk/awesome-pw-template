@@ -192,18 +192,6 @@ jobs:
         run: npx playwright merge-reports --reporter html blob-reports
       - uses: actions/download-artifact@v8
         with:
-          pattern: raw-ctrf-*
-          path: ctrf-input
-          merge-multiple: true
-      - name: Merge and render CTRF report
-        run: |
-          mkdir -p report-source/ctrf
-          npx ctrf-cli merge ctrf-input --output "$GITHUB_WORKSPACE/ctrf-report.json"
-          test -s "$GITHUB_WORKSPACE/ctrf-report.json"
-          npx ctrf-html-reporter "$GITHUB_WORKSPACE/ctrf-report.json" --output-path "$GITHUB_WORKSPACE/report-source/ctrf" --single-file
-          rm "$GITHUB_WORKSPACE/ctrf-report.json"
-      - uses: actions/download-artifact@v8
-        with:
           pattern: allure-results-*
           path: allure-results
           merge-multiple: true
@@ -239,7 +227,7 @@ jobs:
             --site pages-artifact \
             --history allure-history \
             --run-number '${{ github.run_number }}' \
-            --base-url 'https://roman-pinchuk.github.io/awesome-pw-template' \
+          --base-url 'https://roman-pinchuk.github.io/awesome-pw-template' \
             --branch '${{ github.ref_name }}' \
             --commit '${{ github.sha }}' \
             --run-url '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}' \
