@@ -2,7 +2,7 @@
   "name": "${localWorkspaceFolderBasename}",
   "image": "mcr.microsoft.com/playwright:v1.62.1-noble",
   "init": true,
-  "runArgs": ["--ipc=host"],
+  "runArgs": ["--ipc=host", "--name", "${localWorkspaceFolderBasename}-dev"],
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
       "username": "none",
