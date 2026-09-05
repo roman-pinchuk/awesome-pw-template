@@ -288,6 +288,9 @@
       footer a {
         color: var(--muted);
       }
+      .run-row {
+        display: block;
+      }
       @media (max-width: 620px) {
         main {
           width: min(100% - 28px, 480px);
@@ -366,7 +369,12 @@
           <div class="eyebrow">Debugging and evidence</div>
           <h2>Playwright HTML</h2>
           <p>Inspect every test, retry, screenshot, video, and trace from the latest run.</p>
-          <a class="card-link" href="playwright/index.html"
+          <a
+            class="card-link"
+            href="playwright/index.html"
+            target="_blank"
+            rel="noopener"
+            aria-label="Open Playwright report in a new tab"
             >Open Playwright report <span aria-hidden="true">→</span></a
           >
         </article>
@@ -376,7 +384,12 @@
           <p>
             Explore the latest execution, environment details, quality gates, and retained history.
           </p>
-          <a class="card-link" href="allure/index.html"
+          <a
+            class="card-link"
+            href="allure/index.html"
+            target="_blank"
+            rel="noopener"
+            aria-label="Open Allure report in a new tab"
             >Open Allure report <span aria-hidden="true">→</span></a
           >
         </article>
@@ -474,8 +487,21 @@
             }
           })();
           const local = `${stamp(at.getFullYear(), at.getMonth() + 1, at.getDate(), at.getHours(), at.getMinutes(), at.getSeconds())} ${zone}`;
-          document.querySelector('#run-meta').textContent =
-            `Run #${metadata.runNumber} · ${metadata.branch} · ${metadata.commit.slice(0, 7)} · ${utc} · ${local}`;
+          const runMeta = document.querySelector('#run-meta');
+          runMeta.setAttribute('role', 'list');
+          runMeta.replaceChildren(
+            ...[
+              `Run #${metadata.runNumber} · ${metadata.branch} · ${metadata.commit.slice(0, 7)}`,
+              utc,
+              local,
+            ].map((text) => {
+              const row = document.createElement('span');
+              row.className = 'run-row';
+              row.setAttribute('role', 'listitem');
+              row.textContent = text;
+              return row;
+            }),
+          );
           document.querySelector('#run-link').href = metadata.runUrl;
         })
         .catch(() => {
