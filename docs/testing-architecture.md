@@ -79,4 +79,5 @@ tracked by the fixture and cleaned up there, so tests do not need repetitive
 
 Environment values are loaded differently for local and CI execution; tests
 should consume the validated configuration rather than read process variables
-directly.
+directly. Run tests inside the devcontainer so the execution environment
+matches CI.

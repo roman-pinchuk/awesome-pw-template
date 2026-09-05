@@ -91,3 +91,6 @@ installation; hooks remain enabled for local development.
 - Keep route knowledge centralized and navigate through `BasePage.goto`.
 - Keep reporting orchestration in CI rather than in transport or assertion
   modules.
+- Rebuild lockfiles and run tests inside the devcontainer (see the
+  `Dev container` section in `README.md`) to keep local results comparable
+  to CI.

@@ -128,8 +128,13 @@ This repo includes a VS Code devcontainer that mirrors the Playwright Docker
 image used in CI:
 
 - Base image: `mcr.microsoft.com/playwright:v1.62.1-noble`
-- Node.js and npm: supplied by the official image; generate dependency lockfile
-  changes from inside this devcontainer
+- Node.js and npm: supplied by the official image
+- Rebuild lockfiles from inside this devcontainer: `npm install` regenerates
+  `package-lock.json`, and rebuilding the container refreshes
+  `.devcontainer/devcontainer-lock.json`
+- Run tests from inside this devcontainer (`npm test`, `npm run test:ui`,
+  `npm run test:api`, `npm run check`) so Node, browsers, and system
+  dependencies match CI
 - Shell: zsh with Oh My Zsh, configured as the default terminal
 - Install step: `npm ci`
 - Version guard: `npm run verify:playwright` checks devcontainer and CI
