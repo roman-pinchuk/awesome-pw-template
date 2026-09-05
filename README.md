@@ -116,9 +116,32 @@ approach for both UI and API testing.
 
 ## Getting started
 
+The supported flow is inside the devcontainer, which mirrors the Playwright
+Docker image used in CI (browsers and toolchain included, no
+`npx playwright install` needed):
+
+1. Install the VS Code **Dev Containers** extension locally and start Docker.
+2. Make sure `.env.local` exists. UI tests still load
+   `playwright.config.ts`, so `API_BASE_URL` must be present even when you
+   only run SauceDemo UI tests.
+3. Open the command palette and run **Dev Containers: Reopen in Container**.
+   Setup runs `npm ci` automatically and the container resolves to
+   `<folder>-dev`.
+4. Inside the container, verify and test:
+
 ```bash
-npm install
-npx playwright install chromium firefox
+npm run check
+npm test            # Full suite (UI + API)
+```
+
+### Without devcontainer (fallback, running only)
+
+Prefer the devcontainer above; use the host only to run tests, and still
+rebuild lockfiles inside the devcontainer. Requires Node 22:
+
+```bash
+npm ci
+npx playwright install chromium firefox webkit
 npm run check
 ```
 
@@ -142,14 +165,8 @@ image used in CI:
 - Browser stability flag: `--ipc=host`
 - Playwright UI Mode port: `9323`
 
-To use it:
-
-1. Install the VS Code **Dev Containers** extension locally.
-2. Open the command palette and run **Dev Containers: Reopen in Container**.
-3. Make sure `.env.local` exists. UI tests still load
-   `playwright.config.ts`, so `API_BASE_URL` must be present even when you only
-   run SauceDemo UI tests.
-4. Start Playwright UI Mode:
+Follow [Getting started](#getting-started) for the container flow. Once
+inside, start Playwright UI Mode:
 
 ```bash
 npm run test:ui:mode
