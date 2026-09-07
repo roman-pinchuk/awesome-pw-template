@@ -76,6 +76,7 @@ jobs:
           manifest-type: npm
           readme: README.md
           heading: '## Dynamic Dependency & Security Matrix'
+          collapsed: 'true'
 
       # Step 5: Save Markdown alterations to git tree (Skips on Pull Requests)
       - name: Commit Matrix Updates
