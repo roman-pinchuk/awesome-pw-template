@@ -14,7 +14,7 @@ approach for both UI and API testing.
 
 ## Dynamic Dependency & Security Matrix
 
-<details open>
+<details>
 <summary>Click to expand</summary>
 
 | Dependency                        | Type            | Current Version | Security Status    | Latest npm Version |
