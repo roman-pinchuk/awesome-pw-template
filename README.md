@@ -19,13 +19,13 @@ approach for both UI and API testing.
 
 | Dependency                        | Type            | Current Version | Security Status    | Latest npm Version |
 | :-------------------------------- | :-------------- | :-------------- | :----------------- | :----------------- |
-| **@dotenvx/dotenvx**              | devDependencies | `^2.22.0`       | 🟢 No known issues | `2.23.0` ⚠️        |
+| **@dotenvx/dotenvx**              | devDependencies | `^2.23.0`       | 🟢 No known issues | `2.23.0`           |
 | **@eslint/js**                    | devDependencies | `^10.0.1`       | 🟢 No known issues | `10.0.1`           |
 | **@playwright/test**              | devDependencies | `1.62.1`        | 🟢 No known issues | `1.63.0` ⚠️        |
-| **@types/node**                   | devDependencies | `^26.4.0`       | 🟢 No known issues | `26.5.0` ⚠️        |
+| **@types/node**                   | devDependencies | `^26.4.1`       | 🟢 No known issues | `26.5.0` ⚠️        |
 | **allure**                        | devDependencies | `^3.16.0`       | 🔴 1 high          | `3.16.1` ⚠️        |
-| **allure-playwright**             | devDependencies | `^3.11.0`       | 🟢 No known issues | `3.12.0` ⚠️        |
-| **eslint**                        | devDependencies | `^10.9.1`       | 🟢 No known issues | `10.10.0` ⚠️       |
+| **allure-playwright**             | devDependencies | `^3.12.0`       | 🟢 No known issues | `3.12.0`           |
+| **eslint**                        | devDependencies | `^10.10.0`      | 🟢 No known issues | `10.10.0`          |
 | **eslint-plugin-playwright**      | devDependencies | `^2.11.0`       | 🟢 No known issues | `2.11.0`           |
 | **lint-staged**                   | devDependencies | `^17.4.1`       | 🟢 No known issues | `17.5.0` ⚠️        |
 | **pino**                          | dependencies    | `^10.3.1`       | 🟢 No known issues | `10.3.1`           |
@@ -34,7 +34,7 @@ approach for both UI and API testing.
 | **prettier**                      | devDependencies | `^3.9.6`        | 🟢 No known issues | `3.9.6`            |
 | **simple-git-hooks**              | devDependencies | `^2.14.0`       | 🟢 No known issues | `2.14.0`           |
 | **typescript**                    | devDependencies | `^6.0.3`        | 🟢 No known issues | `7.0.2` ⚠️         |
-| **typescript-eslint**             | devDependencies | `8.68.0`        | 🟢 No known issues | `8.69.0` ⚠️        |
+| **typescript-eslint**             | devDependencies | `8.69.0`        | 🟢 No known issues | `8.69.0`           |
 | **zod**                           | devDependencies | `^4.5.4`        | 🟢 No known issues | `4.5.4`            |
 
 </details>
