@@ -1,8 +1,8 @@
-import { config as loadDotenv } from '@dotenvx/dotenvx';
+import dotenvx from '@dotenvx/dotenvx';
 import { z } from 'zod';
 
 if (process.env.CI !== 'true') {
-  loadDotenv({
+  dotenvx.config({
     path: '.env.local',
     quiet: true,
   });

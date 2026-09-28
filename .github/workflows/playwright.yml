@@ -51,6 +51,10 @@ jobs:
       - run: npm run test:scripts
       - run: npm run typecheck
       - run: npm run lint
+      - name: Verify Playwright runtime loading
+        env:
+          API_BASE_URL: https://example.com
+        run: npx playwright test --list
 
   api-tests:
     needs: lint
