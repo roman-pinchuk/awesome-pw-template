@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/roman-pinchuk/awesome-pw-template/actions/workflows/playwright.yml/badge.svg)](https://github.com/roman-pinchuk/awesome-pw-template/actions/workflows/playwright.yml)
 [![Allure Report](https://img.shields.io/badge/Allure-Latest%20Report-ff6f00?logo=allure&logoColor=white)](https://roman-pinchuk.github.io/awesome-pw-template/)
-![Playwright](https://img.shields.io/badge/Playwright-1.62.1-2EAD33?logo=playwright&logoColor=white)
+![Playwright](https://img.shields.io/badge/Playwright-1.63.0-2EAD33?logo=playwright&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-22-5FA04E?logo=nodedotjs&logoColor=white)
 ![Test scope](https://img.shields.io/badge/tests-UI%20%2B%20API-blue)
@@ -15,13 +15,13 @@ approach for both UI and API testing.
 ## Dynamic Dependency & Security Matrix
 
 <details>
-<summary>Click to expand (12 outdated, 8 vulnerabilities: 6 high, 2 medium)</summary>
+<summary>Click to expand (11 outdated, 8 vulnerabilities: 6 high, 2 medium)</summary>
 
 | Dependency                        | Type            | Current Version | Security Status        | Latest npm Version |
 | :-------------------------------- | :-------------- | :-------------- | :--------------------- | :----------------- |
 | **@dotenvx/dotenvx**              | devDependencies | `^2.23.0`       | 🟢 No known issues     | `2.31.1` ⚠️        |
 | **@eslint/js**                    | devDependencies | `^10.0.1`       | 🟢 No known issues     | `10.0.1`           |
-| **@playwright/test**              | devDependencies | `1.62.1`        | 🟢 No known issues     | `1.63.0` ⚠️        |
+| **@playwright/test**              | devDependencies | `1.63.0`        | 🟢 No known issues     | `1.63.0`           |
 | **@types/node**                   | devDependencies | `^26.5.0`       | 🟢 No known issues     | `26.6.3` ⚠️        |
 | **allure**                        | devDependencies | `^3.16.1`       | 🔴 3 high              | `3.18.0` ⚠️        |
 | **allure-playwright**             | devDependencies | `^3.12.0`       | 🟢 No known issues     | `3.12.2` ⚠️        |
@@ -157,7 +157,7 @@ npm run check
 This repo includes a VS Code devcontainer that mirrors the Playwright Docker
 image used in CI:
 
-- Base image: `mcr.microsoft.com/playwright:v1.62.1-noble`
+- Base image: `mcr.microsoft.com/playwright:v1.63.0-noble`
 - Node.js and npm: supplied by the official image
 - Rebuild lockfiles from inside this devcontainer: `npm install` regenerates
   `package-lock.json`, and rebuilding the container refreshes
@@ -296,8 +296,10 @@ pull request, and Monday/Thursday at 13:00 in the `Asia/Jerusalem` timezone.
 
 - `.github/dependabot.yml` keeps npm packages and GitHub Actions versions fresh
   with weekly Monday update checks.
-- Dependabot groups Playwright/reporting packages, TypeScript/linting tooling,
-  and GitHub Actions updates into focused PRs.
+- Dependabot groups reporting packages, TypeScript/linting tooling, and GitHub
+  Actions updates into focused PRs. Playwright version updates are intentionally
+  managed manually because the npm package, devcontainer image, and CI image
+  must be upgraded together.
 - `.github/workflows/snyk-security.yml` runs on dependency changes, manual
   dispatch, non-Dependabot pull requests, and a weekly Monday schedule.
 - The Snyk scan uses one optional repository Actions secret: `SNYK_TOKEN`.
@@ -368,7 +370,7 @@ pull request, and Monday/Thursday at 13:00 in the `Asia/Jerusalem` timezone.
 ### Action versions
 
 - `actions/checkout` — `@v7`, latest as of 2026-07
-- `actions/setup-node` — `@v6`, latest as of 2026-07
+- `actions/setup-node` — `@v7`, latest as of 2026-07
 - `actions/upload-artifact` — `@v7`, latest as of 2026-07
 - `actions/download-artifact` — `@v8`, latest as of 2026-07
 - `actions/cache` — `@v6`, latest as of 2026-07

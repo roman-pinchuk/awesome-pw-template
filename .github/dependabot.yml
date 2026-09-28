@@ -8,6 +8,14 @@ updates:
       day: 'monday'
     open-pull-requests-limit: 5 # Prevents PR tab from being overwhelmed
 
+    # Playwright upgrades must stay synchronized with the Docker image references.
+    ignore:
+      - dependency-name: '@playwright/test'
+        update-types:
+          - 'version-update:semver-major'
+          - 'version-update:semver-minor'
+          - 'version-update:semver-patch'
+
     groups:
       all-deps:
         applies-to: version-updates

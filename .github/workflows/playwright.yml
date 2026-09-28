@@ -37,7 +37,7 @@ concurrency:
 env:
   FORCE_COLOR: '1'
   SKIP_INSTALL_SIMPLE_GIT_HOOKS: '1'
-  PLAYWRIGHT_IMAGE: &playwright_image mcr.microsoft.com/playwright:v1.62.1-noble
+  PLAYWRIGHT_IMAGE: &playwright_image mcr.microsoft.com/playwright:v1.63.0-noble
 
 jobs:
   lint:
