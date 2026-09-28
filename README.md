@@ -15,26 +15,26 @@ approach for both UI and API testing.
 ## Dynamic Dependency & Security Matrix
 
 <details>
-<summary>Click to expand (11 outdated, 8 vulnerabilities: 6 high, 2 medium)</summary>
+<summary>Click to expand (12 outdated, 8 vulnerabilities: 6 high, 2 medium)</summary>
 
 | Dependency                        | Type            | Current Version | Security Status        | Latest npm Version |
 | :-------------------------------- | :-------------- | :-------------- | :--------------------- | :----------------- |
-| **@dotenvx/dotenvx**              | devDependencies | `^2.23.0`       | 🟢 No known issues     | `2.28.2` ⚠️        |
+| **@dotenvx/dotenvx**              | devDependencies | `^2.23.0`       | 🟢 No known issues     | `2.31.1` ⚠️        |
 | **@eslint/js**                    | devDependencies | `^10.0.1`       | 🟢 No known issues     | `10.0.1`           |
 | **@playwright/test**              | devDependencies | `1.62.1`        | 🟢 No known issues     | `1.63.0` ⚠️        |
-| **@types/node**                   | devDependencies | `^26.5.0`       | 🟢 No known issues     | `26.6.2` ⚠️        |
+| **@types/node**                   | devDependencies | `^26.5.0`       | 🟢 No known issues     | `26.6.3` ⚠️        |
 | **allure**                        | devDependencies | `^3.16.1`       | 🔴 3 high              | `3.18.0` ⚠️        |
 | **allure-playwright**             | devDependencies | `^3.12.0`       | 🟢 No known issues     | `3.12.2` ⚠️        |
 | **eslint**                        | devDependencies | `^10.10.0`      | 🔴 1 high, 🟡 1 medium | `10.11.0` ⚠️       |
 | **eslint-plugin-playwright**      | devDependencies | `^2.11.0`       | 🟢 No known issues     | `2.12.0` ⚠️        |
-| **lint-staged**                   | devDependencies | `^17.5.0`       | 🟢 No known issues     | `17.5.1` ⚠️        |
+| **lint-staged**                   | devDependencies | `^17.5.0`       | 🟢 No known issues     | `17.6.0` ⚠️        |
 | **pino**                          | dependencies    | `^10.3.1`       | 🟢 No known issues     | `10.3.1`           |
 | **pino-pretty**                   | dependencies    | `^13.1.3`       | 🟢 No known issues     | `13.1.3`           |
 | **playwright-ctrf-json-reporter** | devDependencies | `^0.0.29`       | 🔴 2 high, 🟡 1 medium | `0.0.29`           |
-| **prettier**                      | devDependencies | `^3.9.6`        | 🟢 No known issues     | `3.9.8` ⚠️         |
+| **prettier**                      | devDependencies | `^3.9.6`        | 🟢 No known issues     | `3.9.9` ⚠️         |
 | **simple-git-hooks**              | devDependencies | `^2.14.0`       | 🟢 No known issues     | `2.14.0`           |
 | **typescript**                    | devDependencies | `^6.0.3`        | 🟢 No known issues     | `7.0.2` ⚠️         |
-| **typescript-eslint**             | devDependencies | `8.70.0`        | 🟢 No known issues     | `8.70.0`           |
+| **typescript-eslint**             | devDependencies | `8.70.0`        | 🟢 No known issues     | `8.70.1` ⚠️        |
 | **zod**                           | devDependencies | `^4.5.4`        | 🟢 No known issues     | `4.6.5` ⚠️         |
 
 </details>
