@@ -15,27 +15,27 @@ approach for both UI and API testing.
 ## Dynamic Dependency & Security Matrix
 
 <details>
-<summary>Click to expand (13 outdated, security unavailable)</summary>
+<summary>Click to expand (2 outdated, security unavailable)</summary>
 
 | Dependency                        | Type            | Current Version | Latest npm Version |
 | :-------------------------------- | :-------------- | :-------------- | :----------------- |
-| **@dotenvx/dotenvx**              | devDependencies | `^2.32.4`       | `2.34.2` ⚠️        |
+| **@dotenvx/dotenvx**              | devDependencies | `^2.34.2`       | `2.34.2`           |
 | **@eslint/js**                    | devDependencies | `^10.0.1`       | `10.0.1`           |
-| **@playwright/test**              | devDependencies | `1.63.0`        | `1.64.0` ⚠️        |
-| **@types/node**                   | devDependencies | `^26.6.4`       | `26.6.5` ⚠️        |
-| **allure**                        | devDependencies | `^3.20.0`       | `3.20.1` ⚠️        |
+| **@playwright/test**              | devDependencies | `1.64.0`        | `1.64.0`           |
+| **@types/node**                   | devDependencies | `^26.6.5`       | `26.6.5`           |
+| **allure**                        | devDependencies | `^3.20.1`       | `3.20.1`           |
 | **allure-playwright**             | devDependencies | `^3.13.0`       | `3.13.0`           |
-| **eslint**                        | devDependencies | `^10.11.0`      | `10.12.0` ⚠️       |
-| **eslint-plugin-playwright**      | devDependencies | `^2.12.0`       | `2.12.1` ⚠️        |
+| **eslint**                        | devDependencies | `^10.12.0`      | `10.12.0`          |
+| **eslint-plugin-playwright**      | devDependencies | `^2.12.1`       | `2.12.1`           |
 | **lint-staged**                   | devDependencies | `^17.6.0`       | `17.6.0`           |
-| **pino**                          | dependencies    | `^10.3.1`       | `10.4.0` ⚠️        |
-| **pino-pretty**                   | dependencies    | `^13.1.3`       | `13.2.0` ⚠️        |
+| **pino**                          | dependencies    | `^10.4.0`       | `10.4.0`           |
+| **pino-pretty**                   | dependencies    | `^13.2.0`       | `13.2.0`           |
 | **playwright-ctrf-json-reporter** | devDependencies | `^0.0.29`       | `0.2.0` ⚠️         |
-| **prettier**                      | devDependencies | `^3.9.9`        | `3.9.10` ⚠️        |
+| **prettier**                      | devDependencies | `^3.9.10`       | `3.9.10`           |
 | **simple-git-hooks**              | devDependencies | `^2.14.0`       | `2.14.0`           |
 | **typescript**                    | devDependencies | `^6.0.3`        | `7.0.2` ⚠️         |
-| **typescript-eslint**             | devDependencies | `8.71.0`        | `8.71.2` ⚠️        |
-| **zod**                           | devDependencies | `^4.6.5`        | `4.6.7` ⚠️         |
+| **typescript-eslint**             | devDependencies | `8.71.2`        | `8.71.2`           |
+| **zod**                           | devDependencies | `^4.6.7`        | `4.6.7`            |
 
 </details>
 
