@@ -24,7 +24,10 @@ export default defineConfig({
         ['allure-playwright'],
         [
           'playwright-ctrf-json-reporter',
-          { outputFile: process.env.CTRF_REPORT_FILE ?? 'ctrf-report.json' },
+          {
+            outputFile: process.env.CTRF_REPORT_FILE ?? 'ctrf-report.json',
+            outputDir: 'ctrf',
+          },
         ],
       ]
     : [['list'], ['html', { open: 'on-failure' }]],
