@@ -15,7 +15,7 @@ approach for both UI and API testing.
 ## Dynamic Dependency & Security Matrix
 
 <details>
-<summary>Click to expand (2 outdated, security unavailable)</summary>
+<summary>Click to expand (1 outdated, security unavailable)</summary>
 
 | Dependency                        | Type            | Current Version | Latest npm Version |
 | :-------------------------------- | :-------------- | :-------------- | :----------------- |
@@ -30,7 +30,7 @@ approach for both UI and API testing.
 | **lint-staged**                   | devDependencies | `^17.6.0`       | `17.6.0`           |
 | **pino**                          | dependencies    | `^10.4.0`       | `10.4.0`           |
 | **pino-pretty**                   | dependencies    | `^13.2.0`       | `13.2.0`           |
-| **playwright-ctrf-json-reporter** | devDependencies | `^0.0.29`       | `0.2.0` ⚠️         |
+| **playwright-ctrf-json-reporter** | devDependencies | `^0.2.0`        | `0.2.0`            |
 | **prettier**                      | devDependencies | `^3.9.10`       | `3.9.10`           |
 | **simple-git-hooks**              | devDependencies | `^2.14.0`       | `2.14.0`           |
 | **typescript**                    | devDependencies | `^6.0.3`        | `7.0.2` ⚠️         |
