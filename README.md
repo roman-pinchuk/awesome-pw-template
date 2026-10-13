@@ -19,11 +19,11 @@ approach for both UI and API testing.
 
 | Dependency                        | Type            | Current Version | Latest npm Version |
 | :-------------------------------- | :-------------- | :-------------- | :----------------- |
-| **@dotenvx/dotenvx**              | devDependencies | `^2.32.2`       | `2.34.2` ⚠️        |
+| **@dotenvx/dotenvx**              | devDependencies | `^2.32.4`       | `2.34.2` ⚠️        |
 | **@eslint/js**                    | devDependencies | `^10.0.1`       | `10.0.1`           |
 | **@playwright/test**              | devDependencies | `1.63.0`        | `1.64.0` ⚠️        |
-| **@types/node**                   | devDependencies | `^26.6.3`       | `26.6.5` ⚠️        |
-| **allure**                        | devDependencies | `^3.19.1`       | `3.20.1` ⚠️        |
+| **@types/node**                   | devDependencies | `^26.6.4`       | `26.6.5` ⚠️        |
+| **allure**                        | devDependencies | `^3.20.0`       | `3.20.1` ⚠️        |
 | **allure-playwright**             | devDependencies | `^3.13.0`       | `3.13.0`           |
 | **eslint**                        | devDependencies | `^10.11.0`      | `10.12.0` ⚠️       |
 | **eslint-plugin-playwright**      | devDependencies | `^2.12.0`       | `2.12.1` ⚠️        |
@@ -34,8 +34,8 @@ approach for both UI and API testing.
 | **prettier**                      | devDependencies | `^3.9.9`        | `3.9.10` ⚠️        |
 | **simple-git-hooks**              | devDependencies | `^2.14.0`       | `2.14.0`           |
 | **typescript**                    | devDependencies | `^6.0.3`        | `7.0.2` ⚠️         |
-| **typescript-eslint**             | devDependencies | `8.71.0`        | `8.71.1` ⚠️        |
-| **zod**                           | devDependencies | `^4.6.5`        | `4.6.6` ⚠️         |
+| **typescript-eslint**             | devDependencies | `8.71.0`        | `8.71.2` ⚠️        |
+| **zod**                           | devDependencies | `^4.6.5`        | `4.6.7` ⚠️         |
 
 </details>
 
