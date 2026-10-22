@@ -73,7 +73,7 @@ jobs:
       # Step 4: Construct and rewrite the Markdown Matrix.
       - name: Generate Dependency Security Matrix
         id: matrix
-        uses: roman-pinchuk/dependency-security-matrix-action@v1
+        uses: thisromanHQ/dependency-security-matrix-action@v1
         with:
           scanner: snyk
           scanner-report: snyk-results.json
