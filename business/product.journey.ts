@@ -22,12 +22,14 @@ export class ProductJourney {
     await test.step(`open product "${name}"`, async () => {
       await this.inventoryPage.goto();
       await this.inventoryPage.openProduct(name);
+      await expect(this.page).toHaveURL(/\/inventory-item\.html\?id=\d+$/);
     });
   }
 
   /** Asserts the product detail screen is loaded for the requested item. */
   async expectLoaded(name: string): Promise<void> {
     await test.step(`expect product detail loaded for "${name}"`, async () => {
+      await expect(this.productDetailPage.backToProducts).toBeVisible();
       await expect
         .configure({ message: `Expected product detail to be loaded for "${name}"` })(
           this.productDetailPage.itemName,
