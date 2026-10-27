@@ -82,6 +82,7 @@ jobs:
         with:
           name: playwright-blob-report-api
           path: blob-report/
+          compression-level: 0
           if-no-files-found: ignore
           retention-days: 1
       - name: Upload CTRF report
@@ -134,6 +135,7 @@ jobs:
         with:
           name: playwright-blob-report-ui-${{ matrix.browser }}
           path: blob-report/
+          compression-level: 0
           if-no-files-found: ignore
           retention-days: 1
       - name: Upload CTRF report
