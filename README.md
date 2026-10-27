@@ -15,17 +15,17 @@ approach for both UI and API testing.
 ## Dynamic Dependency & Security Matrix
 
 <details>
-<summary>Click to expand (7 outdated, 17 vulnerabilities: 1 critical, 8 high, 8 medium)</summary>
+<summary>Click to expand (3 outdated, 17 vulnerabilities: 1 critical, 8 high, 8 medium)</summary>
 
 | Dependency                        | Type            | Current Version | Security Status          | Latest npm Version |
 | :-------------------------------- | :-------------- | :-------------- | :----------------------- | :----------------- |
-| **@dotenvx/dotenvx**              | devDependencies | `^2.34.2`       | 🔴 1 critical, 🔴 4 high | `2.38.2` ⚠️        |
+| **@dotenvx/dotenvx**              | devDependencies | `^2.38.2`       | 🔴 1 critical, 🔴 4 high | `2.38.2`           |
 | **@eslint/js**                    | devDependencies | `^10.0.1`       | 🟢 No known issues       | `10.0.1`           |
-| **@playwright/test**              | devDependencies | `1.64.0`        | 🟢 No known issues       | `1.64.1` ⚠️        |
+| **@playwright/test**              | devDependencies | `1.64.1`        | 🟢 No known issues       | `1.64.1`           |
 | **@types/node**                   | devDependencies | `^26.6.5`       | 🟢 No known issues       | `26.6.5`           |
 | **allure**                        | devDependencies | `^3.20.1`       | 🔴 1 high, 🟡 2 medium   | `3.22.1` ⚠️        |
-| **allure-playwright**             | devDependencies | `^3.13.0`       | 🟢 No known issues       | `3.14.0` ⚠️        |
-| **eslint**                        | devDependencies | `^10.12.0`      | 🔴 1 high, 🟡 2 medium   | `10.13.0` ⚠️       |
+| **allure-playwright**             | devDependencies | `^3.14.0`       | 🟢 No known issues       | `3.14.0`           |
+| **eslint**                        | devDependencies | `^10.13.0`      | 🔴 1 high, 🟡 2 medium   | `10.13.0`          |
 | **eslint-plugin-playwright**      | devDependencies | `^2.12.1`       | 🟢 No known issues       | `2.12.1`           |
 | **lint-staged**                   | devDependencies | `^17.6.0`       | 🔴 1 high                | `17.6.0`           |
 | **pino**                          | dependencies    | `^10.4.0`       | 🟢 No known issues       | `10.4.0`           |
@@ -34,7 +34,7 @@ approach for both UI and API testing.
 | **prettier**                      | devDependencies | `^3.9.10`       | 🟢 No known issues       | `3.9.10`           |
 | **simple-git-hooks**              | devDependencies | `^2.14.0`       | 🟢 No known issues       | `2.14.0`           |
 | **typescript**                    | devDependencies | `^6.0.3`        | 🟢 No known issues       | `7.0.2` ⚠️         |
-| **typescript-eslint**             | devDependencies | `8.71.2`        | 🔴 1 high                | `8.72.0` ⚠️        |
+| **typescript-eslint**             | devDependencies | `8.72.0`        | 🔴 1 high                | `8.72.1` ⚠️        |
 | **zod**                           | devDependencies | `^4.6.7`        | 🟢 No known issues       | `4.6.7`            |
 
 </details>
