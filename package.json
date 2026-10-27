@@ -65,5 +65,8 @@
       "prettier --write"
     ],
     "*.{js,mjs,cjs,json,jsonc,md,yml,yaml}": "prettier --write"
+  },
+  "allowScripts": {
+    "simple-git-hooks@2.14.0": true
   }
 }
