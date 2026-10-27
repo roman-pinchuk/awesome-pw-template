@@ -27,6 +27,27 @@
               └─────────────────────┘
 ```
 
+## UI Screenshot Attachments
+
+The automatic fixture in
+[`ui.fixture.ts`](../infrastructure/fixtures/ui.fixture.ts) captures the final
+viewport once per UI test attempt (including retries) as WebP at quality 75.
+One `testInfo.attach()` call supplies the image to both the Playwright blob/HTML
+and Allure reporters; each report stores its own copy. API tests and the setup
+project do not use this fixture.
+
+Closed pages are skipped, and capture/attachment errors are logged without
+changing the test outcome. Capture has a five-second timeout inside an independent
+ten-second fixture budget, so it does not consume the shared teardown budget. Existing automatic
+failure PNGs, retry traces, and failure videos remain enabled, so failed UI tests
+can contain both PNG and WebP images during the initial trial.
+
+Blob artifacts use upload compression level 0 because they are already ZIP
+archives. Allure results retain default artifact compression so JSON can still
+compress; WebP images generally gain little from further compression. Existing
+artifact retention and Pages size limits are unchanged. Published screenshots
+must not expose sensitive data.
+
 ## CTRF
 
 Each API or browser job writes a project-specific CTRF JSON artifact. The
@@ -78,9 +99,10 @@ The workflow uses a branch-scoped GitHub Actions cache:
 3. Publish the new numbered report and trim old report directories.
 4. Save the complete `allure-history/` directory under the current run key.
 
-The current cache is small. The latest observed two-run cache is about 2.25 MB,
-so 20 runs are expected to remain well below GitHub's default repository cache
-allowance. The cache is appropriate here because this project needs a bounded,
+Before always-on UI screenshots, an observed two-run cache was about 2.25 MB.
+That is not a sizing baseline for screenshot-bearing reports; measure current
+artifact, site, and history-cache sizes after rollout. The cache is appropriate
+here because this project needs a bounded,
 best-effort trend window rather than permanent test analytics.
 
 ## Cache Miss and Recovery

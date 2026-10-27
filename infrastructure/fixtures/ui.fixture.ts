@@ -46,10 +46,11 @@ type ConsoleEntry = {
   location: string | undefined;
 };
 
-/** UI fixture surface with automatic console capture and Allure metadata. */
+/** UI fixture surface with automatic screenshots, console capture, and Allure metadata. */
 type UIFixturesWithConsole = UIFixtures &
   AllureMetadataFixture & {
     consoleEntries: ConsoleEntry[];
+    finalScreenshot: void;
   };
 
 /**
@@ -102,6 +103,30 @@ export const test = base.extend<UIFixturesWithConsole>({
   users: async ({}, use) => {
     await use(createUsers(env));
   },
+
+  finalScreenshot: [
+    async ({ page }, use, testInfo) => {
+      await use(undefined);
+
+      if (page.isClosed()) return;
+
+      try {
+        const screenshot = await page.screenshot({
+          type: 'webp',
+          quality: 75,
+          fullPage: false,
+          timeout: 5_000,
+        });
+        await testInfo.attach('final-state', {
+          body: screenshot,
+          contentType: 'image/webp',
+        });
+      } catch (error) {
+        appLogger.warn(`Final screenshot unavailable for "${testInfo.title}": ${String(error)}`);
+      }
+    },
+    { auto: true, timeout: 10_000 },
+  ],
 
   allureMetadata: [
     async ({ browser }, use, testInfo) => {
