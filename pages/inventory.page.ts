@@ -36,6 +36,11 @@ export class InventoryPage extends BasePage {
     return this.itemNameElements.filter({ hasText: name });
   }
 
+  /** Returns the detail link for a visible product name. */
+  productLink(name: string): Locator {
+    return this.item(name).locator('a[data-test$="-title-link"]');
+  }
+
   /** Builds the SauceDemo add-to-cart selector for a Product Catalog item. */
   addToCartButton(name: string): Locator {
     const id = name
@@ -47,7 +52,7 @@ export class InventoryPage extends BasePage {
 
   /** Opens the detail page for a Product Catalog item. */
   async openProduct(name: string): Promise<void> {
-    await this.itemName(name).click();
+    await this.productLink(name).click();
   }
 
   /** Adds one Product Catalog item to the cart without asserting cart state. */
