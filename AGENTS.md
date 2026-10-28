@@ -19,7 +19,7 @@
 - API transport returns raw Playwright `APIResponse` values; domain validation belongs in `business/api/assertions/`.
 - API fixture `apiObjects` owns generated collection scopes and cleanup; tests should not add repetitive `try/finally` cleanup.
 - Use the validated configuration from `infrastructure/config/env.ts`; do not read environment variables directly in tests.
-- Route constants are centralized in `business/constants.ts`; navigate through `BasePage` rather than duplicating route strings.
+- Route constants are centralized in `business/constants.ts`; page objects should navigate through their injected Playwright `Page` rather than duplicating route strings.
 
 ## Conventions
 

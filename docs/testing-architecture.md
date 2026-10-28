@@ -15,9 +15,9 @@ UI tests target SauceDemo and are grouped by user intent:
 ### Page Objects
 
 `pages/` contains thin objects for browser mechanics: locators, page state, and
-small interaction primitives. `BasePage` centralizes navigation and shared
-page behavior. Header behavior is a component because it is reused across
-pages.
+small interaction primitives. Page objects receive the native Playwright `Page`
+and explicitly compose reusable UI components. Header behavior is a component
+because it is reused across pages.
 
 Page objects should not contain complete business scenarios. A multi-page flow
 belongs in a journey module.

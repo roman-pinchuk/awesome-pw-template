@@ -1,6 +1,5 @@
-import { type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 import { ROUTES } from '@business/constants';
-import { BasePage } from '@pages/base.page';
 
 /**
  * Page object for the checkout overview step.
@@ -9,23 +8,31 @@ import { BasePage } from '@pages/base.page';
  * Exposes the user-visible payment, shipping, and pricing summary fields used
  * by checkout assertions while leaving purchase orchestration to journeys.
  */
-export class CheckoutStepTwoPage extends BasePage {
-  readonly finishButton = this.page.locator('[data-test="finish"]');
-  readonly cancelButton = this.page.locator('[data-test="cancel"]');
-  readonly paymentInfoValue = this.page.locator('[data-test="payment-info-value"]');
-  readonly shippingInfoValue = this.page.locator('[data-test="shipping-info-value"]');
-  readonly subtotalLabel = this.page.locator('[data-test="subtotal-label"]');
-  readonly taxLabel = this.page.locator('[data-test="tax-label"]');
-  readonly totalLabel = this.page.locator('[data-test="total-label"]');
-  readonly cartItems = this.page.locator('[data-test="inventory-item"]');
+export class CheckoutStepTwoPage {
+  readonly finishButton: Locator;
+  readonly cancelButton: Locator;
+  readonly paymentInfoValue: Locator;
+  readonly shippingInfoValue: Locator;
+  readonly subtotalLabel: Locator;
+  readonly taxLabel: Locator;
+  readonly totalLabel: Locator;
+  readonly cartItems: Locator;
 
-  constructor(page: Page) {
-    super(page);
+  constructor(private readonly page: Page) {
+    this.finishButton = page.locator('[data-test="finish"]');
+    this.cancelButton = page.locator('[data-test="cancel"]');
+    this.paymentInfoValue = page.locator('[data-test="payment-info-value"]');
+    this.shippingInfoValue = page.locator('[data-test="shipping-info-value"]');
+    this.subtotalLabel = page.locator('[data-test="subtotal-label"]');
+    this.taxLabel = page.locator('[data-test="tax-label"]');
+    this.totalLabel = page.locator('[data-test="total-label"]');
+    this.cartItems = page.locator('[data-test="inventory-item"]');
   }
 
   /** Opens the checkout overview route. */
-  override async goto(): Promise<void> {
-    await super.goto(ROUTES.CHECKOUT_STEP_TWO);
+  async goto(): Promise<void> {
+    await this.page.goto(ROUTES.CHECKOUT_STEP_TWO);
+    await this.page.waitForLoadState('domcontentloaded');
   }
 
   /** Completes the checkout from the overview step. */

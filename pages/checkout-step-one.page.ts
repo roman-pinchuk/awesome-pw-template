@@ -1,6 +1,5 @@
-import { type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 import { ROUTES } from '@business/constants';
-import { BasePage } from '@pages/base.page';
 import type { CustomerInfo } from '@business/checkout';
 
 /**
@@ -10,21 +9,27 @@ import type { CustomerInfo } from '@business/checkout';
  * Captures only the form mechanics for checkout step one. End-to-end checkout
  * behavior is intentionally coordinated by {@link CheckoutJourney}.
  */
-export class CheckoutStepOnePage extends BasePage {
-  readonly firstNameInput = this.page.locator('[data-test="firstName"]');
-  readonly lastNameInput = this.page.locator('[data-test="lastName"]');
-  readonly postalCodeInput = this.page.locator('[data-test="postalCode"]');
-  readonly continueButton = this.page.locator('[data-test="continue"]');
-  readonly cancelButton = this.page.locator('[data-test="cancel"]');
-  readonly errorMessage = this.page.locator('[data-test="error"]');
+export class CheckoutStepOnePage {
+  readonly firstNameInput: Locator;
+  readonly lastNameInput: Locator;
+  readonly postalCodeInput: Locator;
+  readonly continueButton: Locator;
+  readonly cancelButton: Locator;
+  readonly errorMessage: Locator;
 
-  constructor(page: Page) {
-    super(page);
+  constructor(private readonly page: Page) {
+    this.firstNameInput = page.locator('[data-test="firstName"]');
+    this.lastNameInput = page.locator('[data-test="lastName"]');
+    this.postalCodeInput = page.locator('[data-test="postalCode"]');
+    this.continueButton = page.locator('[data-test="continue"]');
+    this.cancelButton = page.locator('[data-test="cancel"]');
+    this.errorMessage = page.locator('[data-test="error"]');
   }
 
   /** Opens the checkout customer information route. */
-  override async goto(): Promise<void> {
-    await super.goto(ROUTES.CHECKOUT_STEP_ONE);
+  async goto(): Promise<void> {
+    await this.page.goto(ROUTES.CHECKOUT_STEP_ONE);
+    await this.page.waitForLoadState('domcontentloaded');
   }
 
   /** Fills the customer information form without submitting it. */

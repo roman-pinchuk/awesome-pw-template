@@ -1,5 +1,4 @@
-import { BasePage } from '@pages/base.page';
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 
 import { ROUTES } from '@business/constants';
 import type { TestUser } from '@business/factories/user.factory';
@@ -11,19 +10,23 @@ import type { TestUser } from '@business/factories/user.factory';
  * Owns login form selectors and direct form interaction. Higher-level tests
  * should prefer {@link LoginJourney} when validating authentication behavior.
  */
-export class LoginPage extends BasePage {
-  readonly usernameInput = this.page.locator('[data-test="username"]');
-  readonly passwordInput = this.page.locator('[data-test="password"]');
-  readonly loginButton = this.page.locator('[data-test="login-button"]');
-  readonly errorMessage = this.page.locator('[data-test="error"]');
+export class LoginPage {
+  readonly usernameInput: Locator;
+  readonly passwordInput: Locator;
+  readonly loginButton: Locator;
+  readonly errorMessage: Locator;
 
-  constructor(page: Page) {
-    super(page);
+  constructor(private readonly page: Page) {
+    this.usernameInput = page.locator('[data-test="username"]');
+    this.passwordInput = page.locator('[data-test="password"]');
+    this.loginButton = page.locator('[data-test="login-button"]');
+    this.errorMessage = page.locator('[data-test="error"]');
   }
 
-  /** Opens the login route through the shared page navigation contract. */
-  override async goto(): Promise<void> {
-    await super.goto(ROUTES.LOGIN);
+  /** Opens the login route and waits for the initial DOM. */
+  async goto(): Promise<void> {
+    await this.page.goto(ROUTES.LOGIN);
+    await this.page.waitForLoadState('domcontentloaded');
   }
 
   /** Submits the supplied SauceDemo credentials without asserting the outcome. */

@@ -43,6 +43,6 @@ The response verification module for REST object responses. It composes with the
 ## Architecture Notes
 
 - Keep domain shape in `business/`; keep transport details in `infrastructure/`.
-- Keep route knowledge centralised in `ROUTES` and page navigation through `BasePage.goto`.
+- Keep route knowledge centralised in `ROUTES`; page objects should expose route-specific navigation methods using their injected Playwright `Page`.
 - Use fixture modules for cross-cutting test concerns such as labels, logging, and resource lifecycle.
 - Prefer tests that assert user-visible domain behavior, such as Product Catalog order, over tests that only assert control state.
