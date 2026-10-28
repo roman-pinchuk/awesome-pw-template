@@ -1,15 +1,6 @@
 import { test as base } from '@playwright/test';
-import { LoginPage } from '@pages/login.page';
-import { InventoryPage } from '@pages/inventory.page';
-import { ProductDetailPage } from '@pages/product-detail.page';
-import { CartPage } from '@pages/cart.page';
-import { CheckoutStepOnePage } from '@pages/checkout-step-one.page';
-import { CheckoutStepTwoPage } from '@pages/checkout-step-two.page';
-import { CheckoutCompletePage } from '@pages/checkout-complete.page';
-import { CartJourney } from '@business/cart.journey';
-import { CheckoutJourney } from '@business/checkout.journey';
-import { LoginJourney } from '@business/login.journey';
-import { ProductJourney } from '@business/product.journey';
+import * as Pages from '@pages/index';
+import * as Journeys from '@business/journeys';
 import { logger as appLogger } from '@infrastructure/utils/logger';
 import { setLabels } from '@infrastructure/utils/allure-labels';
 import { loadEnv } from '@infrastructure/config/env';
@@ -25,17 +16,17 @@ type AllureMetadataFixture = {
 
 /** Page objects, journeys, and domain data available to UI specs. */
 type UIFixtures = {
-  loginPage: LoginPage;
-  loginJourney: LoginJourney;
-  inventoryPage: InventoryPage;
-  productDetailPage: ProductDetailPage;
-  cartPage: CartPage;
-  checkoutStepOnePage: CheckoutStepOnePage;
-  checkoutStepTwoPage: CheckoutStepTwoPage;
-  checkoutCompletePage: CheckoutCompletePage;
-  cartJourney: CartJourney;
-  checkoutJourney: CheckoutJourney;
-  productJourney: ProductJourney;
+  loginPage: Pages.LoginPage;
+  loginJourney: Journeys.LoginJourney;
+  inventoryPage: Pages.InventoryPage;
+  productDetailPage: Pages.ProductDetailPage;
+  cartPage: Pages.CartPage;
+  checkoutStepOnePage: Pages.CheckoutStepOnePage;
+  checkoutStepTwoPage: Pages.CheckoutStepTwoPage;
+  checkoutCompletePage: Pages.CheckoutCompletePage;
+  cartJourney: Journeys.CartJourney;
+  checkoutJourney: Journeys.CheckoutJourney;
+  productJourney: Journeys.ProductJourney;
   users: TestUsers;
 };
 
@@ -63,42 +54,48 @@ type UIFixturesWithConsole = UIFixtures &
  */
 export const test = base.extend<UIFixturesWithConsole>({
   loginPage: async ({ page }, use) => {
-    await use(new LoginPage(page));
+    await use(new Pages.LoginPage(page));
   },
   loginJourney: async ({ page, loginPage }, use) => {
-    await use(new LoginJourney(page, loginPage));
+    await use(new Journeys.LoginJourney(page, loginPage));
   },
   inventoryPage: async ({ page }, use) => {
-    await use(new InventoryPage(page));
+    await use(new Pages.InventoryPage(page));
   },
   productDetailPage: async ({ page }, use) => {
-    await use(new ProductDetailPage(page));
+    await use(new Pages.ProductDetailPage(page));
   },
   cartPage: async ({ page }, use) => {
-    await use(new CartPage(page));
+    await use(new Pages.CartPage(page));
   },
   checkoutStepOnePage: async ({ page }, use) => {
-    await use(new CheckoutStepOnePage(page));
+    await use(new Pages.CheckoutStepOnePage(page));
   },
   checkoutStepTwoPage: async ({ page }, use) => {
-    await use(new CheckoutStepTwoPage(page));
+    await use(new Pages.CheckoutStepTwoPage(page));
   },
   checkoutCompletePage: async ({ page }, use) => {
-    await use(new CheckoutCompletePage(page));
+    await use(new Pages.CheckoutCompletePage(page));
   },
   cartJourney: async ({ inventoryPage, cartPage }, use) => {
-    await use(new CartJourney(inventoryPage, cartPage));
+    await use(new Journeys.CartJourney(inventoryPage, cartPage));
   },
   checkoutJourney: async (
     { page, cartJourney, cartPage, checkoutStepOnePage, checkoutStepTwoPage },
     use,
   ) => {
     await use(
-      new CheckoutJourney(page, cartJourney, cartPage, checkoutStepOnePage, checkoutStepTwoPage),
+      new Journeys.CheckoutJourney(
+        page,
+        cartJourney,
+        cartPage,
+        checkoutStepOnePage,
+        checkoutStepTwoPage,
+      ),
     );
   },
   productJourney: async ({ page, inventoryPage, productDetailPage }, use) => {
-    await use(new ProductJourney(page, inventoryPage, productDetailPage));
+    await use(new Journeys.ProductJourney(page, inventoryPage, productDetailPage));
   },
   users: async ({}, use) => {
     await use(createUsers(env));
