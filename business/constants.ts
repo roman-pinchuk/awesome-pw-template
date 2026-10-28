@@ -1,6 +1,6 @@
 const BASE = process.env.BASE_URL ?? 'https://www.saucedemo.com';
 
-/** Route paths used by page objects through {@link BasePage.goto}. */
+/** Route paths used by page-object navigation methods. */
 export const ROUTES = {
   LOGIN: '/',
   INVENTORY: '/inventory.html',

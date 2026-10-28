@@ -1,6 +1,5 @@
 import { type Locator, type Page } from '@playwright/test';
 import { ROUTES } from '@business/constants';
-import { BasePage } from '@pages/base.page';
 
 /**
  * Page object for the SauceDemo cart screen.
@@ -9,19 +8,23 @@ import { BasePage } from '@pages/base.page';
  * Owns cart selectors and single-page cart actions. Multi-product setup and
  * cart assertions belong in {@link CartJourney} so specs stay behavior-focused.
  */
-export class CartPage extends BasePage {
-  readonly cartList = this.page.locator('[data-test="cart-list"]');
-  readonly cartItems = this.page.locator('[data-test="inventory-item"]');
-  readonly checkoutButton = this.page.locator('[data-test="checkout"]');
-  readonly continueShopping = this.page.locator('[data-test="continue-shopping"]');
+export class CartPage {
+  readonly cartList: Locator;
+  readonly cartItems: Locator;
+  readonly checkoutButton: Locator;
+  readonly continueShopping: Locator;
 
-  constructor(page: Page) {
-    super(page);
+  constructor(private readonly page: Page) {
+    this.cartList = page.locator('[data-test="cart-list"]');
+    this.cartItems = page.locator('[data-test="inventory-item"]');
+    this.checkoutButton = page.locator('[data-test="checkout"]');
+    this.continueShopping = page.locator('[data-test="continue-shopping"]');
   }
 
   /** Opens the cart route. */
-  override async goto(): Promise<void> {
-    await super.goto(ROUTES.CART);
+  async goto(): Promise<void> {
+    await this.page.goto(ROUTES.CART);
+    await this.page.waitForLoadState('domcontentloaded');
   }
 
   /** Returns a cart row for the requested product name. */

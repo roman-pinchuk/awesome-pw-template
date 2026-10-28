@@ -6,6 +6,8 @@
     "noEmit": true,
     "paths": {
       "@business/*": ["./business/*"],
+      "@components": ["./pages/components/index.ts"],
+      "@components/*": ["./pages/components/*"],
       "@infrastructure/*": ["./infrastructure/*"],
       "@pages/*": ["./pages/*"],
       "@tests/*": ["./tests/*"]

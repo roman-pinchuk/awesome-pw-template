@@ -1,7 +1,6 @@
 import { type Locator, type Page } from '@playwright/test';
 import { ROUTES } from '@business/constants';
-import { BasePage } from '@pages/base.page';
-import { HeaderComponent } from '@pages/components/header.component';
+import { HeaderComponent } from '@components';
 
 /**
  * Page object for the SauceDemo inventory screen.
@@ -11,19 +10,23 @@ import { HeaderComponent } from '@pages/components/header.component';
  * boundary. Cart and product-detail workflows should be expressed through
  * journey modules when the intent spans multiple pages.
  */
-export class InventoryPage extends BasePage {
-  readonly header = new HeaderComponent(this.page);
-  readonly sortSelect = this.page.locator('[data-test="product-sort-container"]');
-  readonly inventoryItems = this.page.locator('[data-test="inventory-item"]');
-  readonly itemNameElements = this.page.locator('[data-test="inventory-item-name"]');
+export class InventoryPage {
+  readonly header: HeaderComponent;
+  readonly sortSelect: Locator;
+  readonly inventoryItems: Locator;
+  readonly itemNameElements: Locator;
 
-  constructor(page: Page) {
-    super(page);
+  constructor(private readonly page: Page) {
+    this.header = new HeaderComponent(page);
+    this.sortSelect = page.locator('[data-test="product-sort-container"]');
+    this.inventoryItems = page.locator('[data-test="inventory-item"]');
+    this.itemNameElements = page.locator('[data-test="inventory-item-name"]');
   }
 
   /** Opens the Product Catalog route. */
-  override async goto(): Promise<void> {
-    await super.goto(ROUTES.INVENTORY);
+  async goto(): Promise<void> {
+    await this.page.goto(ROUTES.INVENTORY);
+    await this.page.waitForLoadState('domcontentloaded');
   }
 
   /** Returns the inventory card for a visible product name. */

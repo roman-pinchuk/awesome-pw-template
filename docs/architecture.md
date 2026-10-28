@@ -88,7 +88,7 @@ installation; hooks remain enabled for local development.
 - Prefer deep domain modules over repeated test-level setup.
 - Keep page objects thin and compose them through journeys.
 - Generate test data per test and scope REST Objects to per-test collections.
-- Keep route knowledge centralized and navigate through `BasePage.goto`.
+- Keep route knowledge centralized and expose route-specific navigation methods on concrete page objects.
 - Keep reporting orchestration in CI rather than in transport or assertion
   modules.
 - Rebuild lockfiles and run tests inside the devcontainer (see the
