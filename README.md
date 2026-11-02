@@ -15,18 +15,18 @@ approach for both UI and API testing.
 ## Dynamic Dependency & Security Matrix
 
 <details>
-<summary>Click to expand (3 outdated, 16 vulnerabilities: 2 critical, 5 high, 8 medium, 1 low)</summary>
+<summary>Click to expand (2 outdated, 16 vulnerabilities: 2 critical, 5 high, 8 medium, 1 low)</summary>
 
 | Dependency                        | Type            | Current Version | Security Status                                 | Latest npm Version |
 | :-------------------------------- | :-------------- | :-------------- | :---------------------------------------------- | :----------------- |
 | **@dotenvx/dotenvx**              | devDependencies | `^2.38.2`       | 🟢 No known issues                              | `2.38.2`           |
 | **@eslint/js**                    | devDependencies | `^10.0.1`       | 🟢 No known issues                              | `10.0.1`           |
 | **@playwright/test**              | devDependencies | `1.64.1`        | 🟢 No known issues                              | `1.64.1`           |
-| **@types/node**                   | devDependencies | `^26.6.5`       | 🟢 No known issues                              | `26.6.6` ⚠️        |
+| **@types/node**                   | devDependencies | `^26.6.6`       | 🟢 No known issues                              | `26.6.6`           |
 | **allure**                        | devDependencies | `^3.22.1`       | 🔴 2 critical, 🔴 2 high, 🟡 3 medium, 🔵 1 low | `3.22.1`           |
 | **allure-playwright**             | devDependencies | `^3.14.0`       | 🟢 No known issues                              | `3.14.0`           |
-| **eslint**                        | devDependencies | `^10.13.0`      | 🔴 1 high, 🟡 3 medium                          | `10.14.0` ⚠️       |
-| **eslint-plugin-playwright**      | devDependencies | `^2.12.1`       | 🟢 No known issues                              | `2.12.1`           |
+| **eslint**                        | devDependencies | `^10.14.0`      | 🔴 1 high, 🟡 3 medium                          | `10.14.0`          |
+| **eslint-plugin-playwright**      | devDependencies | `^2.12.1`       | 🟢 No known issues                              | `2.12.2` ⚠️        |
 | **lint-staged**                   | devDependencies | `^17.6.0`       | 🔴 1 high                                       | `17.6.0`           |
 | **pino**                          | dependencies    | `^10.4.0`       | 🟢 No known issues                              | `10.4.0`           |
 | **pino-pretty**                   | dependencies    | `^13.2.0`       | 🟢 No known issues                              | `13.2.0`           |
