@@ -15,26 +15,26 @@ approach for both UI and API testing.
 ## Dynamic Dependency & Security Matrix
 
 <details>
-<summary>Click to expand (4 outdated, 16 vulnerabilities: 2 critical, 3 high, 10 medium, 1 low)</summary>
+<summary>Click to expand (8 outdated, 17 vulnerabilities: 2 critical, 3 high, 11 medium, 1 low)</summary>
 
 | Dependency                        | Type            | Requested Version | Security Status                                 | Latest npm Version |
 | :-------------------------------- | :-------------- | :---------------- | :---------------------------------------------- | :----------------- |
 | **@dotenvx/dotenvx**              | devDependencies | `^2.38.2`         | 🟢 No findings in supplied report               | `2.38.2`           |
 | **@eslint/js**                    | devDependencies | `^10.0.1`         | 🟢 No findings in supplied report               | `10.0.1`           |
-| **@playwright/test**              | devDependencies | `1.64.1`          | 🟢 No findings in supplied report               | `1.65.0` ⚠️        |
+| **@playwright/test**              | devDependencies | `1.64.1`          | 🟢 No findings in supplied report               | `1.65.1` ⚠️        |
 | **@types/node**                   | devDependencies | `^26.6.6`         | 🟢 No findings in supplied report               | `26.6.6`           |
-| **allure**                        | devDependencies | `^3.22.1`         | 🔴 2 critical, 🔴 2 high, 🟡 4 medium, 🔵 1 low | `3.33.0` ⚠️        |
+| **allure**                        | devDependencies | `^3.22.1`         | 🔴 2 critical, 🔴 2 high, 🟡 5 medium, 🔵 1 low | `3.33.0` ⚠️        |
 | **allure-playwright**             | devDependencies | `^3.14.0`         | 🟢 No findings in supplied report               | `3.14.0`           |
-| **eslint**                        | devDependencies | `^10.14.0`        | 🔴 1 high, 🟡 3 medium                          | `10.14.0`          |
+| **eslint**                        | devDependencies | `^10.14.0`        | 🔴 1 high, 🟡 3 medium                          | `10.15.0` ⚠️       |
 | **eslint-plugin-playwright**      | devDependencies | `^2.12.1`         | 🟢 No findings in supplied report               | `2.12.2` ⚠️        |
-| **lint-staged**                   | devDependencies | `^17.6.0`         | 🟢 No findings in supplied report               | `17.6.0`           |
+| **lint-staged**                   | devDependencies | `^17.6.0`         | 🟢 No findings in supplied report               | `17.6.1` ⚠️        |
 | **pino**                          | dependencies    | `^10.4.0`         | 🟢 No findings in supplied report               | `10.4.0`           |
 | **pino-pretty**                   | dependencies    | `^13.2.0`         | 🟢 No findings in supplied report               | `13.2.0`           |
 | **playwright-ctrf-json-reporter** | devDependencies | `^0.2.0`          | 🟡 2 medium                                     | `0.2.0`            |
-| **prettier**                      | devDependencies | `^3.9.10`         | 🟢 No findings in supplied report               | `3.9.10`           |
+| **prettier**                      | devDependencies | `^3.9.10`         | 🟢 No findings in supplied report               | `3.10.1` ⚠️        |
 | **simple-git-hooks**              | devDependencies | `^2.14.0`         | 🟢 No findings in supplied report               | `2.14.0`           |
 | **typescript**                    | devDependencies | `^6.0.3`          | 🟢 No findings in supplied report               | `7.0.2` ⚠️         |
-| **typescript-eslint**             | devDependencies | `8.72.1`          | 🟡 1 medium                                     | `8.72.1`           |
+| **typescript-eslint**             | devDependencies | `8.72.1`          | 🟡 1 medium                                     | `8.72.2` ⚠️        |
 | **zod**                           | devDependencies | `^4.6.7`          | 🟢 No findings in supplied report               | `4.6.7`            |
 
 </details>
